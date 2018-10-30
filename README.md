@@ -1,0 +1,1 @@
+# future-project-inventory-system-frontend
