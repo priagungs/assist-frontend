@@ -10,6 +10,7 @@
 
 .save-update-btn, .update-btn {
     margin-right: 15px;
+    margin-left: 15px;
 }
 
 #item tr {
@@ -32,5 +33,20 @@
 .admin-table-header i {
     cursor: pointer;
     font-size: 30px;
+}
+
+.modal-body nav {
+    margin-bottom: 20px;
+}
+
+.nav-item {
+    color: inherit;
+    /* background-color: rgba(180, 0, 57, 0.719); */
+    border-radius: 0px;
+}
+
+.nav-item:hover {
+    background-color: rgb(138, 0, 44);
+    color: white;
 }
 
