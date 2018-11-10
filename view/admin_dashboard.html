@@ -62,7 +62,7 @@
                                     <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
                                     <form class="image-uploader">
                                         <label for="item--update-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
-                                        <input type="file" name="item-update-image-uploader" id="item-update-image-uploader" style="display:none">
+                                        <input type="file" accept="image/*" name="file" id="item-update-image-uploader" style="display:none">
                                     </form>
                                 </div>
                                 <div class="col-8">
@@ -116,42 +116,46 @@
                         </nav>
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="single-item-entry" role="tabpanel" aria-labelledby="single-item-entry-tab">
-                                <div class="row">
-                                    <div class="col-4">
-                                        <img src="/public/images/no-image.jpg" class="img-thumbnail" alt="">
-                                        <form class="image-uploader">
-                                            <label for="item-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
-                                            <input type="file" name="item-add-image-uploader" id="item-add-image-uploader" style="display:none">
-                                        </form>
+                                <form>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <img src="/public/images/no-image.jpg" class="img-thumbnail" alt="">
+                                            <div class="image-uploader">
+                                                <label for="item-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
+                                                <input type="file" accept="image/*" name="file" id="item-add-image-uploader" style="display:none">
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            
+                                            <div class="form-group">
+                                                <label for="form-add-item-name">Item Name</label>
+                                                <input type="text" maxlength="255" name="form-add-item-name" id="form-add-item-name" class="form-control" required>
+                                                <div class="invalid-feedback">Item name already exists</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-add-item-price">Price</label>
+                                                <input type="number" min="0" name="form-add-item-price" id="form-add-item-price" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-add-item-totalqty">Total Quantity</label>
+                                                <input type="number" min="0" name="form-add-item-totalqty" id="form-add-item-totalqty" class="form-control" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-add-item-description">Description</label>
+                                                <textarea class="form-control" maxlength="1000" name="form-add-item-description" id="form-add-item-description" rows="5" required></textarea>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-8">
-                                        <div class="form-group">
-                                            <label for="form-add-item-name">Item Name</label>
-                                            <input type="text" name="form-add-item-name" id="form-add-item-name" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="form-add-item-price">Price</label>
-                                            <input type="number" name="form-add-item-price" id="form-add-item-price" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="form-add-item-totalqty">Total Quantity</label>
-                                            <input type="number" name="form-add-item-totalqty" id="form-add-item-totalqty" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="form-add-item-description">Description</label>
-                                            <textarea class="form-control" name="form-add-item-description" id="form-add-item-description" rows="5"></textarea>
-                                        </div>
+                                    <div class="row justify-content-end">
+                                        <button type="submit" class="btn btn-primary save-update-btn">Save</button>
                                     </div>
-                                </div>
-                                <div class="row justify-content-end">
-                                    <button type="button" class="btn btn-primary save-update-btn">Save</button>
-                                </div>
+                                </form>
                             </div>
                             <div class="tab-pane fade" id="bulk-item-entries" role="tabpanel" aria-labelledby="bulk-item-entries-tab">
                                 <div class="input-group mb-3">
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="inputGroupFile01">
-                                        <label class="custom-file-label" for="inputGroupFile01">Choose CSV File</label>
+                                        <input type="file" class="custom-file-input" id="upload-bulk-item-entries">
+                                        <label class="custom-file-label" for="upload-bulk-item-entries">Choose CSV File</label>
                                     </div>
                                 </div>
                                 <div class="row justify-content-left">

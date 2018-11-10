@@ -8,8 +8,17 @@ class AdminDashboard {
         this.employeePageLast = false;
     }
     init() {
-        this.initItemModalHandler();
+        $.ajax({
+            type: "post",
+            url: "/api/login",
+            data: "username=admin&password=admin",
+            success: function (response) {
+            }
+        });
+        this.detailItemModalHandler();
+        this.addItemModalHandler();
         this.fillItemTable();
+
     }
 
     fillItemDetail(idItem) {
@@ -18,7 +27,6 @@ class AdminDashboard {
             url: "/api/items/" + idItem,
             dataType: "json",
             success: (response) => {
-                console.log(response);
                 $("#itemDetailId").text(response.itemName);
                 $("#detail-item img").attr("src", response.pictureURL);
                 $(".item-price").text(response.price);
@@ -29,12 +37,10 @@ class AdminDashboard {
         });
     }
 
-    initItemModalHandler() {
+    detailItemModalHandler() {
         $("#item-detail").on('show.bs.modal', (event) => {
             var idItem = $(event.relatedTarget).data('iditem');
-            // do some ajax to get the data
             this.fillItemDetail(idItem);
-            // $(this).find('.modal-title').text("id item nya " + idItem);
         
             $(".update-btn").click(() => {
                 $("#detail-item").css("display", "none");
@@ -61,9 +67,51 @@ class AdminDashboard {
         });
     }
 
+    addItemModalHandler() {
+        $("#add-item").on('show.bs.modal', () => {
+            var imageUrl = '';
+            $("#item-add-image-uploader").change(() => {
+                var formData = new FormData($("#add-item form")[0]);
+                imageUrl = Helper.uploadFile(formData);
+                $("#add-item img").attr("src", imageUrl);
+            })
+
+            $("#form-add-item-name").change(() => {
+                $("#form-add-item-name").removeClass("is-invalid");
+            })
+            
+            $("#add-item .save-update-btn").click((event) => {
+                event.preventDefault();
+                var request = [{
+                    itemName: $("#form-add-item-name").val(),
+                    description: $("#form-add-item-description").val(),
+                    pictureURL: imageUrl,
+                    price: $("#form-add-item-price").val(),
+                    totalQty: $("#form-add-item-totalqty").val()
+                }]
+                $.ajax({
+                    method: "POST",
+                    url: "/api/items",
+                    data: JSON.stringify(request),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: (response) => {
+                        this.fillItemTable();
+                        $("#add-item").modal('hide');
+                    },
+                    statusCode: {
+                        409: () => {
+                            $("#form-add-item-name").addClass("is-invalid");
+                        }
+                    }
+                });
+            })
+        })
+    }
+
     fillItemTable() {
         $.ajax({
-            type: "GET",
+            method: "GET",
             url: "/api/items",
             data: {page: this.itemPage, limit: this.itemLimit},
             dataType: "json",
@@ -84,19 +132,11 @@ class AdminDashboard {
                 $("#item tbody").html(content);
             },
         });
-        // $.ajax({
-        //     type: "post",
-        //     url: "/api/login",
-        //     data: "username=admin&password=admin",
-        //     success: function (response) {
-        //         alert(response);
-        //     }
-        // });
     }
 
     deleteItem(idItem) {
         $.ajax({
-            type: "DELETE",
+            method: "DELETE",
             url: "/api/items",
             data: JSON.stringify({idItem: idItem}),
             contentType: "application/json",
