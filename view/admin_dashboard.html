@@ -1,9 +1,7 @@
 <section id="item">
     <div class="admin-table-header">
         <h3 class="font-weight-bold">ITEMS</h3>
-        <!-- <button type="button" class="btn btn-primary btn-sm admin-add-btn"></button> -->
         <i class="fas fa-plus " data-toggle="modal" data-target="#add-item"></i>
-        <!-- <i class="fas fa-plus-hexagon"></i> -->
     </div>
     
     <table class="table table-hover table-bordered">
@@ -13,7 +11,7 @@
                 <th class="text-center dark_red">Name</th>
                 <th class="text-center dark_red">Price</th>
                 <th class="text-center dark_red">Total Quantity</th>
-                <th class="text-center dark_red">Available quantity</th>
+                <th class="text-center dark_red">Available Quantity</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +38,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <section class="detail-item">
+                        <section id="detail-item">
                             <div class="row">
                                 <div class="col-4">
                                     <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
@@ -58,7 +56,7 @@
                             </div>
                         </section>
 
-                        <section class="update-item" style="display:none">
+                        <section id="update-item" style="display:none">
                             <div class="row">
                                 <div class="col-4">
                                     <img src="/public/images/item.jpg" class="img-thumbnail" alt="">

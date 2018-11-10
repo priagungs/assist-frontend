@@ -8,7 +8,7 @@
     text-align: justify;
 }
 
-.save-update-btn, .update-btn {
+.save-update-btn, .update-btn, .delete-btn {
     margin-right: 15px;
     margin-left: 15px;
 }

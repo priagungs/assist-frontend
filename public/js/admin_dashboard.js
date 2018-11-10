@@ -20,7 +20,7 @@ class AdminDashboard {
             success: (response) => {
                 console.log(response);
                 $("#itemDetailId").text(response.itemName);
-                $(".detail-item img").attr("src", response.pictureURL);
+                $("#detail-item img").attr("src", response.pictureURL);
                 $(".item-price").text(response.price);
                 $(".item-total-qty").text(response.totalQty);
                 $(".item-available-qty").text(response.availableQty);
@@ -37,18 +37,28 @@ class AdminDashboard {
             // $(this).find('.modal-title').text("id item nya " + idItem);
         
             $(".update-btn").click(() => {
-                $(".detail-item").css("display", "none");
-                $(".update-item").css("display", "block");
+                $("#detail-item").css("display", "none");
+                $("#update-item").css("display", "block");
                 $(".modal-header").css("display", "none");
-            })
+                
+                $("#update-item img").attr("src", $("#detail-item img").attr("src"));
+                $("#form-update-item-name").attr("value", $("#itemDetailId").text());
+                $("#form-update-item-price").attr("value", $(".item-price").text());
+                $("#form-update-item-totalqty").attr("value", $(".item-total-qty").text());
+                $("#form-update-item-description").text($(".item-description").text())
+            });
     
             $(".save-update-btn").click(() => {
-                $(".detail-item").css("display", "block");
-                $(".update-item").css("display", "none");
+                $("#detail-item").css("display", "block");
+                $("#update-item").css("display", "none");
                 $(".modal-header").css("display", "flex");
+            });
+
+            $(".delete-btn").click(() => {
+                this.deleteItem(idItem);
             })
         
-        })
+        });
     }
 
     fillItemTable() {
@@ -60,17 +70,18 @@ class AdminDashboard {
             success: (response) => {
                 console.log(response);
                 var numb = 1;
+                var content = "";
                 response.content.forEach(element => {
-                    var content = '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
+                    content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
                     + '<td scope="row">' + numb + '</td>'
                     + '<td>' + element.itemName + '</td>'
                     + '<td>Rp' + element.price + '</td>'
                     + '<td class="text-center">' + element.totalQty + '</td>'
                     + '<td class="text-center">' + element.availableQty + '</td>'
                     + '</tr>'
-                    $("#item tbody").append(content);
                     numb++;
-                });  
+                });
+                $("#item tbody").html(content);
             },
         });
         // $.ajax({
@@ -81,5 +92,18 @@ class AdminDashboard {
         //         alert(response);
         //     }
         // });
+    }
+
+    deleteItem(idItem) {
+        $.ajax({
+            type: "DELETE",
+            url: "/api/items",
+            data: JSON.stringify({idItem: idItem}),
+            contentType: "application/json",
+            success: () => {
+                this.fillItemTable();
+                $("#item-detail").modal('hide');
+            }
+        });
     }
 }
