@@ -1,13 +1,19 @@
-<section>
-    <h3 class="text-center font-weight-bold">Items</h3>
+<section id="item">
+    <div class="admin-table-header">
+        <h3 class="font-weight-bold">ITEMS</h3>
+        <!-- <button type="button" class="btn btn-primary btn-sm admin-add-btn"></button> -->
+        <i class="fas fa-plus " data-toggle="modal" data-target="#add-item"></i>
+        <!-- <i class="fas fa-plus-hexagon"></i> -->
+    </div>
+    
     <table class="table table-hover table-bordered">
-        <thead class="thead-dark">
-            <tr>
-                <th class="text-center">#</th>
-                <th class="text-center">Name</th>
-                <th class="text-center">Price</th>
-                <th class="text-center">Total Quantity</th>
-                <th class="text-center">Available quantity</th>
+        <thead>
+            <tr class="text-light">
+                <th class="text-center dark_red">#</th>
+                <th class="text-center dark_red">Name</th>
+                <th class="text-center dark_red">Price</th>
+                <th class="text-center dark_red">Total Quantity</th>
+                <th class="text-center dark_red">Available quantity</th>
             </tr>
         </thead>
         <tbody>
@@ -39,7 +45,7 @@
                 <td class="text-center">100</td>
                 <td class="text-center">50</td>
             </tr>
-            <tr>
+            <tr data-toggle="modal" data-target="#item-detail" data-iditem="2">
                 <td scope="row">5</td>
                 <td>Indomie Ayam Bawang</td>
                 <td>Rp2000</td>
@@ -48,33 +54,146 @@
             </tr>
         </tbody>
     </table>
-    <p>Test123</p>
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId">
-      Launch
-    </button>
     
-    <!-- Modal -->
-    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <!-- detail item modal -->
+    <div class="modal fade" id="item-detail" tabindex="-1" role="dialog" aria-labelledby="itemDetailId" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h4 class="modal-title" id="itemDetailId">Indomie Ayam Bawang</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-                    <h4 class="modal-title" id="modelTitleId">Modal title</h4>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        Add rows here
+                        <section class="detail-item">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
+                                </div>
+                                <div class="col-8">
+                                    <p><b>Price</b> : Rp <span class="item-price">2000</span></p>                                    
+                                    <p><b>Quantity</b> : <span class="item-total-qty">100</span></p>
+                                    <p><b>Available Quantity</b> : <span class="item-available-qty">50</span></p>
+                                    <p class="item-description">Ini deskripsi item Lorem ipsum dolor sit amet consectetur adipisicing elit. Error fugit recusandae cupiditate expedita! Quos numquam nobis beatae! Modi iste unde pariatur ut similique amet beatae numquam excepturi, incidunt nulla aliquam! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure, illo adipisci? Laborum quia earum in dicta saepe, ex iste fugiat consectetur expedita! Eaque id atque eveniet commodi accusamus dignissimos unde.</p>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                    <button type="button" class="btn btn-primary update-btn">Update</button>                                                                    
+                            </div>
+                        </section>
+
+                        <section class="update-item" style="display:none">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
+                                    <form class="image-uploader">
+                                        <label for="item--update-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
+                                        <input type="file" name="item-update-image-uploader" id="item-update-image-uploader" style="display:none">
+                                    </form>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for="form-update-item-name">Item Name</label>
+                                        <input type="text" name="form-update-item-name" id="form-update-item-name" class="form-control" value="Indomie Ayam Bawang">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="form-update-item-price">Price</label>
+                                        <input type="number" name="form-update-item-price" id="form-update-item-price" class="form-control" value="2000">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="form-update-item-totalqty">Total Quantity</label>
+                                        <input type="number" name="form-update-item-totalqty" id="form-update-item-totalqty" class="form-control" value="100">
+                                    </div>
+                                    <div class="form-group">
+                                      <label for="form-update-item-description">Description</label>
+                                      <textarea class="form-control" name="form-update-item-description" id="form-update-item-description" rows="5">Ini deskripsi item Lorem ipsum dolor sit amet consectetur adipisicing elit. Error fugit recusandae cupiditate expedita! Quos numquam nobis beatae! Modi iste unde pariatur ut similique amet beatae numquam excepturi, incidunt nulla aliquam! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure, illo adipisci? Laborum quia earum in dicta saepe, ex iste fugiat consectetur expedita! Eaque id atque eveniet commodi accusamus dignissimos unde.</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                <button type="button" class="btn btn-primary save-update-btn">Save</button>
+                            </div>
+                        </section>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- add item modal -->
+    
+    <!-- Modal -->
+    <div class="modal fade" id="add-item" tabindex="-1" role="dialog" aria-labelledby="itemAddId" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="itemAddId">Add Item(s)</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="single-item-entry-tab" data-toggle="tab" href="#single-item-entry" role="tab" aria-controls="single-item-entry" aria-selected="true">Single Entry</a>
+                                <a class="nav-item nav-link" id="bulk-item-entries-tab" data-toggle="tab" href="#bulk-item-entries" role="tab" aria-controls="bulk-item-entries" aria-selected="false">Bulk Entries</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="single-item-entry" role="tabpanel" aria-labelledby="single-item-entry-tab">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <img src="/public/images/no-image.jpg" class="img-thumbnail" alt="">
+                                        <form class="image-uploader">
+                                            <label for="item-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
+                                            <input type="file" name="item-add-image-uploader" id="item-add-image-uploader" style="display:none">
+                                        </form>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="form-group">
+                                            <label for="form-add-item-name">Item Name</label>
+                                            <input type="text" name="form-add-item-name" id="form-add-item-name" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-add-item-price">Price</label>
+                                            <input type="number" name="form-add-item-price" id="form-add-item-price" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-add-item-totalqty">Total Quantity</label>
+                                            <input type="number" name="form-add-item-totalqty" id="form-add-item-totalqty" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-add-item-description">Description</label>
+                                            <textarea class="form-control" name="form-add-item-description" id="form-add-item-description" rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-end">
+                                    <button type="button" class="btn btn-primary save-update-btn">Save</button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="bulk-item-entries" role="tabpanel" aria-labelledby="bulk-item-entries-tab">
+                                <div class="input-group mb-3">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                        <label class="custom-file-label" for="inputGroupFile01">Choose CSV File</label>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-left">
+                                    <button type="button" class="btn btn-primary save-update-btn">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<script src="/public/js/admin_dashboard.js"></script>
+
+<section id="employee">
+
+</section>
