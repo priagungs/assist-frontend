@@ -53,7 +53,8 @@ Router.prototype = {
                 if (this.readyState === 4 && this.status === 200) {
                     scope.rootElem.innerHTML = this.responseText;
                     if (htmlName == 'admin_dashboard.html') {
-                        AdminDashboard.init();
+                        var adminDashboard = new AdminDashboard();
+                        adminDashboard.init();
                     }
                 }
             };
