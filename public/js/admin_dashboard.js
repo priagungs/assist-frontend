@@ -1,19 +1,36 @@
 class AdminDashboard {
     static init() {
-        AdminDashboard.initItemTable();
-        AdminDashboard.initModalHandler();
+        AdminDashboard.initItemModalHandler();
+        AdminDashboard.fillItemTable();
     }
 
-    static initModalHandler() {
+    static initItemModalHandler() {
         $("#item-detail").on('show.bs.modal', function(event) {
             var idItem = $(event.relatedTarget).data('iditem');
             // do some ajax to get the data
 
             // $(this).find('.modal-title').text("id item nya " + idItem);
         })
+
+        $(".update-btn").click(function() {
+            $(".detail-item").css("display", "none");
+            $(".update-item").css("display", "block");
+            $(".modal-header").css("display", "none");
+        })
+
+        $(".save-update-btn").click(function() {
+            $(".detail-item").css("display", "block");
+            $(".update-item").css("display", "none");
+            $(".modal-header").css("display", "flex");
+        })
+
     }
 
-    static initItemTable() {
+    static fillItemDetail(idItem) {
+        
+    }
+
+    static fillItemTable() {
 
     }
 }
