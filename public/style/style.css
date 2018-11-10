@@ -3,3 +3,17 @@
     margin: auto;
 }
 
+.dark_red {
+    background-color: #5D001E;
+}
+
+.btn-primary {
+    background-color: #5D001E;
+    border-color: #5D001E;
+}
+
+.btn-primary:hover {
+    background-color: rgb(138, 0, 44);
+    border-color: rgb(138, 0, 44);
+}
+

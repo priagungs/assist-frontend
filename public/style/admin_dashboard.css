@@ -9,10 +9,28 @@
 }
 
 .save-update-btn, .update-btn {
-    margin-right: 0;
-    margin-left: auto;
+    margin-right: 15px;
 }
 
 #item tr {
     cursor: pointer;
 }
+
+.btn-primary {
+    background-color: #5D001E
+}
+
+#item, #employee {
+    margin-top: 20px;
+}
+
+.admin-table-header {
+    display: flex;
+    justify-content: space-between
+}
+
+.admin-table-header i {
+    cursor: pointer;
+    font-size: 30px;
+}
+
