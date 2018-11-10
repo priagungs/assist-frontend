@@ -52,6 +52,9 @@ Router.prototype = {
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
                     scope.rootElem.innerHTML = this.responseText;
+                    if (htmlName == 'admin_dashboard.html') {
+                        AdminDashboard.init();
+                    }
                 }
             };
             xhttp.open('GET', url, true);
