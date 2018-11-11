@@ -38,6 +38,11 @@ class AdminDashboard {
                 $(".item-total-qty").text(response.totalQty);
                 $(".item-available-qty").text(response.availableQty);
                 $(".item-description").text(response.description);
+                $("#update-item img").attr("src", $("#detail-item img").attr("src"));
+                $("#form-update-item-name").val($("#itemDetailId").text());
+                $("#form-update-item-price").val($(".item-price").text());
+                $("#form-update-item-totalqty").val($(".item-total-qty").text());
+                $("#form-update-item-description").val($(".item-description").text())
             }
         });
     }
@@ -51,36 +56,32 @@ class AdminDashboard {
                 $("#detail-item").css("display", "none");
                 $("#update-item").css("display", "block");
                 $(".modal-header").css("display", "none");
-                
-                $("#update-item img").attr("src", $("#detail-item img").attr("src"));
-                $("#form-update-item-name").attr("value", $("#itemDetailId").text());
-                $("#form-update-item-price").attr("value", $(".item-price").text());
-                $("#form-update-item-totalqty").attr("value", $(".item-total-qty").text());
-                $("#form-update-item-description").text($(".item-description").text())
+                this.updateItemFormHandler(idItem);
+
             });
 
             $(".delete-btn").unbind().click(() => {
                 this.deleteItem(idItem);
             })
 
-            this.updateItemFormHandler(idItem);
         
         });
     }
 
     updateItemFormHandler(idItem) {
-        var imageUrl = '';
         $("#item-update-image-uploader").unbind().change(() => {
             var formData = new FormData($("#update-item form")[0]);
-            imageUrl = Helper.uploadFile(formData);
+            var imageUrl = Helper.uploadFile(formData);
             $("#update-item img").attr("src", imageUrl);
+            $("#detail-item img").attr("src", imageUrl);
         })
+        
         $("#update-item .save-update-btn").unbind().click((event) => {
             event.preventDefault();
             var request = {
                 itemName: $("#form-update-item-name").val(),
                 description: $("#form-update-item-description").val(),
-                pictureURL: imageUrl,
+                pictureURL: $("#update-item img").attr("src"),
                 price: $("#form-update-item-price").val(),
                 totalQty: $("#form-update-item-totalqty").val()
             }
@@ -175,7 +176,6 @@ class AdminDashboard {
         }
         if (request.description == "") {
             $(".item-form-description").addClass("is-invalid");
-            console.log($(".item-form-description"));
             valid = false;
         }
         if (request.price == "") {
