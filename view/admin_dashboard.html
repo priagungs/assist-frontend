@@ -1,0 +1,184 @@
+<section id="item">
+    <div class="admin-table-header">
+        <h3 class="font-weight-bold">ITEMS</h3>
+        <i class="fas fa-plus " data-toggle="modal" data-target="#add-item"></i>
+    </div>
+    
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr class="text-light">
+                <th class="text-center dark_red">#</th>
+                <th class="text-center dark_red">Name</th>
+                <th class="text-center dark_red">Price</th>
+                <th class="text-center dark_red">Total Quantity</th>
+                <th class="text-center dark_red">Available Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- example -->
+            <!-- <tr data-toggle="modal" data-target="#item-detail" data-iditem="2" style="display:none">
+                <td scope="row">5</td>
+                <td>Indomie Ayam Bawang</td>
+                <td>Rp2000</td>
+                <td class="text-center">100</td>
+                <td class="text-center">50</td>
+            </tr> -->
+        </tbody>
+    </table>
+    
+    <!-- detail item modal -->
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="item-detail" tabindex="-1" role="dialog" aria-labelledby="itemDetailId" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="itemDetailId"></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <section id="detail-item">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
+                                </div>
+                                <div class="col-8">
+                                    <p><b>Price</b> : Rp <span class="item-price"></span></p>                                    
+                                    <p><b>Quantity</b> : <span class="item-total-qty"></span></p>
+                                    <p><b>Available Quantity</b> : <span class="item-available-qty"></span></p>
+                                    <p class="item-description"></p>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                    <button type="button" class="btn btn-primary update-btn">Update</button>
+                                    <button type="button" class="btn btn-primary delete-btn">Delete</button>                                                                    
+                            </div>
+                        </section>
+
+                        <section id="update-item" style="display:none">
+                            <form>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
+                                        <div class="image-uploader">
+                                            <label for="item-update-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
+                                            <input type="file" accept="image/*" id="item-update-image-uploader" name="file" class="item-form-image" style="display:none">
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="form-group">
+                                            <label for="form-update-item-name">Item Name</label>
+                                            <input type="text" name="form-update-item-name" id="form-update-item-name" class="form-control item-form-name" value="Indomie Ayam Bawang">
+                                            <div class="invalid-feedback item-invalid-feedback"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-update-item-price">Price</label>
+                                            <input type="number" name="form-update-item-price" min="0" id="form-update-item-price" class="form-control item-form-price" value="2000">
+                                            <div class="invalid-feedback">Please provide a price</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-update-item-totalqty">Total Quantity</label>
+                                            <input type="number" name="form-update-item-totalqty" min="0" id="form-update-item-totalqty" class="form-control item-form-totalqty" value="100">
+                                            <div class="invalid-feedback invalid-totalqty">Please provide a total quantity</div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-update-item-description">Description</label>
+                                            <textarea class="form-control item-form-description" name="form-update-item-description" id="form-update-item-description" rows="5"></textarea>
+                                            <div class="invalid-feedback">Please provide a description</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-end">
+                                    <button type="form" class="btn btn-primary save-update-btn">Save</button>
+                                </div>
+                            </form>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- add item modal -->
+    
+    <!-- Modal -->
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="add-item" tabindex="-1" role="dialog" aria-labelledby="itemAddId" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="itemAddId">Add Item(s)</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="single-item-entry-tab" data-toggle="tab" href="#single-item-entry" role="tab" aria-controls="single-item-entry" aria-selected="true">Single Entry</a>
+                                <a class="nav-item nav-link" id="bulk-item-entries-tab" data-toggle="tab" href="#bulk-item-entries" role="tab" aria-controls="bulk-item-entries" aria-selected="false">Bulk Entries</a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="single-item-entry" role="tabpanel" aria-labelledby="single-item-entry-tab">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <img src="/public/images/no-image.jpg" class="img-thumbnail" alt="">
+                                            <div class="image-uploader">
+                                                <label for="item-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
+                                                <input type="file" accept="image/*" name="file" class="item-form-image" id="item-add-image-uploader" style="display:none">
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            
+                                            <div class="form-group">
+                                                <label for="form-add-item-name">Item Name</label>
+                                                <input type="text" maxlength="255" name="form-add-item-name" id="form-add-item-name" class="form-control item-form-name" required>                                                
+                                                <div class="invalid-feedback item-invalid-feedback"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-add-item-price">Price</label>
+                                                <input type="number" min="0" name="form-add-item-price" id="form-add-item-price" class="form-control item-form-price" required>
+                                                <div class="invalid-feedback">Please provide a price</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-add-item-totalqty">Total Quantity</label>
+                                                <input type="number" min="0" name="form-add-item-totalqty" id="form-add-item-totalqty" class="form-control item-form-totalqty" required>
+                                                <div class="invalid-feedback">Please provide a total quantity</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-add-item-description">Description</label>
+                                                <textarea class="form-control item-form-description" maxlength="1000" name="form-add-item-description" id="form-add-item-description" rows="5" required></textarea>
+                                                <div class="invalid-feedback">Please provide a description</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-end">
+                                        <button type="submit" class="btn btn-primary save-update-btn">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="bulk-item-entries" role="tabpanel" aria-labelledby="bulk-item-entries-tab">
+                                <div class="input-group mb-3">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="upload-bulk-item-entries">
+                                        <label class="custom-file-label" for="upload-bulk-item-entries">Choose CSV File</label>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-left">
+                                    <button type="button" class="btn btn-primary save-update-bulk-btn">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="employee">
+
+</section>

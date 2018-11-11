@@ -1,0 +1,52 @@
+.image-uploader {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.item-description {
+    text-align: justify;
+}
+
+.save-update-btn, .update-btn, .delete-btn {
+    margin-right: 15px;
+    margin-left: 15px;
+}
+
+#item tr {
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #5D001E
+}
+
+#item, #employee {
+    margin-top: 20px;
+}
+
+.admin-table-header {
+    display: flex;
+    justify-content: space-between
+}
+
+.admin-table-header i {
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.modal-body nav {
+    margin-bottom: 20px;
+}
+
+.nav-item {
+    color: inherit;
+    /* background-color: rgba(180, 0, 57, 0.719); */
+    border-radius: 0px;
+}
+
+.nav-item:hover {
+    background-color: rgb(138, 0, 44);
+    color: white;
+}
+

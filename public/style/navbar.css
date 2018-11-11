@@ -1,0 +1,90 @@
+.navbar > .container-fluid .navbar-brand {
+    color: pink;
+    padding-right: 2.2em;
+    padding-left: 2.2em;
+}
+
+.navbar-inverse .navbar-nav > li > a.font_white {
+    color: #F5F5F5;
+}
+
+.navbar-inverse .navbar-nav > .active > a {
+    color: #5D001E;
+    background-color: #F5F5F5;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+    background-color: #EE4C7C;
+}
+
+.navbar-inverse .navbar-nav > .active > a:hover {
+    background-color: #EE4C7C;
+}
+
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {height: 93vh;}
+
+/* Set gray background color and 100% height */
+.sidenav {
+    padding-top: 1em;
+    background-color: #f1f1f1;
+    height: 100%;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+    .sidenav {
+    height: auto;
+    padding: 1em;
+    }
+    .row.content {height:auto;}
+}
+
+.table-margin {
+    margin-left: 5%;
+    margin-right: 5%;
+    align-self: center;
+}
+
+th, td {
+    padding-left: 1em;
+    padding-right: 1em;
+    align-content: center;
+
+}
+
+.card-container {
+    border: 2px black;
+    background-color: gray;
+    width: 50%;
+    margin-left: 25%;
+}
+
+.circle {
+    width: 8em;
+    height: 8em;
+    border-radius: 50%;
+    border: solid 0.5em #eed848;
+    align-self: center;
+}
+
+.card {
+    color: #5D001E;
+    margin: 0;
+    width: 75%;
+}
+.card > h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.card > h3 {
+    font-size: 0.75em;
+    margin-top: 0.05em;
+}
