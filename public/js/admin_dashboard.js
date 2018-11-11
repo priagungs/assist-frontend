@@ -28,7 +28,12 @@ class AdminDashboard {
             dataType: "json",
             success: (response) => {
                 $("#itemDetailId").text(response.itemName);
-                $("#detail-item img").attr("src", response.pictureURL);
+                if (response.pictureURL != '') {
+                    $("#detail-item img").attr("src", response.pictureURL);
+                }
+                else {
+                    $("#detail-item img").attr("src", "/public/images/no-image.jpg");
+                }
                 $(".item-price").text(response.price);
                 $(".item-total-qty").text(response.totalQty);
                 $(".item-available-qty").text(response.availableQty);
@@ -38,11 +43,11 @@ class AdminDashboard {
     }
 
     detailItemModalHandler() {
-        $("#item-detail").on('show.bs.modal', (event) => {
+        $("#item-detail").unbind().on('show.bs.modal', (event) => {
             var idItem = $(event.relatedTarget).data('iditem');
             this.fillItemDetail(idItem);
         
-            $(".update-btn").click(() => {
+            $(".update-btn").unbind().click(() => {
                 $("#detail-item").css("display", "none");
                 $("#update-item").css("display", "block");
                 $(".modal-header").css("display", "none");
@@ -54,13 +59,13 @@ class AdminDashboard {
                 $("#form-update-item-description").text($(".item-description").text())
             });
     
-            $(".save-update-btn").click(() => {
+            $("#update-item .save-update-btn").unbind().click(() => {
                 $("#detail-item").css("display", "block");
                 $("#update-item").css("display", "none");
                 $(".modal-header").css("display", "flex");
             });
 
-            $(".delete-btn").click(() => {
+            $(".delete-btn").unbind().click(() => {
                 this.deleteItem(idItem);
             })
         
@@ -68,27 +73,65 @@ class AdminDashboard {
     }
 
     addItemModalHandler() {
-        $("#add-item").on('show.bs.modal', () => {
-            var imageUrl = '';
-            $("#item-add-image-uploader").change(() => {
-                var formData = new FormData($("#add-item form")[0]);
-                imageUrl = Helper.uploadFile(formData);
-                $("#add-item img").attr("src", imageUrl);
-            })
-
-            $("#form-add-item-name").change(() => {
+        $("#add-item").unbind().on('show.bs.modal', () => {
+      
+            $("#form-add-item-name").unbind().change(() => {
                 $("#form-add-item-name").removeClass("is-invalid");
             })
+
+            $("#form-add-item-price").unbind().change(() => {
+                $("#form-add-item-price").removeClass("is-invalid")
+            })
+
+            $("#form-add-item-totalqty").unbind().change(() => {
+                $("#form-add-item-totalqty").removeClass("is-invalid")
+            })
+
+            $("#form-add-item-description").unbind().change(() => {
+                $("#form-add-item-description").removeClass("is-invalid")
+            })
             
-            $("#add-item .save-update-btn").click((event) => {
-                event.preventDefault();
-                var request = [{
-                    itemName: $("#form-add-item-name").val(),
-                    description: $("#form-add-item-description").val(),
-                    pictureURL: imageUrl,
-                    price: $("#form-add-item-price").val(),
-                    totalQty: $("#form-add-item-totalqty").val()
-                }]
+            this.addItemFormHandler();      
+            
+        })
+    }
+
+    addItemFormHandler() {
+        var imageUrl = '';
+        $("#item-add-image-uploader").unbind().change(() => {
+            var formData = new FormData($("#add-item form")[0]);
+            imageUrl = Helper.uploadFile(formData);
+            $("#add-item img").attr("src", imageUrl);
+        })
+        $("#add-item .save-update-btn").unbind().click((event) => {
+            event.preventDefault();
+            var request = [{
+                itemName: $("#form-add-item-name").val(),
+                description: $("#form-add-item-description").val(),
+                pictureURL: imageUrl,
+                price: $("#form-add-item-price").val(),
+                totalQty: $("#form-add-item-totalqty").val()
+            }]
+            var valid = true;
+            if (request[0].itemName == "") {
+                $("#item-invalid-feedback").text("Please provide an item name");
+                $("#form-add-item-name").addClass("is-invalid");
+                valid = false;
+            }
+            if (request[0].description == "") {
+                $("#form-add-item-description").addClass("is-invalid");
+
+                valid = false;
+            }
+            if (request[0].price == "") {
+                $("#form-add-item-price").addClass("is-invalid");
+                valid = false;
+            }
+            if (request[0].totalQty == "") {
+                $("#form-add-item-totalqty").addClass("is-invalid");
+                valid = false;
+            }
+            if (valid) {
                 $.ajax({
                     method: "POST",
                     url: "/api/items",
@@ -97,15 +140,22 @@ class AdminDashboard {
                     contentType: "application/json",
                     success: (response) => {
                         this.fillItemTable();
+                        $("#form-add-item-name").val('');
+                        $("#form-add-item-description").val('');
+                        $("#form-add-item-price").val('');
+                        $("#form-add-item-totalqty").val('');
+                        $("#item-add-image-uploader").val('');
+                        $("#add-item img").attr("src", "/public/images/no-image.jpg");
                         $("#add-item").modal('hide');
                     },
                     statusCode: {
                         409: () => {
+                            $("#item-invalid-feedback").text("Item name already exists");
                             $("#form-add-item-name").addClass("is-invalid");
                         }
                     }
                 });
-            })
+            }
         })
     }
 
@@ -116,7 +166,6 @@ class AdminDashboard {
             data: {page: this.itemPage, limit: this.itemLimit},
             dataType: "json",
             success: (response) => {
-                console.log(response);
                 var numb = 1;
                 var content = "";
                 response.content.forEach(element => {

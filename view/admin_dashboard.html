@@ -129,20 +129,23 @@
                                             
                                             <div class="form-group">
                                                 <label for="form-add-item-name">Item Name</label>
-                                                <input type="text" maxlength="255" name="form-add-item-name" id="form-add-item-name" class="form-control" required>
-                                                <div class="invalid-feedback">Item name already exists</div>
+                                                <input type="text" maxlength="255" name="form-add-item-name" id="form-add-item-name" class="form-control" required>                                                
+                                                <div class="invalid-feedback" id="item-invalid-feedback"></div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="form-add-item-price">Price</label>
                                                 <input type="number" min="0" name="form-add-item-price" id="form-add-item-price" class="form-control" required>
+                                                <div class="invalid-feedback">Please provide a price</div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="form-add-item-totalqty">Total Quantity</label>
                                                 <input type="number" min="0" name="form-add-item-totalqty" id="form-add-item-totalqty" class="form-control" required>
+                                                <div class="invalid-feedback">Please provide a total quantity</div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="form-add-item-description">Description</label>
                                                 <textarea class="form-control" maxlength="1000" name="form-add-item-description" id="form-add-item-description" rows="5" required></textarea>
+                                                <div class="invalid-feedback">Please provide a description</div>
                                             </div>
                                         </div>
                                     </div>
@@ -159,7 +162,7 @@
                                     </div>
                                 </div>
                                 <div class="row justify-content-left">
-                                    <button type="button" class="btn btn-primary save-update-btn">Save</button>
+                                    <button type="button" class="btn btn-primary save-update-bulk-btn">Save</button>
                                 </div>
                             </div>
                         </div>
