@@ -1,25 +1,32 @@
+.font-red {
+    color: #5D001E;
+}
+
 .navbar > .container-fluid .navbar-brand {
     color: pink;
     padding-right: 2.2em;
     padding-left: 2.2em;
 }
 
-.navbar-inverse .navbar-nav > li > a.font_white {
-    color: #F5F5F5;
+.navbar-light .navbar-brand , .navbar-light .navbar-nav .nav-link, .font_white {
+    color: white;
 }
 
-.navbar-inverse .navbar-nav > .active > a {
+.navbar-light .navbar-nav .active .nav-link {
     color: #5D001E;
-    background-color: #F5F5F5;
+    background-color: #f5f5f5;
 }
 
-.navbar-inverse .navbar-nav > li > a:hover {
-    background-color: #EE4C7C;
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link:focus {
+    color: #5D001E;
 }
 
-.navbar-inverse .navbar-nav > .active > a:hover {
-    background-color: #EE4C7C;
+.nav-link:focus, .nav-link:hover {
+    color: #5D001E;
+    background-color: #f5f5f5;
 }
+
 
 /* Remove the navbar's default margin-bottom and rounded borders */
 .navbar {
@@ -60,24 +67,21 @@ th, td {
 }
 
 .card-container {
-    border: 2px black;
-    background-color: gray;
+    border: 4px black;
     width: 50%;
-    margin-left: 25%;
+    margin-top: 2em;
 }
 
 .circle {
     width: 8em;
     height: 8em;
     border-radius: 50%;
-    border: solid 0.5em #eed848;
-    align-self: center;
+    border: solid 0.2em #5D001E;
 }
 
 .card {
     color: #5D001E;
-    margin: 0;
-    width: 75%;
+    padding: 0.5em;
 }
 .card > h2 {
     font-size: 1.2em;
