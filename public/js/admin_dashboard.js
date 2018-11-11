@@ -98,7 +98,7 @@ class AdminDashboard {
 
     addItemFormHandler() {
         var imageUrl = '';
-        $("#item-add-image-uploader").unbind().change(() => {
+        $(".item-form-image").unbind().change(() => {
             var formData = new FormData($("#add-item form")[0]);
             imageUrl = Helper.uploadFile(formData);
             $("#add-item img").attr("src", imageUrl);
@@ -112,51 +112,61 @@ class AdminDashboard {
                 price: $("#form-add-item-price").val(),
                 totalQty: $("#form-add-item-totalqty").val()
             }]
-            var valid = true;
-            if (request[0].itemName == "") {
-                $("#item-invalid-feedback").text("Please provide an item name");
-                $("#form-add-item-name").addClass("is-invalid");
-                valid = false;
-            }
-            if (request[0].description == "") {
-                $("#form-add-item-description").addClass("is-invalid");
-
-                valid = false;
-            }
-            if (request[0].price == "") {
-                $("#form-add-item-price").addClass("is-invalid");
-                valid = false;
-            }
-            if (request[0].totalQty == "") {
-                $("#form-add-item-totalqty").addClass("is-invalid");
-                valid = false;
-            }
-            if (valid) {
-                $.ajax({
-                    method: "POST",
-                    url: "/api/items",
-                    data: JSON.stringify(request),
-                    dataType: "json",
-                    contentType: "application/json",
-                    success: (response) => {
-                        this.fillItemTable();
-                        $("#form-add-item-name").val('');
-                        $("#form-add-item-description").val('');
-                        $("#form-add-item-price").val('');
-                        $("#form-add-item-totalqty").val('');
-                        $("#item-add-image-uploader").val('');
-                        $("#add-item img").attr("src", "/public/images/no-image.jpg");
-                        $("#add-item").modal('hide');
-                    },
-                    statusCode: {
-                        409: () => {
-                            $("#item-invalid-feedback").text("Item name already exists");
-                            $("#form-add-item-name").addClass("is-invalid");
-                        }
-                    }
-                });
+            
+            if (this.validateRequest(request)) {
+                this.addItem(request);
             }
         })
+    }
+
+    validateRequest(request) {
+        var valid = true;
+        console.log(request);
+        if (request[0].itemName == "") {
+            $(".item-invalid-feedback").text("Please provide an item name");
+            $(".item-form-name").addClass("is-invalid");
+            valid = false;
+        }
+        if (request[0].description == "") {
+            $(".item-form-description").addClass("is-invalid");
+            console.log($(".item-form-description"));
+            valid = false;
+        }
+        if (request[0].price == "") {
+            $(".item-form-price").addClass("is-invalid");
+            valid = false;
+        }
+        if (request[0].totalQty == "") {
+            $(".item-form-totalqty").addClass("is-invalid");
+            valid = false;
+        }
+        return valid;
+    }
+
+    addItem(request) {
+        $.ajax({
+            method: "POST",
+            url: "/api/items",
+            data: JSON.stringify(request),
+            dataType: "json",
+            contentType: "application/json",
+            success: (response) => {
+                this.fillItemTable();
+                $("#form-add-item-name").val('');
+                $("#form-add-item-description").val('');
+                $("#form-add-item-price").val('');
+                $("#form-add-item-totalqty").val('');
+                $("#item-add-image-uploader").val('');
+                $("#add-item img").attr("src", "/public/images/no-image.jpg");
+                $("#add-item").modal('hide');
+            },
+            statusCode: {
+                409: () => {
+                    $(".item-invalid-feedback").text("Item name already exists");
+                    $("#form-add-item-name").addClass("is-invalid");
+                }
+            }
+        });
     }
 
     fillItemTable() {

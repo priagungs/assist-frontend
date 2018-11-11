@@ -57,36 +57,39 @@
                         </section>
 
                         <section id="update-item" style="display:none">
-                            <div class="row">
-                                <div class="col-4">
-                                    <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
-                                    <form class="image-uploader">
-                                        <label for="item--update-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
-                                        <input type="file" accept="image/*" name="file" id="item-update-image-uploader" style="display:none">
-                                    </form>
+                            <form>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
+                                        <div class="image-uploader">
+                                            <label for="item-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
+                                            <input type="file" accept="image/*" name="file" class="item-form-image" style="display:none">
+                                        </div>
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="form-group">
+                                            <label for="form-update-item-name">Item Name</label>
+                                            <input type="text" name="form-update-item-name" id="form-update-item-name" class="form-control item-form-name" value="Indomie Ayam Bawang">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-update-item-price">Price</label>
+                                            <input type="number" name="form-update-item-price" id="form-update-item-price" class="form-control item-form-price" value="2000">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-update-item-totalqty">Total Quantity</label>
+                                            <input type="number" name="form-update-item-totalqty" id="form-update-item-totalqty" class="form-control item-form-totalqty" value="100">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="form-update-item-description">Description</label>
+                                            <textarea class="form-control item-form-description" name="form-update-item-description" id="form-update-item-description" rows="5">Ini deskripsi item Lorem ipsum dolor sit amet consectetur adipisicing elit. Error fugit recusandae cupiditate expedita! Quos numquam nobis beatae! Modi iste unde pariatur ut similique amet beatae numquam excepturi, incidunt nulla aliquam! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure, illo adipisci? Laborum quia earum in dicta saepe, ex iste fugiat consectetur expedita! Eaque id atque eveniet commodi accusamus dignissimos unde.</textarea>
+                                            <div class="invalid-feedback">Please provide a description</div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-8">
-                                    <div class="form-group">
-                                        <label for="form-update-item-name">Item Name</label>
-                                        <input type="text" name="form-update-item-name" id="form-update-item-name" class="form-control" value="Indomie Ayam Bawang">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="form-update-item-price">Price</label>
-                                        <input type="number" name="form-update-item-price" id="form-update-item-price" class="form-control" value="2000">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="form-update-item-totalqty">Total Quantity</label>
-                                        <input type="number" name="form-update-item-totalqty" id="form-update-item-totalqty" class="form-control" value="100">
-                                    </div>
-                                    <div class="form-group">
-                                      <label for="form-update-item-description">Description</label>
-                                      <textarea class="form-control" name="form-update-item-description" id="form-update-item-description" rows="5">Ini deskripsi item Lorem ipsum dolor sit amet consectetur adipisicing elit. Error fugit recusandae cupiditate expedita! Quos numquam nobis beatae! Modi iste unde pariatur ut similique amet beatae numquam excepturi, incidunt nulla aliquam! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iure, illo adipisci? Laborum quia earum in dicta saepe, ex iste fugiat consectetur expedita! Eaque id atque eveniet commodi accusamus dignissimos unde.</textarea>
-                                    </div>
+                                <div class="row justify-content-end">
+                                    <button type="form" class="btn btn-primary save-update-btn">Save</button>
                                 </div>
-                            </div>
-                            <div class="row justify-content-end">
-                                <button type="button" class="btn btn-primary save-update-btn">Save</button>
-                            </div>
+                            </form>
                         </section>
                     </div>
                 </div>
@@ -122,29 +125,29 @@
                                             <img src="/public/images/no-image.jpg" class="img-thumbnail" alt="">
                                             <div class="image-uploader">
                                                 <label for="item-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
-                                                <input type="file" accept="image/*" name="file" id="item-add-image-uploader" style="display:none">
+                                                <input type="file" accept="image/*" name="file" class="item-form-image" id="item-add-image-uploader" style="display:none">
                                             </div>
                                         </div>
                                         <div class="col-8">
                                             
                                             <div class="form-group">
                                                 <label for="form-add-item-name">Item Name</label>
-                                                <input type="text" maxlength="255" name="form-add-item-name" id="form-add-item-name" class="form-control" required>                                                
-                                                <div class="invalid-feedback" id="item-invalid-feedback"></div>
+                                                <input type="text" maxlength="255" name="form-add-item-name" id="form-add-item-name" class="form-control item-form-name" required>                                                
+                                                <div class="invalid-feedback item-invalid-feedback"></div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="form-add-item-price">Price</label>
-                                                <input type="number" min="0" name="form-add-item-price" id="form-add-item-price" class="form-control" required>
+                                                <input type="number" min="0" name="form-add-item-price" id="form-add-item-price" class="form-control item-form-price" required>
                                                 <div class="invalid-feedback">Please provide a price</div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="form-add-item-totalqty">Total Quantity</label>
-                                                <input type="number" min="0" name="form-add-item-totalqty" id="form-add-item-totalqty" class="form-control" required>
+                                                <input type="number" min="0" name="form-add-item-totalqty" id="form-add-item-totalqty" class="form-control item-form-totalqty" required>
                                                 <div class="invalid-feedback">Please provide a total quantity</div>
                                             </div>
                                             <div class="form-group">
                                                 <label for="form-add-item-description">Description</label>
-                                                <textarea class="form-control" maxlength="1000" name="form-add-item-description" id="form-add-item-description" rows="5" required></textarea>
+                                                <textarea class="form-control item-form-description" maxlength="1000" name="form-add-item-description" id="form-add-item-description" rows="5" required></textarea>
                                                 <div class="invalid-feedback">Please provide a description</div>
                                             </div>
                                         </div>
