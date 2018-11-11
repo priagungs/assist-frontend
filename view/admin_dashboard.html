@@ -27,7 +27,7 @@
     </table>
     
     <!-- detail item modal -->
-    <div class="modal fade" id="item-detail" tabindex="-1" role="dialog" aria-labelledby="itemDetailId" aria-hidden="true">
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="item-detail" tabindex="-1" role="dialog" aria-labelledby="itemDetailId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -62,22 +62,25 @@
                                     <div class="col-4">
                                         <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
                                         <div class="image-uploader">
-                                            <label for="item-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
-                                            <input type="file" accept="image/*" name="file" class="item-form-image" style="display:none">
+                                            <label for="item-update-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
+                                            <input type="file" accept="image/*" id="item-update-image-uploader" name="file" class="item-form-image" style="display:none">
                                         </div>
                                     </div>
                                     <div class="col-8">
                                         <div class="form-group">
                                             <label for="form-update-item-name">Item Name</label>
                                             <input type="text" name="form-update-item-name" id="form-update-item-name" class="form-control item-form-name" value="Indomie Ayam Bawang">
+                                            <div class="invalid-feedback item-invalid-feedback"></div>
                                         </div>
                                         <div class="form-group">
                                             <label for="form-update-item-price">Price</label>
-                                            <input type="number" name="form-update-item-price" id="form-update-item-price" class="form-control item-form-price" value="2000">
+                                            <input type="number" name="form-update-item-price" min="0" id="form-update-item-price" class="form-control item-form-price" value="2000">
+                                            <div class="invalid-feedback">Please provide a price</div>
                                         </div>
                                         <div class="form-group">
                                             <label for="form-update-item-totalqty">Total Quantity</label>
-                                            <input type="number" name="form-update-item-totalqty" id="form-update-item-totalqty" class="form-control item-form-totalqty" value="100">
+                                            <input type="number" name="form-update-item-totalqty" min="0" id="form-update-item-totalqty" class="form-control item-form-totalqty" value="100">
+                                            <div class="invalid-feedback invalid-totalqty">Please provide a total quantity</div>
                                         </div>
                                         <div class="form-group">
                                             <label for="form-update-item-description">Description</label>
@@ -100,7 +103,7 @@
     <!-- add item modal -->
     
     <!-- Modal -->
-    <div class="modal fade" id="add-item" tabindex="-1" role="dialog" aria-labelledby="itemAddId" aria-hidden="true">
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="add-item" tabindex="-1" role="dialog" aria-labelledby="itemAddId" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">

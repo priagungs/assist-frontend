@@ -58,85 +58,131 @@ class AdminDashboard {
                 $("#form-update-item-totalqty").attr("value", $(".item-total-qty").text());
                 $("#form-update-item-description").text($(".item-description").text())
             });
-    
-            $("#update-item .save-update-btn").unbind().click(() => {
-                $("#detail-item").css("display", "block");
-                $("#update-item").css("display", "none");
-                $(".modal-header").css("display", "flex");
-            });
 
             $(".delete-btn").unbind().click(() => {
                 this.deleteItem(idItem);
             })
+
+            this.updateItemFormHandler(idItem);
         
+        });
+    }
+
+    updateItemFormHandler(idItem) {
+        var imageUrl = '';
+        $("#item-update-image-uploader").unbind().change(() => {
+            var formData = new FormData($("#update-item form")[0]);
+            imageUrl = Helper.uploadFile(formData);
+            $("#update-item img").attr("src", imageUrl);
+        })
+        $("#update-item .save-update-btn").unbind().click((event) => {
+            event.preventDefault();
+            var request = {
+                itemName: $("#form-update-item-name").val(),
+                description: $("#form-update-item-description").val(),
+                pictureURL: imageUrl,
+                price: $("#form-update-item-price").val(),
+                totalQty: $("#form-update-item-totalqty").val()
+            }
+            
+            if (this.validateRequest(request)) {
+                this.updateItem(request, idItem);
+            }
+        })
+    }
+
+    updateItem(request, idItem) {
+        $.ajax({
+            method: "PUT",
+            url: "/api/items/" + idItem,
+            data: JSON.stringify(request),
+            contentType: "application/json",
+            dataType: "json",
+            success: (response) => {
+                this.fillItemDetail(idItem);
+                this.fillItemTable();
+                $("#detail-item").css("display", "block");
+                $("#update-item").css("display", "none");
+                $(".modal-header").css("display", "flex");
+            },
+            statusCode: {
+                409: () => {
+                    $(".item-invalid-feedback").text("Item name already exists");
+                    $("#form-update-item-name").addClass("is-invalid");
+                },
+                400: () => {
+                    $(".invalid-totalqty").text("Total quantity must be more than or equal number of used items")
+                    $("#form-update-item-totalqty").addClass("is-invalid");
+                }
+            }
         });
     }
 
     addItemModalHandler() {
         $("#add-item").unbind().on('show.bs.modal', () => {
-      
-            $("#form-add-item-name").unbind().change(() => {
-                $("#form-add-item-name").removeClass("is-invalid");
-            })
-
-            $("#form-add-item-price").unbind().change(() => {
-                $("#form-add-item-price").removeClass("is-invalid")
-            })
-
-            $("#form-add-item-totalqty").unbind().change(() => {
-                $("#form-add-item-totalqty").removeClass("is-invalid")
-            })
-
-            $("#form-add-item-description").unbind().change(() => {
-                $("#form-add-item-description").removeClass("is-invalid")
-            })
-            
             this.addItemFormHandler();      
-            
         })
     }
 
     addItemFormHandler() {
         var imageUrl = '';
-        $(".item-form-image").unbind().change(() => {
+        $("#item-add-image-uploader").unbind().change(() => {
             var formData = new FormData($("#add-item form")[0]);
             imageUrl = Helper.uploadFile(formData);
             $("#add-item img").attr("src", imageUrl);
         })
         $("#add-item .save-update-btn").unbind().click((event) => {
             event.preventDefault();
-            var request = [{
+            var requests = [{
                 itemName: $("#form-add-item-name").val(),
                 description: $("#form-add-item-description").val(),
                 pictureURL: imageUrl,
                 price: $("#form-add-item-price").val(),
                 totalQty: $("#form-add-item-totalqty").val()
             }]
-            
-            if (this.validateRequest(request)) {
-                this.addItem(request);
+            var validated = true;
+            for (var request in requests) {
+                validated = validated && this.validateRequest(request);
+            }
+            if (validated) {
+                this.addItem(requests);
             }
         })
     }
 
     validateRequest(request) {
         var valid = true;
-        console.log(request);
-        if (request[0].itemName == "") {
+        $(".item-form-name").unbind().change(() => {
+            $(".item-form-name").removeClass("is-invalid");
+        })
+
+        $(".item-form-price").unbind().change(() => {
+            $(".item-form-price").removeClass("is-invalid")
+        })
+
+        $(".item-form-totalqty").unbind().change(() => {
+            $(".item-form-totalqty").removeClass("is-invalid")
+        })
+
+        $(".item-form-description").unbind().change(() => {
+            $(".item-form-description").removeClass("is-invalid")
+        })
+
+        if (request.itemName == "") {
             $(".item-invalid-feedback").text("Please provide an item name");
             $(".item-form-name").addClass("is-invalid");
             valid = false;
         }
-        if (request[0].description == "") {
+        if (request.description == "") {
             $(".item-form-description").addClass("is-invalid");
             console.log($(".item-form-description"));
             valid = false;
         }
-        if (request[0].price == "") {
+        if (request.price == "") {
             $(".item-form-price").addClass("is-invalid");
             valid = false;
         }
-        if (request[0].totalQty == "") {
+        if (request.totalQty == "") {
             $(".item-form-totalqty").addClass("is-invalid");
             valid = false;
         }
