@@ -1,11 +1,9 @@
 class AdminDashboard {
     constructor() {
         this.itemPage = 0;
-        this.itemPageLast = false;
-        this.itemLimit = 50;
+        this.itemLimit = 10;
         this.employeePage = 0;
-        this.employeeLimit = 50;
-        this.employeePageLast = false;
+        this.employeeLimit = 10;
     }
     init() {
         $.ajax({
@@ -18,7 +16,21 @@ class AdminDashboard {
         this.detailItemModalHandler();
         this.addItemModalHandler();
         this.fillItemTable();
+        this.itemPaginationHandler();
+    }
 
+    itemPaginationHandler() {
+        $("#page-item-prev:not(.disabled)").unbind().click(() => {
+            if (this.itemPage > 0) {
+                this.itemPage--;
+                this.fillItemTable();
+                if (this.itemPage == 0) {
+                    $("#page-item-prev").addClass("disabled");
+                }
+            }
+        })
+
+        $("")
     }
 
     fillItemDetail(idItem) {
@@ -231,9 +243,18 @@ class AdminDashboard {
                     + '<td>Rp' + element.price + '</td>'
                     + '<td class="text-center">' + element.totalQty + '</td>'
                     + '<td class="text-center">' + element.availableQty + '</td>'
-                    + '</tr>'
+                    + '</tr>';
                     numb++;
                 });
+                for (var i = numb; i <= this.itemLimit; i++) {
+                    content += '<tr>'
+                    + '<td scope="row">' + i + '</td>'
+                    + '<td></td>'
+                    + '<td></td>'
+                    + '<td class="text-center"></td>'
+                    + '<td class="text-center"></td>'
+                    + '</tr>';
+                }
                 $("#item tbody").html(content);
             },
         });
