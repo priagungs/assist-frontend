@@ -11,7 +11,16 @@
     </div>
     <div>
         <h3 class="font-weight-bold font-red">Items</h3>
-        <table class="table table-hover table-bordered">
+        <label for="filter" class="mx-auto">Show:</label>
+        <select class="filter mx-auto" data-tableId="items">
+          <option value="all">All</option>
+          <option value="requested">Requested</option>
+          <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="sent">Sent</option>
+          <option value="returned">Returned</option>
+        </select>
+        <table id="items" class="table table-hover table-bordered">
             <thead>
                 <tr class="text-light">
                     <th class="text-center dark_red">No</th>
@@ -23,13 +32,27 @@
           </thead>
           <tbody>
               <tr>
-                  <td scope="row" class="text-center">1</th>
+                  <td scope="row" class="text-center">1</td>
                   <td>iPhone X Mahal banget ga kuat aqutu belinya hiks so sad huaa</td>
                   <td class="text-center">1</td>
                   <td class="text-center">Requested</td>
+                  <td class="text-center">
+                      <button class="btn btn-primary btn-sm">
+                          Detail
+                      </button>
+                  </td>
               </tr>
           </tbody>
-</table>
+      </table>
+      <div class="d-flex justify-content-end align-items-baseline">
+        <button class="btn btn-primary btn-sm mx-2">
+            prev
+        </button>
+        <div class="page-number">  3  </div>
+        <button class="btn btn-primary btn-sm mx-2">
+            next
+        </button>
+      </div>
 
 
     </div>
