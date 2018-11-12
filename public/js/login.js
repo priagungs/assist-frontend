@@ -8,18 +8,15 @@ $(document).ready(function(){
             'username'  : $("#username").val(),
             'password'  : $("#password").val()
         };
-        $.post("http://localhost:8080/login",formData,function(data, status){
-            console.log(status);
+        $.ajax({
+            type: "post",
+            url: "/api/login",
+            data: "username="+username+"&password="+password,
+            success: function (data, status) {
+                console.log(data);
+                console.log(status);
+                window.location = "index.html"
+            }
         });
     });
 });
-
-function go() {
-    // var username = document.getElementById("username").value;
-    // var password = document.getElementById("password").value;
-    // console.log(username + password);
-    // if(username == "ricky" && password == "asd12345"){
-    //     window.location = "home.html";
-    // }
-    return false;
-}

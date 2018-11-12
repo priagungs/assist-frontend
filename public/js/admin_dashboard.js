@@ -64,6 +64,11 @@ class AdminDashboard {
                 $("#form-update-item-price").val($(".item-price").text());
                 $("#form-update-item-totalqty").val($(".item-total-qty").text());
                 $("#form-update-item-description").val($(".item-description").text())
+            },
+            responseStatus : {
+                401 : () => {
+                    window.location = "login.html";
+                }
             }
         });
     }
@@ -72,7 +77,6 @@ class AdminDashboard {
         $("#item-detail").unbind().on('show.bs.modal', (event) => {
             var idItem = $(event.relatedTarget).data('iditem');
             this.fillItemDetail(idItem);
-        
             $(".update-btn").unbind().click(() => {
                 $("#detail-item").css("display", "none");
                 $("#update-item").css("display", "block");

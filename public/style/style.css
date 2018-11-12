@@ -17,3 +17,25 @@
     border-color: rgb(138, 0, 44);
 }
 
+/* ricky */
+.page-number {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 5px;
+}
+
+.btn {
+    background-color: #5D001E;
+}
+
+/* .subordinates-request-table{
+    padding-right: 10%;
+}
+
+.subordinates-item-table{
+    padding-left: 10%;
+} */
+
+.table{
+    border: 1px solid gray;
+}
