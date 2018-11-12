@@ -59,3 +59,9 @@
     color: #5D001E;
 }
 
+#bulk-item-entries a {
+    margin-bottom: 20px;
+    margin-top: 10px;
+    display: block;
+}
+

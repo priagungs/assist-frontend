@@ -17,7 +17,7 @@ class Home {
     fillUserCard() {
         $.ajax({
             type: "GET",
-            url: "/api/login-detail",
+            url: "/api/login-detail/",
             dataType: "json",
             success: (response) => {
                 $("#name").text(response.name);
