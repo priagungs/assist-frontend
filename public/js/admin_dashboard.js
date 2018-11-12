@@ -30,7 +30,16 @@ class AdminDashboard {
             }
         })
 
-        $("")
+        $("#page-item-next:not(.disabled").unbind().click(() => {
+            if (this.itemPage < this.itemLimit) {
+                this.itemPage++;
+                this.fillItemTable();
+                if (this.itemPage == this.itemLimit) {
+                    $("#page-item-prev").addClass("disabled");
+
+                }
+            }
+        })
     }
 
     fillItemDetail(idItem) {

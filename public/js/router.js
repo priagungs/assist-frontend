@@ -55,6 +55,9 @@ Router.prototype = {
                     if (htmlName == 'admin_dashboard.html') {
                         var adminDashboard = new AdminDashboard();
                         adminDashboard.init();
+                    } else if (htmlName == 'home.html') {
+                        var home = new Home();
+                        home.init();
                     }
                 }
             };
