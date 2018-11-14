@@ -13,7 +13,7 @@
     margin-left: 15px;
 }
 
-#item tr {
+#item tbody tr, #employee tbody tr {
     cursor: pointer;
 }
 
@@ -63,5 +63,9 @@
     margin-bottom: 20px;
     margin-top: 10px;
     display: block;
+}
+
+#admin-dashboard {
+    margin: 30px 20px;
 }
 
