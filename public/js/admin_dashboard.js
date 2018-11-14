@@ -1,17 +1,78 @@
 class AdminDashboard {
     constructor() {
         this.itemPage = 0;
-        this.itemPageLast = false;
-        this.itemLimit = 50;
+        this.itemLimit = 10;
+        this.isLastPageItem = false;
+
         this.employeePage = 0;
-        this.employeeLimit = 50;
+        this.employeeLimit = 10;
         this.employeePageLast = false;
     }
     init() {
         this.detailItemModalHandler();
         this.addItemModalHandler();
         this.fillItemTable();
+        this.itemPaginationHandler();
+    }
 
+    itemPaginationHandler() {
+        $("#page-item-prev:not(.disabled)").unbind().click(() => {
+            if (this.itemPage > 0) {
+                this.itemPage--;
+                this.fillItemTable();
+                if (this.itemPage == 0) {
+                    $("#page-item-prev").addClass("disabled");
+                }
+            }
+        })
+
+        $("#page-item-next:not(.disabled").unbind().click(() => {
+            if (this.itemPage < this.itemLimit && !this.isLastPageItem) {
+                this.itemPage++;
+                this.fillItemTable();
+                if (this.itemPage == this.itemLimit || this.isLastPageItem) {
+                    $("#page-item-next").addClass("disabled");
+                }
+            }
+        })
+    }
+
+    fillItemTable() {
+        $.ajax({
+            method: "GET",
+            url: "/api/items",
+            data: {page: this.itemPage, limit: this.itemLimit, sort:"idItem"},
+            dataType: "json",
+            success: (response) => {
+                var content = "";
+                response.content.forEach(element => {
+                    content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
+                    + '<td scope="row">' + element.idItem + '</td>'
+                    + '<td>' + element.itemName + '</td>'
+                    + '<td>Rp' + element.price + '</td>'
+                    + '<td class="text-center">' + element.totalQty + '</td>'
+                    + '<td class="text-center">' + element.availableQty + '</td>'
+                    + '</tr>';
+                });
+                this.isLastPageItem = response.last;
+                this.lastPageItem = response.totalPages-1;
+                if (response.last) {
+                    $("#page-item-next").addClass("disabled");
+                }
+                else {
+                    $("#page-item-next").removeClass("disabled");
+                }
+
+                if (response.first) {
+                    $("#page-item-prev").addClass("disabled");
+                }
+                else {
+                    $("#page-item-prev").removeClass("disabled");
+                }
+
+                $("#item tbody").html(content);
+            },
+        });
     }
 
     fillItemDetail(idItem) {
@@ -36,6 +97,11 @@ class AdminDashboard {
                 $("#form-update-item-price").val($(".item-price").text());
                 $("#form-update-item-totalqty").val($(".item-total-qty").text());
                 $("#form-update-item-description").val($(".item-description").text())
+            },
+            responseStatus : {
+                401 : () => {
+                    window.location = "login.html";
+                }
             }
         });
     }
@@ -115,7 +181,45 @@ class AdminDashboard {
     addItemModalHandler() {
         $("#add-item").unbind().on('show.bs.modal', () => {
             this.addItemFormHandler();
+            $("#bulk-item-entries label").text("Choose CSV File");
+            $("#upload-bulk-item-entries").val('');
+            $("#upload-bulk-item-entries").removeClass("is-invalid");
+            $("#upload-bulk-item-entries").unbind().change((event) => {
+                var files = event.target.files;
+                $("#bulk-item-entries label").text(files[0].name);
+                this.addBulkItemHandler(files[0]);
+            })
         })
+    }
+
+
+    addBulkItemHandler(file) {
+        var reader = new FileReader();
+        reader.readAsText(file);
+        reader.onload = (event) => {
+            var csv = event.target.result;
+            var data = $.csv.toArrays(csv);
+            var requests = [];
+            for (var value in data) {
+                var request = {
+                    itemName: data[value][0],
+                    price: parseInt(data[value][1]),
+                    totalQty: parseInt(data[value][2]),
+                    description: data[value][3],
+                    pictureURL: data[value][4]
+                }
+                requests.push(request);
+            }
+            $(".save-update-bulk-btn").unbind().click(() => {
+                if (this.bulkEntriesItemValidation(requests)) {
+                    this.addItem(requests, true)
+                }
+            })
+        }
+        reader.onerror = () => {
+            $(".item-invalid-feedback").text("Unable to read " + file.name);
+            $(".item-form-name").addClass("is-invalid");
+        }
     }
 
     addItemFormHandler() {
@@ -134,33 +238,30 @@ class AdminDashboard {
                 price: $("#form-add-item-price").val(),
                 totalQty: $("#form-add-item-totalqty").val()
             }]
-            var validated = true;
-            for (var request in requests) {
-                validated = validated && this.validateRequest(request);
-            }
+            var validated = this.singleEntryItemValidation(requests[0]);
             if (validated) {
-                this.addItem(requests);
+                this.addItem(requests, false);
             }
         })
     }
 
-    validateRequest(request) {
+    singleEntryItemValidation(request) {
         var valid = true;
         $(".item-form-name").unbind().change(() => {
             $(".item-form-name").removeClass("is-invalid");
-        })
+        });
 
         $(".item-form-price").unbind().change(() => {
-            $(".item-form-price").removeClass("is-invalid")
-        })
+            $(".item-form-price").removeClass("is-invalid");
+        });
 
         $(".item-form-totalqty").unbind().change(() => {
-            $(".item-form-totalqty").removeClass("is-invalid")
-        })
+            $(".item-form-totalqty").removeClass("is-invalid");
+        });
 
         $(".item-form-description").unbind().change(() => {
-            $(".item-form-description").removeClass("is-invalid")
-        })
+            $(".item-form-description").removeClass("is-invalid");
+        });
 
         if (request.itemName == "") {
             $(".item-invalid-feedback").text("Please provide an item name");
@@ -182,14 +283,32 @@ class AdminDashboard {
         return valid;
     }
 
-    addItem(request) {
+    bulkEntriesItemValidation(requests) {
+        var upload_form = $("#upload-bulk-item-entries");
+        var invalid_feedback = $("#bulk-item-entry-invalid-feedback");
+        upload_form.unbind().change(function () {
+            upload_form.removeClass("is-invalid");
+        });
+        var valid = true;
+        for (var request in requests) {
+            if (!requests[request].itemName || !requests[request].description || !requests[request].price || !requests[request].totalQty) {
+                upload_form.addClass("is-invalid");
+                invalid_feedback.text("Invalid input! All item name, description, price, and total quantity fields must be filled");
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
+    addItem(requests, isBulkEntries) {
         $.ajax({
             method: "POST",
             url: "/api/items",
-            data: JSON.stringify(request),
+            data: JSON.stringify(requests),
             dataType: "json",
             contentType: "application/json",
             success: (response) => {
+                this.itemPage = 0;
                 this.fillItemTable();
                 $("#form-add-item-name").val('');
                 $("#form-add-item-description").val('');
@@ -201,34 +320,17 @@ class AdminDashboard {
             },
             statusCode: {
                 409: () => {
-                    $(".item-invalid-feedback").text("Item name already exists");
-                    $("#form-add-item-name").addClass("is-invalid");
+                    if (isBulkEntries) {
+                        $("#upload-bulk-item-entries").addClass("is-invalid");
+                        $("#bulk-item-entry-invalid-feedback").text("Item name must be unique")
+                    }
+                    else {
+                        $(".item-invalid-feedback").text("Item name already exists");
+                        $("#form-add-item-name").addClass("is-invalid");
+                    }
+
                 }
             }
-        });
-    }
-
-    fillItemTable() {
-        $.ajax({
-            method: "GET",
-            url: "/api/items",
-            data: {page: this.itemPage, limit: this.itemLimit},
-            dataType: "json",
-            success: (response) => {
-                var numb = 1;
-                var content = "";
-                response.content.forEach(element => {
-                    content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
-                    + '<td scope="row">' + numb + '</td>'
-                    + '<td>' + element.itemName + '</td>'
-                    + '<td>Rp' + element.price + '</td>'
-                    + '<td class="text-center">' + element.totalQty + '</td>'
-                    + '<td class="text-center">' + element.availableQty + '</td>'
-                    + '</tr>'
-                    numb++;
-                });
-                $("#item tbody").html(content);
-            },
         });
     }
 
@@ -239,6 +341,7 @@ class AdminDashboard {
             data: JSON.stringify({idItem: idItem}),
             contentType: "application/json",
             success: () => {
+                this.itemPage = 0;
                 this.fillItemTable();
                 $("#item-detail").modal('hide');
             }

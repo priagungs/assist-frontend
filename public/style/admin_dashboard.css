@@ -50,3 +50,18 @@
     color: white;
 }
 
+.page-link {
+    color: #5D001E;
+}
+
+.page-link:hover {
+    background-color: rgb(224, 224, 224);
+    color: #5D001E;
+}
+
+#bulk-item-entries a {
+    margin-bottom: 20px;
+    margin-top: 10px;
+    display: block;
+}
+

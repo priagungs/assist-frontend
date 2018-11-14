@@ -4,10 +4,10 @@
         <i class="fas fa-plus " data-toggle="modal" data-target="#add-item"></i>
     </div>
     
-    <table class="table table-hover table-bordered">
+    <table class="table table-hover table-bordered ">
         <thead>
             <tr class="text-light">
-                <th class="text-center dark_red">#</th>
+                <th class="text-center dark_red">ID</th>
                 <th class="text-center dark_red">Name</th>
                 <th class="text-center dark_red">Price</th>
                 <th class="text-center dark_red">Total Quantity</th>
@@ -15,14 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            <!-- example -->
-            <!-- <tr data-toggle="modal" data-target="#item-detail" data-iditem="2" style="display:none">
-                <td scope="row">5</td>
-                <td>Indomie Ayam Bawang</td>
-                <td>Rp2000</td>
-                <td class="text-center">100</td>
-                <td class="text-center">50</td>
-            </tr> -->
+
         </tbody>
     </table>
     
@@ -161,15 +154,13 @@
                                 </form>
                             </div>
                             <div class="tab-pane fade" id="bulk-item-entries" role="tabpanel" aria-labelledby="bulk-item-entries-tab">
-                                <div class="input-group mb-3">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="upload-bulk-item-entries">
-                                        <label class="custom-file-label" for="upload-bulk-item-entries">Choose CSV File</label>
-                                    </div>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="upload-bulk-item-entries">
+                                    <label class="custom-file-label" for="upload-bulk-item-entries">Choose CSV File</label>    
+                                    <div id="bulk-item-entry-invalid-feedback" class="invalid-feedback"></div>
                                 </div>
-                                <div class="row justify-content-left">
-                                    <button type="button" class="btn btn-primary save-update-bulk-btn">Save</button>
-                                </div>
+                                <a href="/api/download/item-bulk-format.csv">Example</a>
+                                <button type="button" class="btn btn-primary save-update-bulk-btn">Save</button>
                             </div>
                         </div>
                     </div>
@@ -177,6 +168,24 @@
             </div>
         </div>
     </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" id="page-item-prev">
+                <a class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item page-next" id="page-item-next">
+                <a class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </section>
 
 <section id="employee">
