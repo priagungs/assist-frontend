@@ -8,13 +8,6 @@ class AdminDashboard {
         this.employeePageLast = false;
     }
     init() {
-        $.ajax({
-            type: "post",
-            url: "/api/login",
-            data: "username=admin&password=admin",
-            success: function (response) {
-            }
-        });
         this.detailItemModalHandler();
         this.addItemModalHandler();
         this.fillItemTable();
@@ -51,7 +44,7 @@ class AdminDashboard {
         $("#item-detail").unbind().on('show.bs.modal', (event) => {
             var idItem = $(event.relatedTarget).data('iditem');
             this.fillItemDetail(idItem);
-        
+
             $(".update-btn").unbind().click(() => {
                 $("#detail-item").css("display", "none");
                 $("#update-item").css("display", "block");
@@ -64,7 +57,7 @@ class AdminDashboard {
                 this.deleteItem(idItem);
             })
 
-        
+
         });
     }
 
@@ -75,7 +68,7 @@ class AdminDashboard {
             $("#update-item img").attr("src", imageUrl);
             $("#detail-item img").attr("src", imageUrl);
         })
-        
+
         $("#update-item .save-update-btn").unbind().click((event) => {
             event.preventDefault();
             var request = {
@@ -85,7 +78,7 @@ class AdminDashboard {
                 price: $("#form-update-item-price").val(),
                 totalQty: $("#form-update-item-totalqty").val()
             }
-            
+
             if (this.validateRequest(request)) {
                 this.updateItem(request, idItem);
             }
@@ -121,7 +114,7 @@ class AdminDashboard {
 
     addItemModalHandler() {
         $("#add-item").unbind().on('show.bs.modal', () => {
-            this.addItemFormHandler();      
+            this.addItemFormHandler();
         })
     }
 
