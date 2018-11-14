@@ -105,7 +105,7 @@
         
             <!-- add item modal -->       
             <div class="modal fade" data-keyboard="false" data-backdrop="static" id="add-item" tabindex="-1" role="dialog" aria-labelledby="itemAddId" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="itemAddId">Add Item(s)</h4>
@@ -207,8 +207,8 @@
                 <thead>
                     <tr class="text-light">
                         <th class="text-center dark_red">ID</th>
-                        <th class="text-center dark_red">Username</th>
                         <th class="text-center dark_red">Name</th>
+                        <th class="text-center dark_red">Username</th>
                         <th class="text-center dark_red">Division</th>
                         <th class="text-center dark_red">Role</th>
                     </tr>
@@ -241,7 +241,7 @@
 
             <!-- Add Employee Model -->
             <div class="modal fade" data-keyboard="false" data-backdrop="static" id="add-employee" tabindex="-1" role="dialog" aria-labelledby="employeeAddId" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" id="employeeAddId">Add Employee(s)</h4>
@@ -286,12 +286,7 @@
                                                         <div class="invalid-feedback">Please provide a password</div>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="form-add-employee-passwordConfirm">Confirm Password</label>
-                                                        <input type="password" name="form-add-employee-passwordConfidm" id="form-add-employee-passwordConfirm" class="form-control" required>
-                                                        <div class="invalid-feedback">Password didn't match</div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="form-add-employee-username">Division</label>
+                                                        <label for="form-add-employee-division">Division</label>
                                                         <input type="text" maxlength="255" name="form-add-employee-division" id="form-add-employee-division" class="form-control" required>                                                
                                                         <div class="invalid-feedback">Please provide a division</div>
                                                     </div>
@@ -302,7 +297,41 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="form-add-employee-superior">Superior</label>
-                                                        <input type="text" maxlength="255" name="form-add-employee-superior" data-toggle="dropdown" id="form-add-employee-superior" class="form-control" aria-haspopup="true" aria-expanded="false">                                                
+                                                        <div id="id-superior" style="display:none"></div>
+                                                        <div class="dropdown">
+                                                            <input type="text" maxlength="255" name="form-add-employee-superior" id="form-add-employee-superior" class="form-control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-add-employee-superior" aria-labelledby="form-add-employee-superior">
+                                                            </div>
+                                                            <!-- <button class="dropdown-item">
+                                                                <div class="row">
+                                                                    <div class="col-2"><img src="/public/images/profile.png" class="img-thumbnail rounded-circle" alt=""></div>
+                                                                    <div class="col-10">
+                                                                        <p><strong>Priagung Satyagama</strong></p>
+                                                                        <p>ID : 30</p>
+                                                                        <p><i>Technology - Software Engineer</i></p>
+                                                                    </div>
+                                                                </div>
+                                                            </button>
+                                                            <button class="dropdown-item">
+                                                                <div class="row">
+                                                                    <div class="col-2"><img src="/public/images/profile.png" class="img-thumbnail rounded-circle" alt=""></div>
+                                                                    
+                                                                    <div class="col-10">
+                                                                        <p><strong>Priagung Satyagama</strong></p>
+                                                                        <p>ID : 30</p>
+                                                                        <p><i>Technology - Software Engineer</i></p>
+                                                                    </div>
+                                                                </div>
+                                                            </button> -->
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                    <label for="form-add-employee-isadmin">Admin</label>
+                                                    <select class="form-control" id="form-add-employee-isadmin">
+                                                        <option>Yes</option>
+                                                        <option>No</option>
+                                                    </select>
                                                     </div>
                                                 </div>
                                             </div>
