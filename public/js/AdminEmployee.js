@@ -68,7 +68,7 @@ class AdminEmployee {
                 }
             }];
             if (this.validateSingleEntry(request[0])) {
-                this.addUser(request);
+                this.addUser(request, false);
             }
             else {
                 this.superiorFormHandler();
@@ -185,23 +185,85 @@ class AdminEmployee {
     }
 
     bulkEntryHandler() {
+        $("#upload-bulk-employee-entries").unbind().change((event) => {
+            $("#upload-bulk-employee-entries").removeClass("is-invalid");
+            var files = event.target.files;
+            console.log(files[0].name);
+            $("#bulk-employee-entries label").text(files[0].name);
+            var reader = new FileReader();
+            reader.readAsText(files[0]);
+            reader.onload = (event) => {
+                var csv = event.target.result;
+                var data = $.csv.toArrays(csv);
+                var requests = [];
+                for (var value in data) {
+                    var request = {
+                        isAdmin: data[value][0] == 1,
+                        name: data[value][1],
+                        username: data[value][2],
+                        password: data[value][3],
+                        pictureURL: data[value][4],
+                        division: data[value][5],
+                        role: data[value][6],
+                        superior: {
+                            idUser: parseInt(data[value][7])
+                        }
+                    }
+                    requests.push(request);
+                }
+                $("#add-employee .save-update-bulk-btn").unbind().click(() => {
+                    if (this.validateBulkEntries(requests)) {
+                        this.addUser(requests, true);
+                    }
+                })
+            }
+        })
+    }
 
+    validateBulkEntries(requests) {
+        var upload_form = $("#upload-bulk-employee-entries");
+        var invalid_feedback = $("#bulk-employee-entry-invalid-feedback");
+        upload_form.unbind().change(function () {  
+            upload_form.removeClass("is-invalid");
+        });
+        this.bulkEntryHandler();
+
+        var valid = true;
+        for (var request in requests) {
+            if (!requests[request].isAdmin || !requests[request].name || !requests[request].username 
+                || !requests[request].division || !requests[request].password
+                || !requests[request].pictureURL || !requests[request].role || !requests[request].superior.idUser) {
+                upload_form.addClass("is-invalid");
+                invalid_feedback.text("Invalid input! All field must be filled");
+                valid = false;
+            }
+        } 
+        return valid;
     }
 
     resetAddForm() {
         $("#add-employee img").attr("src", "/public/images/profile.png");
         $("#img-uploader-employee input").val(null);
         $("#form-add-employee-name").val(null);
+        $("#form-add-employee-name").removeClass("is-invalid");
         $("#form-add-employee-username").val(null);
+        $("#form-add-employee-username").removeClass("is-invalid");
         $("#form-add-employee-password").val(null);
-        $("#form-add-employee-paswordConfirm").val(null);
+        $("#form-add-employee-password").removeClass("is-invalid");
         $("#form-add-employee-division").val(null);
+        $("#form-add-employee-division").removeClass("is-invalid");
         $("#form-add-employee-role").val(null);
+        $("#form-add-employee-role").removeClass("is-invalid");
         $("#form-add-employee-superior").val(null);
+        $("#form-add-employee-superior").removeClass("is-invalid");
         $("#id-superior").text('');
+
+        $("#upload-bulk-employee-entries").val(null);
+        $("#upload-bulk-employee-entries").removeClass("is-invalid");
+        $("#bulk-employee-entries label").text("Choose CSV File");
     }
 
-    addUser(request) {
+    addUser(request, isBulk) {
         $.ajax({
             method: "POST",
             url: "/api/users",
@@ -219,8 +281,20 @@ class AdminEmployee {
                     window.location = "login.html";
                 },
                 409: () => {
-                    $(".username-validation").text("Username already exist");
-                    $("#form-add-employee-username").addClass("is-invalid");
+                    if (isBulk) {
+                        $("#upload-bulk-employee-entries").addClass("is-invalid");
+                        $("#bulk-employee-entry-invalid-feedback").text("Username already exist")
+                        this.bulkEntryHandler();
+                    }
+                    else {
+                        $(".username-validation").text("Username already exist");
+                        $("#form-add-employee-username").addClass("is-invalid");
+                    }
+                },
+                404: () => {
+                    $(".username-validation").text("Superior not found");
+                    $("#upload-bulk-employee-entries").addClass("is-invalid");
+                    this.bulkEntryHandler();
                 }
             }
         });

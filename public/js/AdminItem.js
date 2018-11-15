@@ -152,45 +152,46 @@ class AdminItem {
     addModalHandler() {
         $("#add-item").unbind().on('show.bs.modal', () => {
             this.singleEntryFormHandler();
+            this.bulkEntriesFormHandler();
             $("#bulk-item-entries label").text("Choose CSV File");
             $("#upload-bulk-item-entries").val('');
-            $("#upload-bulk-item-entries").removeClass("is-invalid");
-            $("#upload-bulk-item-entries").unbind().change((event) => {
-                var files = event.target.files;
-                $("#bulk-item-entries label").text(files[0].name);
-                this.bulkEntriesFormHandler(files[0]);   
-            })
         })
     }
 
 
-    bulkEntriesFormHandler(file) {
-        var reader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = (event) => {
-            var csv = event.target.result;
-            var data = $.csv.toArrays(csv);
-            var requests = [];
-            for (var value in data) {
-                var request = {
-                    itemName: data[value][0],
-                    price: parseInt(data[value][1]),
-                    totalQty: parseInt(data[value][2]),
-                    description: data[value][3],
-                    pictureURL: data[value][4] 
+    bulkEntriesFormHandler() {
+        $("#upload-bulk-item-entries").unbind().change((event) => {
+            $("#upload-bulk-item-entries").removeClass("is-invalid");
+            var files = event.target.files;
+            $("#bulk-item-entries label").text(files[0].name);
+            var reader = new FileReader();
+            reader.readAsText(files[0]);
+            reader.onload = (event) => {
+                var csv = event.target.result;
+                var data = $.csv.toArrays(csv);
+                var requests = [];
+                for (var value in data) {
+                    var request = {
+                        itemName: data[value][0],
+                        price: parseInt(data[value][1]),
+                        totalQty: parseInt(data[value][2]),
+                        description: data[value][3],
+                        pictureURL: data[value][4] 
+                    }
+                    requests.push(request);
                 }
-                requests.push(request);
+                $(".save-update-bulk-btn").unbind().click(() => {
+                    if (this.bulkEntriesValidation(requests)) {
+                        this.addItem(requests, true)
+                    }
+                })
             }
-            $(".save-update-bulk-btn").unbind().click(() => {
-                if (this.bulkEntriesValidation(requests)) {
-                    this.addItem(requests, true)
-                }
-            })
-        }
-        reader.onerror = () => {
-            $(".item-invalid-feedback").text("Unable to read " + file.name);
-            $(".item-form-name").addClass("is-invalid");
-        }
+            reader.onerror = () => {
+                $(".item-invalid-feedback").text("Unable to read " + file.name);
+                $(".item-form-name").addClass("is-invalid");
+            }   
+        })
+        
     }
 
     singleEntryFormHandler() {
@@ -261,6 +262,8 @@ class AdminItem {
         upload_form.unbind().change(function () {  
             upload_form.removeClass("is-invalid");
         });
+        this.bulkEntriesFormHandler();    
+
         var valid = true;
         for (var request in requests) {
             if (!requests[request].itemName || !requests[request].description || !requests[request].price || !requests[request].totalQty) {
@@ -295,6 +298,7 @@ class AdminItem {
                     if (isBulkEntries) {
                         $("#upload-bulk-item-entries").addClass("is-invalid");
                         $("#bulk-item-entry-invalid-feedback").text("Item name must be unique")
+                        this.bulkEntriesFormHandler();    
                     }
                     else {
                         $(".item-invalid-feedback").text("Item name already exists");
