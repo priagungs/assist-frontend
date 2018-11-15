@@ -234,6 +234,7 @@ class AdminItem {
             $(".item-form-description").removeClass("is-invalid");
         });       
         
+
         if (request.itemName == "") {
             $(".item-invalid-feedback").text("Please provide an item name");
             $(".item-form-name").addClass("is-invalid");

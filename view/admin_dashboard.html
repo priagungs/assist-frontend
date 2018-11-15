@@ -278,7 +278,7 @@
                                                     <div class="form-group">
                                                         <label for="form-add-employee-username">Username</label>
                                                         <input type="text" maxlength="255" name="form-add-employee-username" id="form-add-employee-username" class="form-control" required>                                                
-                                                        <div class="invalid-feedback"></div>
+                                                        <div class="invalid-feedback username-validation"></div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="form-add-employee-password">Password</label>
@@ -300,37 +300,16 @@
                                                         <div id="id-superior" style="display:none"></div>
                                                         <div class="dropdown">
                                                             <input type="text" maxlength="255" name="form-add-employee-superior" id="form-add-employee-superior" class="form-control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <div class="invalid-feedback">Please provide a superior</div>
                                                             <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-add-employee-superior" aria-labelledby="form-add-employee-superior">
                                                             </div>
-                                                            <!-- <button class="dropdown-item">
-                                                                <div class="row">
-                                                                    <div class="col-2"><img src="/public/images/profile.png" class="img-thumbnail rounded-circle" alt=""></div>
-                                                                    <div class="col-10">
-                                                                        <p><strong>Priagung Satyagama</strong></p>
-                                                                        <p>ID : 30</p>
-                                                                        <p><i>Technology - Software Engineer</i></p>
-                                                                    </div>
-                                                                </div>
-                                                            </button>
-                                                            <button class="dropdown-item">
-                                                                <div class="row">
-                                                                    <div class="col-2"><img src="/public/images/profile.png" class="img-thumbnail rounded-circle" alt=""></div>
-                                                                    
-                                                                    <div class="col-10">
-                                                                        <p><strong>Priagung Satyagama</strong></p>
-                                                                        <p>ID : 30</p>
-                                                                        <p><i>Technology - Software Engineer</i></p>
-                                                                    </div>
-                                                                </div>
-                                                            </button> -->
-                                                            
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                     <label for="form-add-employee-isadmin">Admin</label>
-                                                    <select class="form-control" id="form-add-employee-isadmin">
-                                                        <option>Yes</option>
-                                                        <option>No</option>
+                                                    <select class="custom-select" id="form-add-employee-isadmin">
+                                                        <option value="Yes">Yes</option>
+                                                        <option value="No" selected>No</option>
                                                     </select>
                                                     </div>
                                                 </div>

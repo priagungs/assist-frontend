@@ -49,38 +49,41 @@ class AdminEmployee {
         $("#employee-add-image-uploader").unbind().change(() => {
             var formData = new FormData($("#add-employee form")[0]);
             imageUrl = Helper.uploadFile(formData);
-            console.log(imageUrl);
             $("#add-employee img").attr("src", imageUrl);
         })
         this.superiorFormHandler();
 
-        var request = [{
-            isAdmin: $("#form-add-employee-isadmin").val() == 'Yes' ? true : false,
-            name: $("#form-add-employee-name").val(),
-            username: $("#form-add-employee-username").val(),
-            password: $("#form-add-employee-password").val(),
-            pictureURL: imageUrl,
-            division: $("#form-add-employee-division").val(),
-            role: $("#form-add-employee-role").val(),
-            superior: {
-                idUser: $("#id-superior").val()
-            }
-        }];
-        $(".save-employee-add-btn").click((event) => {
+        $(".save-employee-add-btn").unbind().click((event) => {
             event.preventDefault();
+            var request = [{
+                isAdmin: $("#form-add-employee-isadmin").val() == 'Yes' ? true : false,
+                name: $("#form-add-employee-name").val(),
+                username: $("#form-add-employee-username").val(),
+                password: $("#form-add-employee-password").val(),
+                pictureURL: imageUrl,
+                division: $("#form-add-employee-division").val(),
+                role: $("#form-add-employee-role").val(),
+                superior: {
+                    idUser: parseInt($("#id-superior").text())
+                }
+            }];
             if (this.validateSingleEntry(request[0])) {
                 this.addUser(request);
+            }
+            else {
+                this.superiorFormHandler();
             }
         })
     }
 
     superiorFormHandler() {
-        $("#form-add-employee-superior").focus(() => {
+        $("#form-add-employee-superior").unbind().focus(() => {
             $('#dropdown-add-employee-superior').html('<p class="dropdown-item"><strong>Insert Superior</strong></p>');
         })
-        $("#form-add-employee-superior").on('input', (event) => {
+        $("#form-add-employee-superior").unbind().on('input', (event) => {
+            $("#form-add-employee-superior").removeClass("is-invalid");
+            $("#id-superior").text("");
             if (event.target.value) {
-                $("#dropdown-toggle").dropdown('update');
                 $.ajax({
                     type: "GET",
                     url: "/api/users",
@@ -104,11 +107,16 @@ class AdminEmployee {
                             $('#dropdown-add-employee-superior').html('<p class="dropdown-item"><strong>Superior not found</strong></p>');
                         }
 
-                        $("#dropdown-add-employee-superior .candidate-superior").click((event) => {
+                        $("#dropdown-add-employee-superior .candidate-superior").unbind().click((event) => {
                             event.preventDefault();
                             $("#form-add-employee-superior").val($(event.currentTarget).data('name'));
                             $("#id-superior").text($(event.currentTarget).data('iduser'));
                         })
+                    },
+                    statusCode: {
+                        401: () => {
+                            window.location = "login.html";
+                        }
                     }
                 });
             }
@@ -119,7 +127,61 @@ class AdminEmployee {
     }
 
     validateSingleEntry(request) {
+        var form_name = $("#form-add-employee-name");
+        var form_username = $("#form-add-employee-username");
+        var form_password = $("#form-add-employee-password");
+        var form_division = $("#form-add-employee-division");
+        var form_role = $("#form-add-employee-role");
+        var form_superior = $("#form-add-employee-superior");
 
+        form_username.unbind().on("input", () => {
+            form_username.removeClass("is-invalid");
+        })
+
+        form_name.unbind().on("input", () => {
+            form_name.removeClass("is-invalid");
+        })
+
+        form_password.unbind().on("input", () => {
+            form_password.removeClass("is-invalid");
+        })
+
+        form_division.unbind().on("input", () => {
+            form_division.removeClass("is-invalid");
+        })
+
+        form_role.unbind().on("input", () => {
+            form_role.removeClass("is-invalid");
+        })
+
+        var result = true;
+        if (!request.name) {
+            form_name.addClass("is-invalid");
+            result = false;
+        }
+        if (!request.username) {
+            $(".username-validation").text("Please provide a username");
+            form_username.addClass("is-invalid");
+            result = false;
+        }
+        if (!request.password) {
+            form_password.addClass("is-invalid");
+            result = false;
+        }
+        if (!request.role) {
+            form_role.addClass("is-invalid");
+            result = false;
+        }
+        if (!request.division) {
+            form_division.addClass("is-invalid");
+            result = false;
+        }
+        if (!request.superior.idUser) {
+            form_superior.addClass("is-invalid");
+            result = false;
+        }
+
+        return result;
     }
 
     bulkEntryHandler() {
@@ -136,7 +198,31 @@ class AdminEmployee {
         $("#form-add-employee-division").val(null);
         $("#form-add-employee-role").val(null);
         $("#form-add-employee-superior").val(null);
-        $("#form-add-employee-isadmin").val(null);
         $("#id-superior").text('');
+    }
+
+    addUser(request) {
+        $.ajax({
+            method: "POST",
+            url: "/api/users",
+            data: JSON.stringify(request),
+            dataType: "json",
+            contentType: "application/json",
+            success: (response) => {
+                this.page = 0;
+                this.resetAddForm();
+                this.fillTable();
+                $("#add-employee").modal('hide');
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                },
+                409: () => {
+                    $(".username-validation").text("Username already exist");
+                    $("#form-add-employee-username").addClass("is-invalid");
+                }
+            }
+        });
     }
 }
