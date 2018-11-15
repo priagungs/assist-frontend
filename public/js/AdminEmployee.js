@@ -1,14 +1,17 @@
+const JAVA_MAX_INTEGER = Math.pow(2, 31) - 1;
+
 class AdminEmployee {
     constructor() {
         this.page = 0;
         this.limit = 10;
-        this.dropdownLimit = 4;
+        this.dropdownLimit = 5;
         this.isLastPage = false;
     }
 
     init() {
         this.fillTable();
         this.addModalHandler();
+        this.detailModalHandler();
     }
 
     fillTable() {
@@ -31,7 +34,12 @@ class AdminEmployee {
                     + '</tr>'; 
                 });
 
-                $("#employee tbody").html(content);
+                $("#all-employee-table").html(content);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
             }
         });
     }
@@ -64,7 +72,7 @@ class AdminEmployee {
                 division: $("#form-add-employee-division").val(),
                 role: $("#form-add-employee-role").val(),
                 superior: {
-                    idUser: parseInt($("#id-superior").text())
+                    idUser: parseInt($("#id-superior-add-form").text())
                 }
             }];
             if (this.validateSingleEntry(request[0])) {
@@ -75,17 +83,18 @@ class AdminEmployee {
     }
 
     superiorFormHandler() {
-        $("#form-add-employee-superior").unbind().focusin(() => {
+        $(".employee-form-superior").unbind().focusin(() => {
             $('#dropdown-add-employee-superior').html('<p class="dropdown-item"><strong>Insert Superior</strong></p>');
+            $('#dropdown-update-employee-superior').html('<p class="dropdown-item"><strong>Insert Superior</strong></p>');
         })
-        $("#form-add-employee-superior").on('input', (event) => {
-            $("#form-add-employee-superior").removeClass("is-invalid");
-            $("#id-superior").text("");
+        $(".employee-form-superior").on('input', (event) => {
+            $(".employee-form-superior").removeClass("is-invalid");
+            $(".id-superior").text("");
             if (event.target.value) {
                 $.ajax({
                     type: "GET",
                     url: "/api/users",
-                    data: {page: this.page, limit:this.dropdownLimit, keyword: event.target.value},
+                    data: {page: 0, limit:this.dropdownLimit, keyword: event.target.value},
                     dataType: "json",
                     success: function (response) {
                         var dropdown_content = "";
@@ -100,15 +109,24 @@ class AdminEmployee {
                         });
                         if (response.content.length > 0) {
                             $('#dropdown-add-employee-superior').html(dropdown_content);
+                            $('#dropdown-udpate-employee-superior').html(dropdown_content);
                         }
                         else {
                             $('#dropdown-add-employee-superior').html('<p class="dropdown-item"><strong>Superior not found</strong></p>');
+                            $('#dropdown-update-employee-superior').html('<p class="dropdown-item"><strong>Superior not found</strong></p>');
+
                         }
 
                         $("#dropdown-add-employee-superior .candidate-superior").unbind().click((event) => {
                             event.preventDefault();
                             $("#form-add-employee-superior").val($(event.currentTarget).data('name'));
-                            $("#id-superior").text($(event.currentTarget).data('iduser'));
+                            $("#id-superior-add-form").text($(event.currentTarget).data('iduser'));
+                        })
+
+                        $("#dropdown-update-employee-superior .candidate-superior").unbind().click((event) => {
+                            event.preventDefault();
+                            $("#form-update-employee-superior").val($(event.currentTarget).data('name'));
+                            $("#id-superior-update-form").text($(event.currentTarget).data('iduser'));
                         })
                     },
                     statusCode: {
@@ -186,7 +204,6 @@ class AdminEmployee {
         $("#upload-bulk-employee-entries").unbind().change((event) => {
             $("#upload-bulk-employee-entries").removeClass("is-invalid");
             var files = event.target.files;
-            console.log(files[0].name);
             $("#bulk-employee-entries label").text(files[0].name);
             var reader = new FileReader();
             reader.readAsText(files[0]);
@@ -240,21 +257,22 @@ class AdminEmployee {
     }
 
     resetAddForm() {
-        $("#add-employee img").attr("src", "/public/images/profile.png");
-        $("#img-uploader-employee input").val(null);
-        $("#form-add-employee-name").val(null);
-        $("#form-add-employee-name").removeClass("is-invalid");
-        $("#form-add-employee-username").val(null);
-        $("#form-add-employee-username").removeClass("is-invalid");
-        $("#form-add-employee-password").val(null);
-        $("#form-add-employee-password").removeClass("is-invalid");
-        $("#form-add-employee-division").val(null);
-        $("#form-add-employee-division").removeClass("is-invalid");
-        $("#form-add-employee-role").val(null);
-        $("#form-add-employee-role").removeClass("is-invalid");
-        $("#form-add-employee-superior").val(null);
-        $("#form-add-employee-superior").removeClass("is-invalid");
-        $("#id-superior").text('');
+        $(".default-image-form").attr("src", "/public/images/profile.png");
+        $(".employee-form-image").val(null);
+        $(".employee-form-name").val(null);
+        $(".employee-form-name").removeClass("is-invalid");
+        $(".employee-form-username").val(null);
+        $(".employee-form-username").removeClass("is-invalid");
+        $(".employee-form-password").val(null);
+        $(".employee-form-password").removeClass("is-invalid");
+        $(".employee-form-division").val(null);
+        $(".employee-form-division").removeClass("is-invalid");
+        $(".employee-form-role").val(null);
+        $(".employee-form-role").removeClass("is-invalid");
+        $(".employee-form-superior").val(null);
+        $(".employee-form-superior").removeClass("is-invalid");
+        $("#id-superior-add-form").text('');
+        $("#id-superior-update-form").text('');
 
         $("#upload-bulk-employee-entries").val(null);
         $("#upload-bulk-employee-entries").removeClass("is-invalid");
@@ -297,4 +315,88 @@ class AdminEmployee {
             }
         });
     }
+
+    detailModalHandler() {
+        $("#employee-detail").unbind().on('show.bs.modal', (event) => {
+            var idUser = $(event.relatedTarget).data("iduser");
+            this.fillDetail(idUser);
+        })
+    }
+
+    fillDetail(idUser) {
+        $.ajax({
+            method: "GET",
+            url: "/api/user/" + idUser,
+            dataType: "json",
+            success: (response) => {
+                if (response.pictureURL) {
+                    $("#employee-detail-section img").attr("src", response.pictureURL);
+                }
+                else {
+                    $("#employee-detail-section img").attr("src", "/public/images/profile.png");
+                }
+                $("#employee-detail-name").text(response.name);
+                $("#employee-detail-id").text(response.idUser);
+                $("#employee-detail-isadmin").text(response.isAdmin ? "Yes" : "No");
+                $("#employee-detail-username").text(response.username);
+                $("#employee-detail-division").text(response.division);
+                $("#employee-detail-role").text(response.role);
+                if (response.superior) {
+                    $("#employee-detail-superior-name").text(response.superior.name);
+                    $("#employee-detail-superior-id").text('(' + response.superior.idUser + ')');
+                }
+                else {
+                    $("#employee-detail-superior-name").text('');
+                    $("#employee-detail-superior-id").text('');
+                }
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+
+        $.ajax({
+            method: "GET",
+            url: "/api/user-items",
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser},
+            dataType: "json",
+            success: (response) => {
+                var content = '';
+                response.content.forEach((element) => {
+                    content += '<tr><td class="text-center" scope="row">' + element.item.idItem + '</td>'
+                    + '<td>' + element.item.itemName+ '</td>'
+                    + '<td class="text-center">' + element.hasQty + '</td>';
+                });
+                $(".table-employee-items tbody").html(content);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+
+        $.ajax({
+            method: "GET",
+            url: "/api/users",
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idSuperior: idUser},
+            dataType: "json",
+            success: function (response) {
+                var content = '';
+                response.content.forEach((element) => {
+                    content += '<tr><td class="text-center" scope="row">' + element.idUser + '</td>'
+                    + '<td>' + element.name + '</td>'
+                    + '<td class="text-center">' + element.role + '</td>'
+                });
+                $(".table-employee-subordinates tbody").html(content);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+    } 
 }
