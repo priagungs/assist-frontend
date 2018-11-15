@@ -4,13 +4,6 @@ class Home {
         this.itemLimit = 50;
     }
     init() {
-        $.ajax({
-            type: "post",
-            url: "/api/login",
-            data: "username=admin&password=admin",
-            success: function (response) {
-            }
-        });
         this.fillUserCard();
         this.fillItemTable();
     }
@@ -19,12 +12,12 @@ class Home {
             type: "GET",
             url: "/api/login-detail/",
             dataType: "json",
-            success: (response) => {
-                $("#name").text(response.name);
-                $("#nip").text(13516000);
-                $("#division").text(response.division);
-                $("#role").text(response.role);
-                $("#superior").text("HEHEE");
+            success: (data, status) => {
+                $("#name").text(data.name);
+                $("#nip").text(data.idUser);
+                $("#division").text(data.division);
+                $("#role").text(data.role);
+                $("#superior").text(data.idSuperior);
             }
         })
     }
@@ -39,6 +32,7 @@ class Home {
                 var content = "";
                 response.content.forEach(element => {
                     content += '<tr class=""' + element.requestStatus + '">'
+                    + '<td>' + no + '</td>'
                     + '<td>' + element.item.itemName +'</td>'
                     + '<td class="text-center">' + element.reqQty + '</td>'
                     + '<td class="text-center">' + element.requestStatus + '</td>'
