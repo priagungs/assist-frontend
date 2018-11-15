@@ -70,17 +70,15 @@ class AdminEmployee {
             if (this.validateSingleEntry(request[0])) {
                 this.addUser(request, false);
             }
-            else {
-                this.superiorFormHandler();
-            }
+            this.superiorFormHandler();
         })
     }
 
     superiorFormHandler() {
-        $("#form-add-employee-superior").unbind().focus(() => {
+        $("#form-add-employee-superior").unbind().focusin(() => {
             $('#dropdown-add-employee-superior').html('<p class="dropdown-item"><strong>Insert Superior</strong></p>');
         })
-        $("#form-add-employee-superior").unbind().on('input', (event) => {
+        $("#form-add-employee-superior").on('input', (event) => {
             $("#form-add-employee-superior").removeClass("is-invalid");
             $("#id-superior").text("");
             if (event.target.value) {
