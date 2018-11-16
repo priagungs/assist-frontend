@@ -1,28 +1,12 @@
 <section id="home">
-<<<<<<< HEAD
     <div class="row card-container">
-        <img src="public/images/profile.png" class="circle" alt="">
+        <img id="profile-photo" class="circle" alt="">
         <div class="card">
                 <h4><span id="name"></h4>
                 <h5>NIP         = <span id="nip"></h5>
                 <h5>Division    = <span id="division"></h5>
                 <h5>Role        = <span id="role"></h5>
-                <h5>Superior    = (<span id="superior"></span>)</h5>
-=======
-    <div class="row mx-auto card-container">
-        <img src="public/images/profile.png" class="circle mx-auto" alt="">
-        <div class="mx-auto card">
-                <h2 id="name"></h2>
-                <h3 id="nip"></h3>
-                <h3 id="division">Division    : Engineering</h3>
-                <h3 id="role">Role        : Software Engineer</h3>
-                <h3 id="superior">Superior    : Inggriani Liem (NIP : 13515111)</h3>
-                <!-- <h2 id="name">Shinta Ayu Chandra Kemala</h2>
-            <h3 id="nip">NIP         : 13516029</h3>
-            <h3 id="division">Division    : Engineering</h3>
-            <h3 id="role">Role        : Software Engineer</h3>
-            <h3 id-"superior">Superior    : Inggriani Liem (NIP : 13515111)</h3> -->
->>>>>>> 1f91e86a96c6d93db731ef94ca0bd9910ff0c266
+                <h5>Superior    = <span id="superior-name"></span>(<span id="superior-id"></span>)</h5>
         </div>
     </div>
     <div>
@@ -49,15 +33,23 @@
           <tbody id="content-items">
           </tbody>
       </table>
-      <div class="d-flex justify-content-end align-items-baseline">
-        <button class="btn btn-primary btn-sm mx-2">
-            prev
-        </button>
-        <div class="page-number">  3  </div>
-        <button class="btn btn-primary btn-sm mx-2">
-            next
-        </button>
-      </div>
+      <!-- Pagination -->
+      <nav aria-label="Page navigation">
+          <ul class="pagination">
+              <li class="page-item" id="page-item-prev">
+                  <a class="page-link" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                  </a>
+              </li>
+              <li class="page-item page-next" id="page-item-next">
+                  <a class="page-link" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                      <span class="sr-only">Next</span>
+                  </a>
+              </li>
+          </ul>
+      </nav>
     </div>
     <div class="modal fade" data-keyboard="false" data-backdrop="static" id="home-item-detail" tabindex="-1" role="dialog" aria-labelledby="item-detail-name" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
