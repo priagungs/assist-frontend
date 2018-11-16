@@ -1,29 +1,40 @@
 class Home {
+
     constructor() {
         this.itemPage = 0;
-        this.itemLimit = 1;
+        this.itemLimit = 10;
     }
+
     init() {
-        this.fillUserCard();
-        this.detailModalHandler();
-    }
-    fillUserCard() {
         $.ajax({
             type: "GET",
             url: "/api/login-detail/",
             dataType: "json",
             success: (data, status) => {
-                $("#name").text(data.name);
-                $("#nip").text(data.idUser);
-                $("#division").text(data.division);
-                $("#role").text(data.role);
-                $("#superior-name").text(data.superior.name);
-                $("#superior-id").text(data.superior.idUser);
-                this.paginationHandler(data.idUser);
+                this.fillUserCard(data);
                 this.fillItemTable(data.idUser);
+                this.detailModalHandler();
+                this.tableHandler(data.idUser);
+                this.paginationHandler(data.idUser);
+                this.fillCustomItemTable();
             }
-        })
+        });
     }
+
+    fillUserCard(data) {
+        $("#name").text(data.name);
+        $("#nip").text(data.idUser);
+        $("#division").text(data.division);
+        $("#role").text(data.role);
+        if (data.superior != null) {
+            $("#superior-name").text(data.superior.name);
+            $("#superior-id").text(data.superior.idUser);
+        } else {
+            $("#superior-name").text();
+            $("#superior-id").text("NULL");
+        }
+    }
+
     fillItemTable(idUser) {
         $.ajax({
             method: "GET",
@@ -98,7 +109,7 @@ class Home {
                     $("#page-item-prev").addClass("disabled");
                 }
             }
-        })
+        });
 
         $("#page-item-next:not(.disabled").unbind().click(() => {
             if (this.itemPage < this.itemLimit && !this.isLastPageItem) {
@@ -108,8 +119,59 @@ class Home {
                     $("#page-item-next").addClass("disabled");
                 }
             }
+        });
+    }
+
+    fillCustomItemTable(idUser, status) {
+        $.ajax({
+            method: "GET",
+            url: "/api/requests",
+            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, status: status.toUpperCase()},
+            dataType: "json",
+            success: (response) => {
+                if (response != null) {
+                    if (response.pictureURL != '') {
+                        $("#profile-photo").attr("src", response.pictureURL);
+                    }
+                    else {
+                        $("#profile-photo").attr("src", "/public/images/item.jpg");
+                    }
+                    var no = 1;
+                    var content = "";
+                    response.content.forEach(element => {
+                        content += '<tr class="' + element.requestStatus + '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem + '">'
+                        + '<td class="text-center">' + no + '</td>'
+                        + '<td>' + element.item.itemName +'</td>'
+                        + '<td class="text-center">' + element.reqQty + '</td>'
+                        + '<td class="text-center">' + element.requestStatus + '</td>'
+                        + '<td> <button class="btn btn-primary btn-sm"> detail</button> </td>'
+                        + '</tr>';
+                        no++;
+                    });
+                    $("#content-items").html(content);
+                }
+            }
         })
     }
+
+    tableHandler(idUser) {
+        $(".filter").change(() => {
+            var status = $(".filter").val();
+            emptyTable();
+            if (status == "all") {
+                this.fillItemTable(idUser);
+            } else {
+                this.fillCustomItemTable(idUser, status);
+            }
+        });
+    }
+
+    emptyTable() {
+        var content = "";
+        $("#content-items").html(content);
+    }
+
+
     // changeTable() {
         // $(".filter").change(function() {
         //     alert("HEHE");
