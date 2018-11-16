@@ -11,14 +11,17 @@ class SubordinatesDashboard {
             type: "get",
             url: "/api/login-detail",
             success: (data, status) => {
-                this.fillSubordinatedetail(data.idUser);
+                console.log("aaa");
+                this.fillSubordinatesDetail(data.idUser);
+                this.detailSubordinateHandler();
             }
         });
 
     }
 
 
-    fillSubordinatedetail(idUser) {
+    fillSubordinatesDetail(idUser) {
+        console.log("abcde");
         $.ajax({
             type: "get",
             url: "/api/users",
@@ -30,29 +33,93 @@ class SubordinatesDashboard {
                 var index=1;
                 var content = "";
                 response.content.forEach(element => {
-                    content += '<tr data-toggle="modal" data-target="#myModal" >'
+                    content += '<tr data-toggle="modal" data-target="#subordinates-detail" data-idUser="' + element.idUser +'">'
                     + '<td>' + element.name + '</td>'
                     + '<td>' + element.role + '</td>'
                     + '<td> 4 </td>'
                     + '</tr>';
                 });
-                this.isLastPageItem = response.last;
-                this.lastPageItem = response.totalPages-1;
-                // if (response.last) {
-                //     $("#page-item-next").addClass("disabled");
-                // }
-                // else {
-                //     $("#page-item-next").removeClass("disabled");
-                // }
+                $("#data-table-subordinates").html(content);
+            }
+        });
+    }
 
-                // if (response.first) {
-                //     $("#page-item-prev").addClass("disabled");
-                // }
-                // else {
-                //     $("#page-item-prev").removeClass("disabled");
-                // }
+    detailSubordinateHandler() {
+        $("#subordinates-detail").unbind().on('show.bs.modal',(event) => {
+            var idUser = $(event.relatedTarget).data("iduser");
+            this.fillSubDetail(idUser);
+        });
+    }
 
-                $("#subordinates .data-table-subordinates").html(content);
+    fillSubDetail(idUser) {
+        $.ajax({
+            method: "GET",
+            url: "/api/user/" + idUser,
+            dataType : "json",
+            success: (response) => {
+                console.log(response);
+                if (response.pictureURL) {
+                    $("#subordinates-detail img").attr("src", response.pictureURL);
+                }
+                else {
+                    $("#subordinates-detail img").attr("src", "/public/images/profile.png");
+                }
+                $("#sub-name").text(response.name);
+                $("#sub-id").text("NIP      :"+response.idUser);
+                $("#sub-division").text("Division   :"+response.division);
+                $("#sub-role").text("Role       :"+response.role);
+                var superiorContent = "Superior :"+response.superior.name + "( NIP :" + response.superior.idUser +")";
+                $("#sub-superior").text(superiorContent);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+
+        $.ajax({
+            method: "GET",
+            url: "/api/user-items",
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser},
+            dataType: "json",
+            success: (response) => {
+                var content = '';
+                response.content.forEach((element) => {
+                    content += '<tr><td class="text-center" scope="row">' + element.item.idItem + '</td>'
+                    + '<td class="text-center">' + element.item.itemName+ '</td>'
+                    + '<td class="text-center">' + element.hasQty + '</td>';
+                });
+                $(".subordinates-item-table tbody").html(content);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+
+        $.ajax({
+            method: "GET",
+            url: "/api/requests",
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser},
+            dataType: "json",
+            success: (response) => {
+                var content = '';
+                response.content.forEach((element) => {
+                    content += '<tr>'
+                    + '<td class="text-center" scope="row">' + element.item.idItem + '</td>'
+                    + '<td class="text-center">' + element.item.itemName+ '</td>'
+                    + '<td class="text-center">' + element.reqQty + '</td>'
+                    + '<td class="text-center">' + element.requestStatus + '</td>'
+                    + '</tr>';
+                });
+                $(".subordinates-request-table tbody").html(content);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
             }
         });
     }
