@@ -354,8 +354,10 @@ class AdminItem {
                 this.fillTable();
                 $("#item-detail").modal('hide');
             },
-            401: () => {
-                window.location = 'login.html';
+            statusCode: {
+                401: () => {
+                    window.location = 'login.html';
+                }
             }
         });
     }

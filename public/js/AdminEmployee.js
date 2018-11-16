@@ -31,7 +31,7 @@ class AdminEmployee {
                     + '<td>' + element.username + '</td>'
                     + '<td class="text-center">' + element.division + '</td>'
                     + '<td class="text-center">' + element.role + '</td>'
-                    + '</tr>'; 
+                    + '</tr>';
                 });
 
                 $("#all-employee-table").html(content);
@@ -84,8 +84,7 @@ class AdminEmployee {
 
     superiorFormHandler() {
         $(".employee-form-superior").unbind().focusin(() => {
-            $('#dropdown-add-employee-superior').html('<p class="dropdown-item"><strong>Insert Superior</strong></p>');
-            $('#dropdown-update-employee-superior').html('<p class="dropdown-item"><strong>Insert Superior</strong></p>');
+            $('#admin-dashboard .dropdown-menu').html('<p class="dropdown-item"><strong>Insert Superior</strong></p>');
         })
         $(".employee-form-superior").on('input', (event) => {
             $(".employee-form-superior").removeClass("is-invalid");
@@ -108,12 +107,10 @@ class AdminEmployee {
                             + '<p><i>' + element.division + ' - ' + element.role + '</i></p></div></div></button>';
                         });
                         if (response.content.length > 0) {
-                            $('#dropdown-add-employee-superior').html(dropdown_content);
-                            $('#dropdown-udpate-employee-superior').html(dropdown_content);
+                            $('#admin-dashboard .dropdown-menu').html(dropdown_content);
                         }
                         else {
-                            $('#dropdown-add-employee-superior').html('<p class="dropdown-item"><strong>Superior not found</strong></p>');
-                            $('#dropdown-update-employee-superior').html('<p class="dropdown-item"><strong>Superior not found</strong></p>');
+                            $('#admin-dashboard .dropdown-menu').html('<p class="dropdown-item"><strong>Superior not found</strong></p>');
 
                         }
 
@@ -143,12 +140,12 @@ class AdminEmployee {
     }
 
     validateSingleEntry(request) {
-        var form_name = $("#form-add-employee-name");
-        var form_username = $("#form-add-employee-username");
-        var form_password = $("#form-add-employee-password");
-        var form_division = $("#form-add-employee-division");
-        var form_role = $("#form-add-employee-role");
-        var form_superior = $("#form-add-employee-superior");
+        var form_name = $(".employee-form-name");
+        var form_username = $(".employee-form-username");
+        var form_password = $(".employee-form-password");
+        var form_division = $(".employee-form-division");
+        var form_role = $(".employee-form-role");
+        var form_superior = $(".employee-form-superior");
 
         form_username.unbind().on("input", () => {
             form_username.removeClass("is-invalid");
@@ -320,6 +317,98 @@ class AdminEmployee {
         $("#employee-detail").unbind().on('show.bs.modal', (event) => {
             var idUser = $(event.relatedTarget).data("iduser");
             this.fillDetail(idUser);
+            this.resetAddForm();
+            this.updateHandler(idUser);
+            this.deleteHandler(idUser);
+            $("#employee-update-section").attr("style", "display: none");
+            $("#employee-detail-section").removeAttr("style");
+        })
+    }
+
+    updateHandler(idUser) {
+        $(".update-btn").unbind().click(() => {
+            this.fillUpdateForm(idUser);
+            this.superiorFormHandler();
+            $("#employee-update-section").removeAttr("style");
+            $("#employee-detail-section").attr("style", "display: none");
+            var imageUrl = '';
+            $("#employee-update-image-uploader").unbind().change(() => {
+                var formData = new FormData($("#update-employee form")[0]);
+                imageUrl = Helper.uploadFile(formData);
+                $("#employee-update-section img").attr("src", imageUrl);
+            })
+            $(".save-employee-update-btn").unbind().click(() => {
+                event.preventDefault();
+                var request = {
+                    idUser: idUser,
+                    isAdmin: $("#form-add-employee-isadmin").val() == 'Yes' ? true : false,
+                    name: $("#form-add-employee-name").val(),
+                    username: $("#form-add-employee-username").val(),
+                    password: $("#form-add-employee-password").val(),
+                    pictureURL: imageUrl,
+                    division: $("#form-add-employee-division").val(),
+                    role: $("#form-add-employee-role").val(),
+                    superior: {
+                        idUser: parseInt($("#id-superior-add-form").text())
+                    }
+                };
+                if (this.validateSingleEntry(request)) {
+                    console.log('berhasil');
+                    // this.addUser(request, false);
+                }
+                this.superiorFormHandler();
+            })
+        })
+    }
+
+    fillUpdateForm(idUser) {
+        $.ajax({
+            method: "GET",
+            url: "/api/user/" + idUser,
+            dataType: "json",
+            success: (response) => {
+                if (response.pictureURL) {
+                    $("#employee-update-section img").attr("src", response.pictureURL);
+                }
+                else {
+                    $("#employee-update-section img").attr("src", "/public/images/profile.png")
+                }
+                $("#form-update-employee-name").val(response.name);
+                $("#form-update-employee-isadmin").val(response.isAdmin ? "Yes" : "No");
+                $("#form-update-employee-username").val(response.username);
+                $("#form-update-employee-division").val(response.division);
+                $("#form-update-employee-role").val(response.role);
+                if (response.superior) {
+                    $("#form-update-employee-superior").val(response.superior.name);
+                    $("#id-superior-update-form").text(response.superior.idUser);
+                }
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+    }
+
+    deleteHandler(idUser) {
+        $(".delete-btn").unbind().click(() => {
+            console.log("clicked");
+            $.ajax({
+                method: "DELETE",
+                url: "/api/user",
+                data: JSON.stringify({idUser: idUser}),
+                contentType: "application/json",
+                success: () => {
+                    console.log("masuk")
+                    this.page = 0;
+                    this.resetAddForm();
+                    this.fillTable();
+                    $("#nav-item").removeClass("active");
+                    $("#nav-employee").addClass("active");
+                    $("#employee-detail").modal('hide');
+                }
+            });
         })
     }
 
