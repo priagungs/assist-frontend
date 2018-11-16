@@ -17,7 +17,7 @@
     border-color: rgb(138, 0, 44);
 }
 
-/* ricky */
+/* ricky sub_detail */
 .page-number {
     margin-left: 5px;
     margin-right: 5px;
@@ -38,4 +38,29 @@
 
 .table{
     border: 1px solid gray;
+}
+
+.subordinates-item-table{
+    flex-grow: 1;
+}
+
+.subordinates-item-table, .subordinates-request-table{
+    flex-grow: 1;
+}
+
+thead th{
+    background-color : #5D001E;
+    color : white;
+}
+
+.btn, .btn-default {
+    color : white;
+}
+/*
+#myModal, .modal-content {
+    width: 700px;
+} */
+
+.modal-dialog {
+    width : 90%
 }

@@ -58,6 +58,9 @@ Router.prototype = {
                     } else if (htmlName == 'home.html') {
                         var home = new Home();
                         home.init();
+                    } else if (htmlName == 'subordinates.html'){
+                        var subordinatesDashboard = new SubordinatesDashboard();
+                        subordinatesDashboard.init();
                     }
                 }
             };
