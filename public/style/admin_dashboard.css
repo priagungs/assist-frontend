@@ -8,12 +8,12 @@
     text-align: justify;
 }
 
-.save-update-btn, .update-btn, .delete-btn {
+.save-update-btn, .update-btn, .delete-btn, .save-employee-add-btn {
     margin-right: 15px;
     margin-left: 15px;
 }
 
-#item tr {
+#item tbody tr, #all-employee-table {
     cursor: pointer;
 }
 
@@ -59,9 +59,65 @@
     color: #5D001E;
 }
 
-#bulk-item-entries a {
+#bulk-item-entries a, #bulk-employee-entries a {
     margin-bottom: 20px;
     margin-top: 10px;
     display: block;
 }
+
+#admin-dashboard {
+    margin: 30px 20px;
+}
+
+#dropdown-add-employee-superior .row {
+    max-height: 50px;
+}
+
+#dropdown-add-employee-superior img {
+    max-height: 100%;
+    min-width: 48.75px;
+}
+
+#dropdown-add-employee-superior div {
+    padding: 0;
+}
+
+#dropdown-add-employee-superior .col-10 {
+    padding-left: 10px;
+}
+
+#dropdown-add-employee-superior .col-2 {
+    min-width: 48.75px;
+}
+
+#dropdown-add-employee-superior {
+    min-width: 350px;
+}
+
+#dropdown-add-employee-superior p {
+    margin: 0;
+    font-size: 0.7rem;
+    overflow: hidden;
+}
+
+#employee-detail {
+    padding-left:15px;
+}
+
+#employee-detail img {
+    min-width: 100%;
+    height: auto;
+}
+
+#employee-detail .row {
+    margin: 10px;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 800px;
+    }
+}
+
+
 
