@@ -6,6 +6,7 @@ class Home {
     init() {
         this.fillUserCard();
         this.fillItemTable();
+        this.detailModalHandler();
     }
     fillUserCard() {
         $.ajax({
@@ -31,8 +32,8 @@ class Home {
                 var no = 1;
                 var content = "";
                 response.content.forEach(element => {
-                    content += '<tr class=""' + element.requestStatus + '">'
-                    + '<td>' + no + '</td>'
+                    content += '<tr class="' + element.requestStatus + '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem + '">'
+                    + '<td class="text-center">' + no + '</td>'
                     + '<td>' + element.item.itemName +'</td>'
                     + '<td class="text-center">' + element.reqQty + '</td>'
                     + '<td class="text-center">' + element.requestStatus + '</td>'
@@ -40,33 +41,72 @@ class Home {
                     + '</tr>';
                     no++;
                 });
-                $("#items tbody").html(content);
+                $("#content-items").html(content);
             }
         })
     }
-    changeTable() {
-        $("#filter").change(function() {
-            var status = $(this).val();
-            $.ajax({
-                method: "GET",
-                url: "api/requests",
-                data: {page:this.itemPage, limit: this.itemLimit, idUser: this.idUser, status: status},
-                success: (response) => {
-                    var no = 1;
-                    var content = "";
-                    response.content.forEach(element => {
-                        content += '<tr class=""' + element.requestStatus + '">'
-                        + '<td>' + no + '</td>'
-                        + '<td>' + element.item.itemName +'</td>'
-                        + '<td class="text-center">' + element.reqQty + '</td>'
-                        + '<td class="text-center">' + element.requestStatus + '</td>'
-                        + '<td> <button class="btn btn-primary btn-sm"> detail</button> </td>'
-                        + '</tr>';
-                        no++;
-                    });
-                    $("#items tbody").html(content);
+    fillHomeItemDetail(idItem) {
+        console.log("OINK");
+        console.log("oin",idItem);
+        $.ajax({
+            type: "GET",
+            url: "/api/items/" + idItem,
+            dataType: "json",
+            success: (response) => {
+                console.log("hoiii");
+                $("#item-detail-name").text(response.itemName);
+                if (response.pictureURL != '') {
+                    $("#detail-item img").attr("src", response.pictureURL);
                 }
-            })
+                else {
+                    $("#detail-item img").attr("src", "/public/images/no-image.jpg");
+                }
+                $("#detail-item #item-price").text(response.price);
+                $("#detail-item #item-total-qty").text(response.totalQty);
+                $("#detail-item #item-available-qty").text(response.availableQty);
+                $("#detail-item #item-description").text(response.description);
+            },
+            responseStatus : {
+                401 : () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+    }
+    detailModalHandler() {
+        $("#home-item-detail").unbind().on('show.bs.modal', (event)=> {
+            console.log("HAHAHAH");
+            var idItem = $(event.relatedTarget).data('iditem');
+            console.log("ha", idItem);
+            this.fillHomeItemDetail(idItem);
+        });
+    }
+    // changeTable() {
+        // $(".filter").change(function() {
+        //     alert("HEHE");
+        //     console.log("triggered");
+        //     var status = $(this).val();
+        //     $("#content-items").replaceWith("");
+            // $.ajax({
+            //     method: "GET",
+            //     url: "api/requests",
+            //     data: {page:this.itemPage, limit: this.itemLimit, idUser: this.idUser, status: status},
+            //     success: (response) => {
+            //         var no = 1;
+            //         var content = "";
+            //         response.content.forEach(element => {
+            //             content += '<tr class=""' + element.requestStatus + '">'
+            //             + '<td>' + no + '</td>'
+            //             + '<td>' + element.item.itemName +'</td>'
+            //             + '<td class="text-center">' + element.reqQty + '</td>'
+            //             + '<td class="text-center">' + element.requestStatus + '</td>'
+            //             + '<td> <button class="btn btn-primary btn-sm"> detail</button> </td>'
+            //             + '</tr>';
+            //             no++;
+            //         });
+            //         $("#items tbody").html(content);
+            //     }
+            // })
           //   console.clear();
           //   var filterValue = $(this).val();
           //   var row = $('.row');
@@ -82,6 +122,6 @@ class Home {
           //       row.show();
           // }
 
-        });
-    }
+        // });
+    // }
 }

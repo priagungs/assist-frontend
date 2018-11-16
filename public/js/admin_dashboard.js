@@ -110,10 +110,6 @@ class AdminDashboard {
         $("#item-detail").unbind().on('show.bs.modal', (event) => {
             var idItem = $(event.relatedTarget).data('iditem');
             this.fillItemDetail(idItem);
-<<<<<<< HEAD
-
-=======
->>>>>>> e6db3475e672012696a11ff886216d11fffe957a
             $(".update-btn").unbind().click(() => {
                 $("#detail-item").css("display", "none");
                 $("#update-item").css("display", "block");
@@ -184,8 +180,6 @@ class AdminDashboard {
     addItemModalHandler() {
         $("#add-item").unbind().on('show.bs.modal', () => {
             this.addItemFormHandler();
-<<<<<<< HEAD
-=======
             $("#bulk-item-entries label").text("Choose CSV File");
             $("#upload-bulk-item-entries").val('');
             $("#upload-bulk-item-entries").removeClass("is-invalid");
@@ -194,7 +188,6 @@ class AdminDashboard {
                 $("#bulk-item-entries label").text(files[0].name);
                 this.addBulkItemHandler(files[0]);
             })
->>>>>>> e6db3475e672012696a11ff886216d11fffe957a
         })
     }
 
