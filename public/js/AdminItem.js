@@ -23,10 +23,10 @@ class AdminItem {
         })
 
         $("#page-item-next:not(.disabled").unbind().click(() => {
-            if (this.page < this.limit && !this.isLastPage) {
+            if (!this.isLastPage) {
                 this.page++;
                 this.fillTable();
-                if (this.page == this.limit || this.isLastPage) {
+                if (this.isLastPage) {
                     $("#page-item-next").addClass("disabled");
                 }
             }
