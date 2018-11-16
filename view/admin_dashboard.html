@@ -1,8 +1,8 @@
 <div id="admin-dashboard">
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" data-toggle="tab" href="#item" role="tab" aria-controls="item" aria-selected="true">Item</a>
-            <a class="nav-item nav-link" data-toggle="tab" href="#employee" role="tab" aria-controls="employee" aria-selected="false">Employee</a>
+            <a id="nav-item" class="nav-item nav-link active" data-toggle="tab" href="#item" role="tab" aria-controls="item" aria-selected="true">Item</a>
+            <a id="nav-employee" class="nav-item nav-link" data-toggle="tab" href="#employee" role="tab" aria-controls="employee" aria-selected="false">Employee</a>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -271,11 +271,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td class="text-center" scope="row">64</td>
-                                                    <td>Ricky Kennedy</td>
-                                                    <td class="text-center">Software Engineer</td>
-                                                </tr>
+                                                
                                             </tbody>
                                         </table>
                                     </div>
@@ -445,6 +441,24 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item" id="page-employee-prev">
+                        <a class="page-link" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item page-next" id="page-employee-next">
+                        <a class="page-link" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

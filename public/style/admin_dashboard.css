@@ -69,32 +69,33 @@
     margin: 30px 20px;
 }
 
-#dropdown-add-employee-superior .row {
+#admin-dashboard .dropdown-menu .row {
     max-height: 50px;
+    margin: 0;
 }
 
-#dropdown-add-employee-superior img {
+#admin-dashboard .dropdown-menu img {
     max-height: 100%;
     min-width: 48.75px;
 }
 
-#dropdown-add-employee-superior div {
+#admin-dashboard .dropdown-menu div {
     padding: 0;
 }
 
-#dropdown-add-employee-superior .col-10 {
+#admin-dashboard .dropdown-menu .col-10 {
     padding-left: 10px;
 }
 
-#dropdown-add-employee-superior .col-2 {
+#admin-dashboard .dropdown-menu .col-2 {
     min-width: 48.75px;
 }
 
-#dropdown-add-employee-superior {
+#admin-dashboard .dropdown-menu {
     min-width: 350px;
 }
 
-#dropdown-add-employee-superior p {
+#admin-dashboard .dropdown-menu p {
     margin: 0;
     font-size: 0.7rem;
     overflow: hidden;
