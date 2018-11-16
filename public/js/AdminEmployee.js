@@ -3,7 +3,7 @@ const JAVA_MAX_INTEGER = Math.pow(2, 31) - 1;
 class AdminEmployee {
     constructor() {
         this.page = 0;
-        this.limit = 10;
+        this.limit = 3;
         this.dropdownLimit = 5;
         this.isLastPage = false;
     }
@@ -12,6 +12,42 @@ class AdminEmployee {
         this.fillTable();
         this.addModalHandler();
         this.detailModalHandler();
+        this.paginationHandler();
+    }
+
+    paginationHandler() {
+        var nextBtn = $("#page-employee-next");
+        var prevBtn = $("#page-employee-prev");
+
+        if (this.page == 0) {
+            prevBtn.addClass("disabled");
+        }
+        else {
+            prevBtn.removeClass("disabled");
+        }
+
+        if (this.isLastPage) {
+            nextBtn.addClass("disabled");
+        }
+        else {
+            nextBtn.removeClass("disabled");
+        }
+
+        nextBtn.unbind().click(() => {
+            if (!this.isLastPage) {
+                this.page++;
+                nextBtn.removeClass("disabled");
+                this.fillTable();
+            }
+        })
+
+        prevBtn.unbind().click(() => {
+            if (this.page > 0) {
+                this.page--;
+                this.fillTable();
+                prevBtn.removeClass("disabled");
+            }
+        })
     }
 
     fillTable() {
@@ -21,8 +57,10 @@ class AdminEmployee {
             data: {page: this.page, limit: this.limit},
             dataType: "json",
             success: (response) => {
+                console.log(response);
                 this.isLastPage = response.last;
                 this.lastPage = response.totalPages-1;
+                this.paginationHandler();
                 var content = '';
                 response.content.forEach(element => {
                     content += '<tr data-toggle="modal" data-target="#employee-detail" data-iduser="' + element.idUser + '">'
