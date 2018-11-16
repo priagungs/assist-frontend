@@ -57,7 +57,6 @@ class AdminEmployee {
             data: {page: this.page, limit: this.limit},
             dataType: "json",
             success: (response) => {
-                console.log(response);
                 this.isLastPage = response.last;
                 this.lastPage = response.totalPages-1;
                 this.paginationHandler();
@@ -204,6 +203,8 @@ class AdminEmployee {
         form_role.unbind().on("input", () => {
             form_role.removeClass("is-invalid");
         })
+
+        console.log(request);
 
         var result = true;
         if (!request.name) {
@@ -369,30 +370,40 @@ class AdminEmployee {
             this.superiorFormHandler();
             $("#employee-update-section").removeAttr("style");
             $("#employee-detail-section").attr("style", "display: none");
-            var imageUrl = '';
             $("#employee-update-image-uploader").unbind().change(() => {
-                var formData = new FormData($("#update-employee form")[0]);
-                imageUrl = Helper.uploadFile(formData);
+                var formData = new FormData($("#employee-update-section form")[0]);
+                var imageUrl = Helper.uploadFile(formData);
                 $("#employee-update-section img").attr("src", imageUrl);
             })
             $(".save-employee-update-btn").unbind().click(() => {
                 event.preventDefault();
                 var request = {
                     idUser: idUser,
-                    isAdmin: $("#form-add-employee-isadmin").val() == 'Yes' ? true : false,
-                    name: $("#form-add-employee-name").val(),
-                    username: $("#form-add-employee-username").val(),
-                    password: $("#form-add-employee-password").val(),
-                    pictureURL: imageUrl,
-                    division: $("#form-add-employee-division").val(),
-                    role: $("#form-add-employee-role").val(),
+                    isAdmin: $("#form-update-employee-isadmin").val() == 'Yes' ? true : false,
+                    name: $("#form-update-employee-name").val(),
+                    username: $("#form-update-employee-username").val(),
+                    password: $("#form-update-employee-password").val(),
+                    pictureURL: $("#employee-update-section img").attr("src"),
+                    division: $("#form-update-employee-division").val(),
+                    role: $("#form-update-employee-role").val(),
                     superior: {
-                        idUser: parseInt($("#id-superior-add-form").text())
+                        idUser: parseInt($("#id-superior-update-form").text())
                     }
                 };
                 if (this.validateSingleEntry(request)) {
-                    console.log('berhasil');
-                    // this.addUser(request, false);
+                   $.ajax({
+                        method: "PUT",
+                        url: "/api/user",
+                        data: JSON.stringify(request),
+                        contentType: "application/json",
+                        success: (response) => {
+                            this.fillDetail(response.idUser);
+                            this.fillTable();
+                            $("#employee-update-section").attr("style", "display: none");
+                            $("#employee-detail-section").removeAttr("style");
+                            this.resetAddForm();
+                       }
+                   });
                 }
                 this.superiorFormHandler();
             })
@@ -431,14 +442,12 @@ class AdminEmployee {
 
     deleteHandler(idUser) {
         $(".delete-btn").unbind().click(() => {
-            console.log("clicked");
             $.ajax({
                 method: "DELETE",
                 url: "/api/user",
                 data: JSON.stringify({idUser: idUser}),
                 contentType: "application/json",
                 success: () => {
-                    console.log("masuk")
                     this.page = 0;
                     this.resetAddForm();
                     this.fillTable();
