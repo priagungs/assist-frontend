@@ -1,11 +1,10 @@
 class Home {
     constructor() {
         this.itemPage = 0;
-        this.itemLimit = 50;
+        this.itemLimit = 1;
     }
     init() {
         this.fillUserCard();
-        this.fillItemTable();
         this.detailModalHandler();
     }
     fillUserCard() {
@@ -18,17 +17,26 @@ class Home {
                 $("#nip").text(data.idUser);
                 $("#division").text(data.division);
                 $("#role").text(data.role);
-                $("#superior").text(data.superior);
+                $("#superior-name").text(data.superior.name);
+                $("#superior-id").text(data.superior.idUser);
+                this.paginationHandler(data.idUser);
+                this.fillItemTable(data.idUser);
             }
         })
     }
-    fillItemTable() {
+    fillItemTable(idUser) {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.itemPage, limit: this.itemLimit, idUser: this.idUser},
+            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser},
             dataType: "json",
             success: (response) => {
+                if (response.pictureURL != '') {
+                    $("#profile-photo").attr("src", response.pictureURL);
+                }
+                else {
+                    $("#profile-photo").attr("src", "/public/images/item.jpg");
+                }
                 var no = 1;
                 var content = "";
                 response.content.forEach(element => {
@@ -80,6 +88,27 @@ class Home {
             console.log("ha", idItem);
             this.fillHomeItemDetail(idItem);
         });
+    }
+    paginationHandler(idUser) {
+        $("#page-item-prev:not(.disabled)").unbind().click(() => {
+            if (this.itemPage > 0) {
+                this.itemPage--;
+                this.fillItemTable(idUser);
+                if (this.itemPage == 0) {
+                    $("#page-item-prev").addClass("disabled");
+                }
+            }
+        })
+
+        $("#page-item-next:not(.disabled").unbind().click(() => {
+            if (this.itemPage < this.itemLimit && !this.isLastPageItem) {
+                this.itemPage++;
+                this.fillItemTable(idUser);
+                if (this.itemPage == this.itemLimit || this.isLastPageItem) {
+                    $("#page-item-next").addClass("disabled");
+                }
+            }
+        })
     }
     // changeTable() {
         // $(".filter").change(function() {
