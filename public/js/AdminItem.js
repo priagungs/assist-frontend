@@ -56,7 +56,7 @@ class AdminItem {
                     $("#page-item-next").addClass("disabled");
                 }
                 else {
-                    $("#page-item-next").removeClass("disabled");                
+                    $("#page-item-next").removeClass("disabled");
                 }
 
                 if (response.first) {
