@@ -21,7 +21,6 @@ class SubordinatesDashboard {
 
 
     fillSubordinatesDetail(idUser) {
-        console.log("abcde");
         $.ajax({
             type: "get",
             url: "/api/users",
@@ -36,8 +35,11 @@ class SubordinatesDashboard {
                     content += '<tr data-toggle="modal" data-target="#subordinates-detail" data-idUser="' + element.idUser +'">'
                     + '<td>' + element.name + '</td>'
                     + '<td>' + element.role + '</td>'
-                    + '<td> 4 </td>'
+                    + '<td id="sub-detail-index-'+index+'"> </td>'
                     + '</tr>';
+                    this.fillCounterRequest(element.idUser,index);
+                    console.log(element.idUser+" : "+index);
+                    index++;
                 });
                 $("#data-table-subordinates").html(content);
             }
@@ -115,6 +117,24 @@ class SubordinatesDashboard {
                     + '</tr>';
                 });
                 $(".subordinates-request-table tbody").html(content);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+    }
+
+    fillCounterRequest(idUser,index) {
+        $.ajax({
+            method: "GET",
+            url: "/api/requests",
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser},
+            dataType: "json",
+            success: (response) => {
+                var count = response.content.length;
+                $("#sub-detail-index-"+index,).html(count);
             },
             statusCode: {
                 401: () => {
