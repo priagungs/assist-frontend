@@ -1,8 +1,8 @@
 <div id="admin-dashboard">
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" data-toggle="tab" href="#item" role="tab" aria-controls="item" aria-selected="true">Item</a>
-            <a class="nav-item nav-link" data-toggle="tab" href="#employee" role="tab" aria-controls="employee" aria-selected="false">Employee</a>
+            <a id="nav-item" class="nav-item nav-link active" data-toggle="tab" href="#item" role="tab" aria-controls="item" aria-selected="true">Item</a>
+            <a id="nav-employee" class="nav-item nav-link" data-toggle="tab" href="#employee" role="tab" aria-controls="employee" aria-selected="false">Employee</a>
         </div>
     </nav>
     <div class="tab-content" id="nav-tabContent">
@@ -213,7 +213,7 @@
                         <th class="text-center dark_red">Role</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="all-employee-table">
                     
                 </tbody>
             </table>
@@ -221,17 +221,129 @@
             <!-- Employee Detail Modal -->          
             <div class="modal fade" id="employee-detail" tabindex="-1" role="dialog" aria-labelledby="employee-detail-title" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="employee-detail-title">Modal title</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="employee-detail-title">Employee Detail</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="modal-body container-fluid">
+                            <section id="employee-detail-section">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <img src="/public/images/profile.png" class="img-thumbnail" alt="">
+                                    </div>
+                                    <div class="col-8">
+                                        <h3 id="employee-detail-name"></h3>
+                                        <h5><strong>ID : </strong><span id="employee-detail-id"></span></h5>
+                                        <h5><strong>Admin : </strong><span id="employee-detail-isadmin"></span></h5>
+                                        <h5><strong>Username : </strong><span id="employee-detail-username"></span></h5>
+                                        <h5><strong>Division : </strong><span id="employee-detail-division"></span></h5>
+                                        <h5><strong>Role : </strong><span id="employee-detail-role"></span></h5>
+                                        <h5><strong>Superior : </strong><span id="employee-detail-superior-name"></span> <span id="employee-detail-superior-id"></span></h5>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <h4>Items</h4>
+                                        <table class="table table-hover table-bordered table-sm table-employee-items">
+                                            <thead>
+                                                <tr class="text-light">
+                                                    <th class="text-center dark_red">ID</th>
+                                                    <th class="text-center dark_red">Name</th>
+                                                    <th class="text-center dark_red">Quantity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-6">
+                                        <h4>Subordinates</h4>
+                                        <table class="table table-bordered table-sm table-employee-subordinates">
+                                            <thead>
+                                                <tr class="text-light">
+                                                    <th class="text-center dark_red">ID</th>
+                                                    <th class="text-center dark_red">Name</th>
+                                                    <th class="text-center dark_red">Role</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-end">
+                                    <button type="button" class="btn btn-primary update-btn">Update</button>
+                                    <button type="button" class="btn btn-primary delete-btn">Delete</button>                                                                    
+                                </div>
+                            </section>
+                            
+                            <section id="employee-update-section" style="display: none">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <img src="/public/images/profile.png" class="img-thumbnail default-image-form" alt="">
+                                            <div class="image-uploader">
+                                                <label for="employee-update-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
+                                                <input type="file" accept="image/*" name="file" class="employee-form-image" id="employee-update-image-uploader" style="display:none">
+                                            </div>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="form-group">
+                                                <label for="form-update-employee-name">Name</label>
+                                                <input type="text" maxlength="255" name="form-update-employee-name" id="form-update-employee-name" class="form-control employee-form-name" required>                                                
+                                                <div class="invalid-feedback">Please provide a name</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-update-employee-username">Username</label>
+                                                <input type="text" maxlength="255" name="form-update-employee-username" id="form-update-employee-username" class="form-control employee-form-username" required>                                                
+                                                <div class="invalid-feedback username-validation"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-update-employee-password">Password</label>
+                                                <input type="password" name="form-update-employee-password" id="form-update-employee-password" class="form-control employee-form-password" required>
+                                                <div class="invalid-feedback">Please provide a password</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-update-employee-division">Division</label>
+                                                <input type="text" maxlength="255" name="form-update-employee-division" id="form-update-employee-division" class="form-control employee-form-division" required>                                                
+                                                <div class="invalid-feedback">Please provide a division</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-update-employee-role">Role</label>
+                                                <input type="text" maxlength="255" name="form-update-employee-role" id="form-update-employee-role" class="form-control employee-form-role" required>                                                
+                                                <div class="invalid-feedback">Please provide a role</div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form-update-employee-superior">Superior</label>
+                                                <div id="id-superior-update-form" class="id-superior" style="display:none"></div>
+                                                <div class="dropdown">
+                                                    <input type="text" maxlength="255" name="form-update-employee-superior" id="form-update-employee-superior" class="form-control employee-form-superior" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <div class="invalid-feedback">Please provide a superior</div>
+                                                    <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-update-employee-superior" aria-labelledby="form-update-employee-superior">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                            <label for="form-update-employee-isadmin">Admin</label>
+                                            <select class="custom-select employee-form-isadmin" id="form-update-employee-isadmin">
+                                                <option value="Yes">Yes</option>
+                                                <option value="No" selected>No</option>
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row justify-content-end">
+                                        <button type="submit" class="btn btn-primary save-employee-update-btn">Save</button>
+                                    </div>
+                                </form>
+                            </section>
+                        </div>
                     </div>
-                    <div class="modal-body container-fluid">
-                    
-                    </div>
-                </div>
                 </div>
             </div>
 
@@ -258,44 +370,43 @@
                                         <form>
                                             <div class="row">
                                                 <div class="col-4">
-                                                    <img src="/public/images/profile.png" class="img-thumbnail" alt="">
+                                                    <img src="/public/images/profile.png" class="img-thumbnail default-image-form" alt="">
                                                     <div class="image-uploader">
                                                         <label for="employee-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
                                                         <input type="file" accept="image/*" name="file" class="employee-form-image" id="employee-add-image-uploader" style="display:none">
                                                     </div>
                                                 </div>
                                                 <div class="col-8">
-                                                    
                                                     <div class="form-group">
                                                         <label for="form-add-employee-name">Name</label>
-                                                        <input type="text" maxlength="255" name="form-add-employee-name" id="form-add-employee-name" class="form-control" required>                                                
+                                                        <input type="text" maxlength="255" name="form-add-employee-name" id="form-add-employee-name" class="form-control employee-form-name" required>                                                
                                                         <div class="invalid-feedback">Please provide a name</div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="form-add-employee-username">Username</label>
-                                                        <input type="text" maxlength="255" name="form-add-employee-username" id="form-add-employee-username" class="form-control" required>                                                
+                                                        <input type="text" maxlength="255" name="form-add-employee-username" id="form-add-employee-username" class="form-control employee-form-username" required>                                                
                                                         <div class="invalid-feedback username-validation"></div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="form-add-employee-password">Password</label>
-                                                        <input type="password" name="form-add-employee-password" id="form-add-employee-password" class="form-control" required>
+                                                        <input type="password" name="form-add-employee-password" id="form-add-employee-password" class="form-control employee-form-password" required>
                                                         <div class="invalid-feedback">Please provide a password</div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="form-add-employee-division">Division</label>
-                                                        <input type="text" maxlength="255" name="form-add-employee-division" id="form-add-employee-division" class="form-control" required>                                                
+                                                        <input type="text" maxlength="255" name="form-add-employee-division" id="form-add-employee-division" class="form-control employee-form-division" required>                                                
                                                         <div class="invalid-feedback">Please provide a division</div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="form-add-employee-role">Role</label>
-                                                        <input type="text" maxlength="255" name="form-add-employee-role" id="form-add-employee-role" class="form-control" required>                                                
+                                                        <input type="text" maxlength="255" name="form-add-employee-role" id="form-add-employee-role" class="form-control employee-form-role" required>                                                
                                                         <div class="invalid-feedback">Please provide a role</div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="form-add-employee-superior">Superior</label>
-                                                        <div id="id-superior" style="display:none"></div>
+                                                        <div id="id-superior-add-form" class="id-superior" style="display:none"></div>
                                                         <div class="dropdown">
-                                                            <input type="text" maxlength="255" name="form-add-employee-superior" id="form-add-employee-superior" class="form-control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <input type="text" maxlength="255" name="form-add-employee-superior" id="form-add-employee-superior" class="form-control employee-form-superior" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             <div class="invalid-feedback">Please provide a superior</div>
                                                             <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-add-employee-superior" aria-labelledby="form-add-employee-superior">
                                                             </div>
@@ -303,7 +414,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                     <label for="form-add-employee-isadmin">Admin</label>
-                                                    <select class="custom-select" id="form-add-employee-isadmin">
+                                                    <select class="custom-select employee-form-isadmin" id="form-add-employee-isadmin">
                                                         <option value="Yes">Yes</option>
                                                         <option value="No" selected>No</option>
                                                     </select>
@@ -330,6 +441,24 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item" id="page-employee-prev">
+                        <a class="page-link" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item page-next" id="page-employee-next">
+                        <a class="page-link" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
