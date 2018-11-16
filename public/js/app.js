@@ -32,9 +32,8 @@ $(document).ready(() => {
             new Route('home', 'home.html', true), //default
             new Route('subordinates', "subordinates.html"),
             new Route('profile', "user_card.html"),
-            new Route('admin', "admin_dashboard.html"),
+            new Route('admin', "admin_dashboard.html")
         ]);
     }
     init();
 }());
-

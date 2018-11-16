@@ -493,7 +493,7 @@ class AdminEmployee {
                 var content = '';
                 response.content.forEach((element) => {
                     content += '<tr><td class="text-center" scope="row">' + element.item.idItem + '</td>'
-                    + '<td>' + element.item.itemName+ '</td>'
+                    + '<td class="text-center">' + element.item.itemName+ '</td>'
                     + '<td class="text-center">' + element.hasQty + '</td>';
                 });
                 $(".table-employee-items tbody").html(content);

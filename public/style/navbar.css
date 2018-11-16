@@ -67,9 +67,9 @@ th, td {
 }
 
 .card-container {
-    border: 4px black;
-    width: 50%;
     margin-top: 2em;
+    width: 100%;
+    justify-content: center;
 }
 
 .circle {
@@ -77,19 +77,19 @@ th, td {
     height: 8em;
     border-radius: 50%;
     border: solid 0.2em #5D001E;
+    margin-right: 2em;
 }
 
 .card {
     color: #5D001E;
     padding: 0.5em;
+    width: 30%;
 }
-.card > h2 {
-    font-size: 1.2em;
+.card > h4 {
     font-weight: bold;
 }
 
-.card > h3 {
-    font-size: 0.75em;
+.card > h5 {
     margin-top: 0.05em;
 }
 
