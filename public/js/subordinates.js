@@ -189,12 +189,14 @@ class SubordinatesDashboard {
                         request = {
                             idRequest : parseInt($('#data-ke-'+idx).attr("id-request")),
                             idSuperior : idUser,
+                            idAdmin : "\0",
                             requestStatus : "APPROVED"
                         }
                     } else {
                         request = {
                             idRequest : parseInt($('#data-ke-'+idx).attr("id-request")),
                             idSuperior : idUser,
+                            idAdmin : "\0",
                             requestStatus : "REJECTED"
                         }
                     }
@@ -208,7 +210,7 @@ class SubordinatesDashboard {
             $.ajax({
                 method : "PUT",
                 url : "/api/requests",
-                data : requests,
+                data : JSON.stringify(requests),
                 contentType: "application/json",
                 dataType: "json",
                 success: (response) => {
