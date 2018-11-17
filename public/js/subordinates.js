@@ -3,7 +3,7 @@ class SubordinatesDashboard {
         this.subordinatePage = 0;
         this.subordinateLimit = 10;
         this.isLastPage = false;
-
+        this.sortUser = "name";
     }
 
     init() {
@@ -23,7 +23,7 @@ class SubordinatesDashboard {
         $.ajax({
             type: "get",
             url: "/api/users",
-            data : {page : this.subordinatePage, limit : this.subordinateLimit, idSuperior : idUser},
+            data : {page : this.subordinatePage, limit : this.subordinateLimit, sort: this.sortUser, idSuperior : idUser},
             dataType: "json",
             success: (response) => {
                 console.log(response.content);
@@ -209,7 +209,7 @@ class SubordinatesDashboard {
                 method : "PUT",
                 url : "/api/requests",
                 data : requests,
-                contentType: "apllication/json",
+                contentType: "application/json",
                 dataType: "json",
                 success: (response) => {
                     console.log(response);
