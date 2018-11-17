@@ -28,14 +28,6 @@
     background-color: #5D001E;
 }
 
-/* .subordinates-request-table{
-    padding-right: 10%;
-}
-
-.subordinates-item-table{
-    padding-left: 10%;
-} */
-
 .table{
     border: 1px solid gray;
 }
@@ -60,4 +52,12 @@ thead th{
 .modal-subordinates {
     width : 75%;
     max-width: 100%;
+}
+
+#data-table-subordinates tr{
+    cursor : pointer;
+}
+
+#title-subordinates {
+    padding: 15px;
 }

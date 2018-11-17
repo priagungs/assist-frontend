@@ -1,7 +1,7 @@
 <section id="subordinates">
     <script src="/public/js/subordinates.js"></script>
-    <h1> Subordinates </h1>
-    <table class="table table-hover">
+    <h1 id="title-subordinates"> Subordinates </h1>
+    <table class="table table-hover table-sm">
         <thead>
             <tr>
                 <th> Name </th>
@@ -12,20 +12,11 @@
         <tbody id="data-table-subordinates">
         </tbody>
     </table>
-    <div class="d-flex justify-content-end align-items-baseline">
-        <button class="btn btn-secondary">
-            prev
-        </button>
-        <div class="page-number">3</div>
-        <button class="btn btn-secondary">
-            next
-        </button>
-    </div>
     <!-- Modal -->
-    <div id="subordinates-detail" class="modal fade" role="dialog">
+    <div id="subordinates-detail" class=" row modal fade" role="dialog">
         <div class="modal-dialog modal-subordinates modal-lg modal-dialog-centered">
           <!-- Modal content-->
-          <div class="modal-content">
+          <div class="modal-content row">
             <div class="modal-header">
               <h2 class="modal-title"> Subordinates Detail </h2>
                 <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
@@ -33,10 +24,10 @@
             <div class="modal-body">
               <script src="subordinates.js"></script>
                 <div class="row profile-card">
-                    <div class="col-auto">
+                    <div class="col-3">
                         <img src="/public/images/profile.png" class="img-fluid profile-image" alt="">
                     </div>
-                    <div class="col-8">
+                    <div class="col-9">
                         <h3 id="sub-name">Priagung Satyagama</h3>
                         <h4 id="sub-id">NIP         : 13516089</h4>
                         <h4 id="sub-division">Division    : Engineering</h4>
@@ -45,7 +36,7 @@
                     </div>
                 </div>
               <div class="row">
-                  <div class="col-6 subordinates-item-table">
+                  <div class="col-5 subordinates-item-table">
                       <table class="table table-hover table-bordered table-sm">
                               <span>Table Item</span>
                               <thead>
@@ -59,20 +50,22 @@
                               </tbody>
                           </table>
                   </div>
-                  <div class="col-6 subordinates-request-table">
+                  <div class="col-7 subordinates-request-table">
                       <span>Table Request</span>
                       <table class="table table-hover table-bordered table-sm">
                           <thead>
                               <tr>
                                   <th class="text-center"> Id </th>
                                   <th class="text-center"> Item Name </th>
-                                  <th class="text-center"> Banyak</th>
+                                  <th class="text-center"> Quantity</th>
                                   <th class="text-center"> Status</th>
+                                  <th class="text-center"> Approve</th>
                               </tr>
                           </thead>
-                          <tbody>
+                          <tbody id="subordinates-request-table-details">
                           </tbody>
                       </table>
+                      <button type="button" class="btn btn-success" id="oke-button">oke</button>
                   </div>
               </div>
             </div>
