@@ -209,7 +209,7 @@ class SubordinatesDashboard {
                 method : "PUT",
                 url : "/api/requests",
                 data : requests,
-                contentType: "apllication/json",
+                contentType: "application/json",
                 dataType: "json",
                 success: (response) => {
                     console.log(response);
