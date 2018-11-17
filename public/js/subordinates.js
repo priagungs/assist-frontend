@@ -1,3 +1,4 @@
+
 class SubordinatesDashboard {
     constructor() {
         this.subordinatePage = 0;
