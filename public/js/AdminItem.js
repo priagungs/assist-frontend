@@ -9,6 +9,57 @@ class AdminItem {
         this.addModalHandler();
         this.fillTable();
         this.paginationHandler();
+        this.searchHandler();
+    }
+
+    searchHandler() {
+        $("#search-item").unbind().on("input", (event) => {
+            if (event.target.value) {
+                $.ajax({
+                    method: "GET",
+                    url: "/api/items",
+                    data: {page: this.page, limit: this.limit, sort: "itemName", keyword: event.target.value},
+                    dataType: "json",
+                    success: (response) => {
+                        var content = "";
+                        response.content.forEach(element => {
+                            content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
+                            + '<td scope="row">' + element.idItem + '</td>'
+                            + '<td>' + element.itemName + '</td>'
+                            + '<td>Rp' + element.price + '</td>'
+                            + '<td class="text-center">' + element.totalQty + '</td>'
+                            + '<td class="text-center">' + element.availableQty + '</td>'
+                            + '</tr>';
+                        });
+                        this.isLastPage = response.last;
+                        this.lastPage = response.totalPages-1;
+                        if (response.last) {
+                            $("#page-item-next").addClass("disabled");
+                        }
+                        else {
+                            $("#page-item-next").removeClass("disabled");
+                        }
+        
+                        if (response.first) {
+                            $("#page-item-prev").addClass("disabled");
+                        }
+                        else {
+                            $("#page-item-prev").removeClass("disabled");
+                        }
+        
+                        $("#item tbody").html(content);
+                    },
+                    statusCode: {
+                        401: () => {
+                            window.location = "login.html";
+                        }
+                    }
+                });
+            }
+            else {
+                this.fillTable();
+            }
+        })
     }
 
     paginationHandler() {
@@ -37,7 +88,7 @@ class AdminItem {
         $.ajax({
             method: "GET",
             url: "/api/items",
-            data: {page: this.page, limit: this.limit, sort:"idItem"},
+            data: {page: this.page, limit: this.limit, sort: "itemName"},
             dataType: "json",
             success: (response) => {
                 var content = "";

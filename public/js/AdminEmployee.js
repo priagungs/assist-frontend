@@ -3,7 +3,8 @@ const JAVA_MAX_INTEGER = Math.pow(2, 31) - 1;
 class AdminEmployee {
     constructor() {
         this.page = 0;
-        this.limit = 3;
+        this.limit = 10;
+        this.sortBy = "name";
         this.dropdownLimit = 5;
         this.isLastPage = false;
     }
@@ -13,6 +14,45 @@ class AdminEmployee {
         this.addModalHandler();
         this.detailModalHandler();
         this.paginationHandler();
+        this.searchHandler();
+    }
+
+    searchHandler() {
+        $("#search-employee").unbind().on("input", (event) => {
+            if (event.target.value) {
+                $.ajax({
+                    method: "GET",
+                    url: "/api/users",
+                    data: {page: this.page, limit: this.limit, sort: this.sortBy, keyword: event.target.value},
+                    dataType: "json",
+                    success: (response) => {
+                        this.isLastPage = response.last;
+                        this.lastPage = response.totalPages-1;
+                        this.paginationHandler();
+                        var content = '';
+                        response.content.forEach(element => {
+                            content += '<tr data-toggle="modal" data-target="#employee-detail" data-iduser="' + element.idUser + '">'
+                            + '<td scope="row">' + element.idUser + '</td>'
+                            + '<td>' + element.name + '</td>'
+                            + '<td>' + element.username + '</td>'
+                            + '<td class="text-center">' + element.division + '</td>'
+                            + '<td class="text-center">' + element.role + '</td>'
+                            + '</tr>';
+                        });
+        
+                        $("#all-employee-table").html(content);
+                    },
+                    statusCode: {
+                        401: () => {
+                            window.location = "login.html";
+                        }
+                    }
+                });
+            }
+            else {
+                this.fillTable();
+            }
+        })
     }
 
     paginationHandler() {
@@ -54,7 +94,7 @@ class AdminEmployee {
         $.ajax({
             method: "GET",
             url: "/api/users",
-            data: {page: this.page, limit: this.limit},
+            data: {page: this.page, limit: this.limit, sort: this.sortBy},
             dataType: "json",
             success: (response) => {
                 this.isLastPage = response.last;
@@ -130,7 +170,7 @@ class AdminEmployee {
                 $.ajax({
                     type: "GET",
                     url: "/api/users",
-                    data: {page: 0, limit:this.dropdownLimit, keyword: event.target.value},
+                    data: {page: 0, limit: this.dropdownLimit, sort: this.sortBy, keyword: event.target.value},
                     dataType: "json",
                     success: function (response) {
                         var dropdown_content = "";
@@ -229,6 +269,7 @@ class AdminEmployee {
             result = false;
         }
         if (!request.superior.idUser) {
+            $(".superior-validation").text("Please provide a superior");
             form_superior.addClass("is-invalid");
             result = false;
         }
@@ -391,7 +432,7 @@ class AdminEmployee {
                     }
                 };
                 if (this.validateSingleEntry(request)) {
-                   $.ajax({
+                    $.ajax({
                         method: "PUT",
                         url: "/api/user",
                         data: JSON.stringify(request),
@@ -402,8 +443,21 @@ class AdminEmployee {
                             $("#employee-update-section").attr("style", "display: none");
                             $("#employee-detail-section").removeAttr("style");
                             this.resetAddForm();
-                       }
-                   });
+                        },
+                        statusCode: {
+                            401: () => {
+                                window.location = "login.html";
+                            },
+                            400: () => {
+                                $(".superior-validation").text("His/her subordinate could not be his/her superior in the same time");
+                                $(".employee-form-superior").addClass("is-invalid");
+                            },
+                            409: () => {
+                                $(".username-validation").text("His/her subordinate could not be his/her superior in the same time");
+                                $(".employee-form-username").addClass("is-invalid");
+                            }
+                        }
+                    });
                 }
                 this.superiorFormHandler();
             })
@@ -517,7 +571,7 @@ class AdminEmployee {
         $.ajax({
             method: "GET",
             url: "/api/users",
-            data: {page: 0, limit: JAVA_MAX_INTEGER, idSuperior: idUser},
+            data: {page: 0, limit: JAVA_MAX_INTEGER, sort: this.sortBy, idSuperior: idUser},
             dataType: "json",
             success: function (response) {
                 var content = '';

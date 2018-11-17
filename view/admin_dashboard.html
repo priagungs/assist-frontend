@@ -9,11 +9,12 @@
 
         <!-- Item Section -->
         <div class="tab-pane fade show active" id="item" role="tabpanel" aria-labelledby="item">
-            <div class="admin-table-header">
-                <h3 class="font-weight-bold">ITEMS</h3>
-                <i class="fas fa-plus " data-toggle="modal" data-target="#add-item"></i>
+            <div class="search-and-add">
+                <div class="input-group col-4 search-bar">
+                    <input type="text" id="search-item" class="form-control" placeholder="Search" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                </div>
+                <i class="fas fa-plus " data-toggle="modal" data-target="#add-item"></i>                        
             </div>
-            
             <table class="table table-hover table-bordered ">
                 <thead>
                     <tr class="text-light">
@@ -198,11 +199,12 @@
 
         <!-- Employee Section -->
         <div class="tab-pane fade" id="employee" role="tabpanel" aria-labelledby="employee">
-            <div class="admin-table-header">
-                <h3 class="font-weight-bold">EMPLOYEE</h3>
-                <i class="fas fa-plus " data-toggle="modal" data-target="#add-employee"></i>
+            <div class="search-and-add">
+                <div class="input-group col-4 search-bar">
+                    <input type="text" id="search-employee" class="form-control" placeholder="Search" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                </div>
+                <i class="fas fa-plus " data-toggle="modal" data-target="#add-employee"></i>                        
             </div>
-            
             <table class="table table-hover table-bordered ">
                 <thead>
                     <tr class="text-light">
@@ -323,7 +325,7 @@
                                                 <div id="id-superior-update-form" class="id-superior" style="display:none"></div>
                                                 <div class="dropdown">
                                                     <input type="text" maxlength="255" name="form-update-employee-superior" id="form-update-employee-superior" class="form-control employee-form-superior" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <div class="invalid-feedback">Please provide a superior</div>
+                                                    <div class="invalid-feedback superior-validation"></div>
                                                     <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-update-employee-superior" aria-labelledby="form-update-employee-superior">
                                                     </div>
                                                 </div>

@@ -25,12 +25,12 @@
     margin-top: 20px;
 }
 
-.admin-table-header {
+.search-and-add {
     display: flex;
     justify-content: space-between
 }
 
-.admin-table-header i {
+.search-and-add i {
     cursor: pointer;
     font-size: 30px;
 }
@@ -120,5 +120,17 @@
     }
 }
 
+.search-bar {
+    /* margin: 0 0 20px auto; */
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.search-bar .input-group-prepend > .input-group-text {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+    background-color: #5D001E;
+    color: white;
+}
 
 
