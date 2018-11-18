@@ -12,11 +12,11 @@ class Home {
             dataType: "json",
             success: (data, status) => {
                 this.fillUserCard(data);
+                this.emptyTable();
                 this.fillItemTable(data.idUser);
                 this.detailModalHandler();
                 this.tableHandler(data.idUser);
                 this.paginationHandler(data.idUser);
-                this.fillCustomItemTable();
             }
         });
     }
@@ -39,7 +39,7 @@ class Home {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser},
+            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, sort: "idRequest"},
             dataType: "json",
             success: (response) => {
                 if (response.pictureURL != '') {
@@ -51,14 +51,17 @@ class Home {
                 var no = 1;
                 var content = "";
                 response.content.forEach(element => {
-                    content += '<tr class="' + element.requestStatus + '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem + '">'
+                    content += '<tr class="' + element.requestStatus +
+                    '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                    + '" data-itemname="' + element.item.itemName
+                    + '" data-idrequest="' + element.idRequest + '">'
                     + '<td class="text-center">' + no + '</td>'
                     + '<td>' + element.item.itemName +'</td>'
                     + '<td class="text-center">' + element.reqQty + '</td>'
                     + '<td class="text-center">' + element.requestStatus + '</td>'
-                    + '<td> <button class="btn btn-primary btn-sm"> detail</button> </td>'
                     + '</tr>';
                     no++;
+                    console.log("AUNG" + element.item.itemName);
                 });
                 $("#content-items").html(content);
             }
@@ -94,12 +97,35 @@ class Home {
     }
     detailModalHandler() {
         $("#home-item-detail").unbind().on('show.bs.modal', (event)=> {
-            console.log("HAHAHAH");
             var idItem = $(event.relatedTarget).data('iditem');
-            console.log("ha", idItem);
             this.fillHomeItemDetail(idItem);
+
+            $("#return-btn").unbind().click(() => {
+                if (confirm("Are you sure you want to return " + $(event.relatedTarget).data('itemname') + '?')) {
+                    this.updateRequest($(event.relatedTarget).data('idrequest'), idItem);
+                }
+            })
         });
     }
+
+    updateRequest(idRequest, idItem) {
+        // request = {
+        //     idRequest : idRequest,
+        //     requestStatus : "RETURNED"
+        // }
+        console.log(idRequest);
+        // $.ajax({
+        //     method: "PUT",
+        //     url: "api/requests",
+        //     data: JSON.stringify(request),
+        //     contentType: "application/json",
+        //     dataType: "json",
+        //     success: (response) => {
+        //         this.fillItemDetail(idItem);
+        //     }
+        // })
+    }
+
     paginationHandler(idUser) {
         $("#page-item-prev:not(.disabled)").unbind().click(() => {
             if (this.itemPage > 0) {
@@ -126,7 +152,7 @@ class Home {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, status: status.toUpperCase()},
+            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, status: status.toUpperCase(), sort: "idRequest"},
             dataType: "json",
             success: (response) => {
                 if (response != null) {
@@ -144,7 +170,6 @@ class Home {
                         + '<td>' + element.item.itemName +'</td>'
                         + '<td class="text-center">' + element.reqQty + '</td>'
                         + '<td class="text-center">' + element.requestStatus + '</td>'
-                        + '<td> <button class="btn btn-primary btn-sm"> detail</button> </td>'
                         + '</tr>';
                         no++;
                     });
@@ -157,13 +182,13 @@ class Home {
     tableHandler(idUser) {
         $(".filter").change(() => {
             var status = $(".filter").val();
-            emptyTable();
+            this.emptyTable();
             if (status == "all") {
                 this.fillItemTable(idUser);
             } else {
                 this.fillCustomItemTable(idUser, status);
             }
-        });
+        })
     }
 
     emptyTable() {
