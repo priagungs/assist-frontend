@@ -69,7 +69,7 @@ th, td {
 }
 
 .card-container {
-    margin-top: 2em;
+    padding-top: 2em;
     justify-content: center;
     align-items: center;
 }
