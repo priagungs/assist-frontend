@@ -72,7 +72,8 @@ thead th{
 }
 
 #title-subordinates {
-    padding: 15px;
+    padding-top: 20px;
+    padding-bottom: 5px;
 }
 
 .form-check-inline {
