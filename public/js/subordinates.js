@@ -107,7 +107,7 @@ class SubordinatesDashboard {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser},
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort: "idRequest"},
             dataType: "json",
             success: (response) => {
                 var idx = 1;
@@ -155,7 +155,7 @@ class SubordinatesDashboard {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser},
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort:"idRequest"},
             dataType: "json",
             success: (response) => {
                 var count = response.content.length;
