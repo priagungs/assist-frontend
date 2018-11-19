@@ -1,0 +1,9 @@
+class Procurement {
+    constructor() {
+
+    }
+
+    init() {
+        
+    }
+}
