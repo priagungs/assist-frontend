@@ -10,11 +10,23 @@ class AdminEmployee {
     }
 
     init() {
-        this.fillTable();
-        this.addModalHandler();
-        this.detailModalHandler();
-        this.paginationHandler();
-        this.searchHandler();
+        $.ajax({
+            method: "GET",
+            url: "/api/login-detail",
+            dataType: "json",
+            success: (response) => {
+                this.fillTable();
+                this.addModalHandler();
+                this.detailModalHandler();
+                this.paginationHandler();
+                this.searchHandler();
+            },
+            statusCode: {
+                401 : () => {
+                    window.location.hash = "#home";
+                }
+            }
+        })
     }
 
     searchHandler() {
