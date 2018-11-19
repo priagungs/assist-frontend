@@ -4,12 +4,12 @@ $(document).ready(() => {
         type: "get",
         url: "/api/login-detail",
         success: function (data, status) {
-            // console.log(data);
-            // console.log(status);
+            if (!data.isAdmin) {
+                $(".admin-only").attr("style", "display: none");
+            }
         },
         statusCode: {
             401: () => {
-                // console.log("not login");
                 window.location = "login.html";
             }
         }

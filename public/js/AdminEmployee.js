@@ -15,15 +15,20 @@ class AdminEmployee {
             url: "/api/login-detail",
             dataType: "json",
             success: (response) => {
-                this.fillTable();
-                this.addModalHandler();
-                this.detailModalHandler();
-                this.paginationHandler();
-                this.searchHandler();
+                if (!response.isAdmin) {
+                    window.location.hash = "#home";
+                }
+                else {
+                    this.fillTable();
+                    this.addModalHandler();
+                    this.detailModalHandler();
+                    this.paginationHandler();
+                    this.searchHandler();
+                }
             },
             statusCode: {
                 401 : () => {
-                    window.location.hash = "#home";
+                    window.location = "login.html";
                 }
             }
         })

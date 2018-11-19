@@ -10,15 +10,20 @@ class AdminItem {
             url: "/api/login-detail",
             dataType: "json",
             success: (response) => {
-                this.detailModalHandler();
-                this.addModalHandler();
-                this.fillTable();
-                this.paginationHandler();
-                this.searchHandler();
+                if (!response.isAdmin) {
+                    window.location.hash = "#home";
+                }
+                else {
+                    this.detailModalHandler();
+                    this.addModalHandler();
+                    this.fillTable();
+                    this.paginationHandler();
+                    this.searchHandler();
+                }
             },
             statusCode: {
                 401 : () => {
-                    window.location.hash = "#home";
+                    window.location = "login.html";
                 }
             }
         });
