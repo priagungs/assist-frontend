@@ -84,3 +84,8 @@ thead th{
     margin-left: 3px;
     margin-right: 3px;
 }
+
+#subordinates .row {
+    margin-left: 0;
+    margin-right: 0;
+}
