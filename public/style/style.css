@@ -61,3 +61,12 @@ thead th{
 #title-subordinates {
     padding: 15px;
 }
+
+.form-check-inline {
+    margin-right: 0%;
+}
+
+.form-check-label {
+    margin-left: 3px;
+    margin-right: 3px;
+}

@@ -119,7 +119,6 @@ class SubordinatesDashboard {
                     + '<td class="text-center">' + element.reqQty + '</td>'
                     + '<td class="text-center">' + element.requestStatus + '</td>';
                     var radioButton = '<div class="form-check-inline">'
-                    + '<div class="form-check-inline">'
                     + '<label class="form-check-label">';
                     if(element.requestStatus != "REQUESTED"){
                         radioButton +='<input type="radio" class="form-check-input" name="opt'+idx+'" value="Yes" disabled>Yes'
@@ -133,7 +132,6 @@ class SubordinatesDashboard {
                         + '<input type="radio" class="form-check-input" name="opt'+idx+'" value="No" >No';
                     }
                         radioButton += '</label>'
-                        + '</div>'
                         + '</div>';
                     content += '<td class="text-center">' + radioButton + '</td>';
                     content += '</tr>';
@@ -215,7 +213,6 @@ class SubordinatesDashboard {
                 dataType: "json",
                 success: (response) => {
                     console.log(response);
-                    console.log("ahhhh");
                 },
                 error : (response) => {
                     console.log(response);
