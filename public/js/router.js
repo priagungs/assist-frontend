@@ -66,6 +66,9 @@ Router.prototype = {
                     } else if (htmlName == 'procurement.html') {
                         var procurement = new Procurement();
                         procurement.init();
+                    } else if (htmlName == 'request.html') {
+                        var request = new Request();
+                        request.init();
                     }
                 }
             };

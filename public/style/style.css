@@ -1,3 +1,16 @@
+body {
+    background: rgb(223, 223, 223);
+}
+
+.container {
+    height: 100vh;
+    background: white;
+}
+
+#app {
+    margin: 0 auto;
+}
+
 .profile-image {
     display: block;
     margin: auto;
