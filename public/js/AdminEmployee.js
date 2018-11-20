@@ -165,9 +165,9 @@ class AdminEmployee {
                 pictureURL: imageUrl,
                 division: $("#form-add-employee-division").val(),
                 role: $("#form-add-employee-role").val(),
-                superior: {
+                superior: $("#id-superior-add-form").text ? {
                     idUser: parseInt($("#id-superior-add-form").text())
-                }
+                } : null
             }];
             if (this.validateSingleEntry(request[0])) {
                 this.addUser(request, false);
@@ -283,11 +283,6 @@ class AdminEmployee {
         }
         if (!request.division) {
             form_division.addClass("is-invalid");
-            result = false;
-        }
-        if (!request.superior.idUser) {
-            $(".superior-validation").text("Please provide a superior");
-            form_superior.addClass("is-invalid");
             result = false;
         }
 
@@ -444,9 +439,9 @@ class AdminEmployee {
                     pictureURL: $("#employee-update-section img").attr("src"),
                     division: $("#form-update-employee-division").val(),
                     role: $("#form-update-employee-role").val(),
-                    superior: {
+                    superior: $("#id-superior-update-form").text() ? {
                         idUser: parseInt($("#id-superior-update-form").text())
-                    }
+                    } : null
                 };
                 if (this.validateSingleEntry(request)) {
                     $.ajax({
