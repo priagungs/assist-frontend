@@ -103,3 +103,7 @@ thead th{
     background-color: rgb(224, 224, 224);
     color: #5D001E;
 }
+
+.modal {
+    padding: 0 !important;
+}

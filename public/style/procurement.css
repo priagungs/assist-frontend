@@ -10,18 +10,67 @@
     cursor: pointer;
 }
 
-#transaction-detail {
-    padding: 0 !important;
-}
-
 #transaction-detail .modal-body button {
     margin-left: 15px;
 }
 
 #table-procurement-detail {
-    margin-top: 15px;
+    margin-top: 10px;
 }
 
 #transaction-delete-invalid-feedback {
     text-align: end;
+}
+
+#add-item-transaction-btn {
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+#procurement h2 {
+    margin: 0;
+    margin-bottom: 1rem;
+}
+
+#procurement .dropdown-menu .row {
+    max-height: 50px;
+    margin: 0;
+}
+
+#procurement .dropdown-menu img {
+    height: 100%;
+    min-width: 48.75px;
+    max-width: 48.75px;
+}
+
+#procurement .dropdown-menu div {
+    padding: 0;
+}
+
+#procurement .dropdown-menu .col-10 {
+    padding-left: 10px;
+}
+
+#procurement .dropdown-menu .col-2 {
+    min-width: 48.75px;
+}
+
+#procurement .dropdown-menu {
+    min-width: 350px;
+}
+
+#procurement .dropdown-menu p {
+    margin: 0;
+    font-size: 0.7rem;
+    overflow: hidden;
+}
+
+#procurement .remove-item-transaction {
+    font-size: 1.1rem;
+    color: rgb(197, 197, 197);
+    cursor: pointer;
+}
+
+#procurement .remove-item-transaction:hover {
+    color: #5D001E;
 }
