@@ -15,6 +15,7 @@ class Procurement {
                 }
                 else {
                     this.fillTable();
+                    this.detailModalHandler();
                 }
             },
             statusCode: {
@@ -97,5 +98,43 @@ class Procurement {
                 }
             }
         });
+    }
+
+    detailModalHandler() {
+        $("#transaction-detail").on('show.bs.modal', (event) => {
+            var idTransaction = $(event.relatedTarget).data("idtransaction");
+            $.ajax({
+                method: "GET",
+                url: "/api/transactions/" + idTransaction,
+                dataType: "json",
+                success: (response) => {
+                    $("#transaction-detail-id").text(response.idTransaction);
+                    $("#transaction-detail-supplier").text(response.supplier);
+                    
+                    var date = new Date(response.transactionDate);
+                    $("#transaction-detail-date").text(date.toLocaleString());
+
+                    $("#transaction-detail-admin").text(response.admin.name + ' (' + response.admin.idUser + ')');
+                    
+                    var value = 0;
+                    var tableContent = '';
+                    response.itemTransactions.forEach(element => {
+                        value += element.boughtQty * element.price;
+                        
+                        tableContent += '<tr><td scope="row">' + element.item.idItem + '</td>'
+                        + '<td>' + element.item.itemName + '</td>'
+                        + '<td>' + element.boughtQty + '</td>'
+                        + '<td>Rp ' + element.price + '</td></tr>';
+                    })
+                    $("#transaction-detail-value").text(value);
+                    $("#table-procurement-detail tbody").html(tableContent);
+                },
+                statusCode: {
+                    401: () => {
+                        window.location = "login.html";
+                    }
+                }
+            });
+        })
     }
 }

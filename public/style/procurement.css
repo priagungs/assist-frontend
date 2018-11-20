@@ -9,3 +9,15 @@
 #table-procurements tbody tr {
     cursor: pointer;
 }
+
+#transaction-detail {
+    padding: 0 !important;
+}
+
+#transaction-detail .modal-body button {
+    margin-left: 15px;
+}
+
+#table-procurement-detail {
+    margin-top: 15px;
+}
