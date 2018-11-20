@@ -135,6 +135,32 @@ class Procurement {
                     }
                 }
             });
+            this.deleteHandler(idTransaction);
+        })
+    }
+
+    deleteHandler(idTransaction) {
+        $("#transaction-delete-invalid-feedback").attr("style", "display: none");
+        $("#delete-transaction").unbind().click(() => {
+            $.ajax({
+                method: "DELETE",
+                url: "/api/transactions",
+                data: JSON.stringify({idTransaction: idTransaction}),
+                contentType: "application/json",
+                success: () => {
+                    this.page = 0;
+                    this.fillTable();
+                    $("#transaction-detail").modal('hide');
+                },
+                statusCode: {
+                    403: () => {
+                        $("#transaction-delete-invalid-feedback").text("Couldn't delete this transaction, time limit exceeded").attr("style", "display: block");
+                    },
+                    400: () => {
+                        $("#transaction-delete-invalid-feedback").text("Couldn't delete this transaction, items are being used").attr("style", "display: block");
+                    }
+                }
+            });
         })
     }
 }

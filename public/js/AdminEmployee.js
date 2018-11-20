@@ -562,7 +562,7 @@ class AdminEmployee {
         $.ajax({
             method: "GET",
             url: "/api/user-items",
-            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser},
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort: "idUserHasItem"},
             dataType: "json",
             success: (response) => {
                 var content = '';

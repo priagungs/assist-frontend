@@ -21,3 +21,7 @@
 #table-procurement-detail {
     margin-top: 15px;
 }
+
+#transaction-delete-invalid-feedback {
+    text-align: end;
+}
