@@ -5,3 +5,7 @@
 #nav-procurements, #nav-create-procurement {
     margin-top: 20px;
 }
+
+#table-procurements tbody tr {
+    cursor: pointer;
+}

@@ -94,3 +94,12 @@ thead th{
     margin-left: 0;
     margin-right: 0;
 }
+
+.page-link {
+    color: #5D001E;
+}
+
+.page-link:hover {
+    background-color: rgb(224, 224, 224);
+    color: #5D001E;
+}
