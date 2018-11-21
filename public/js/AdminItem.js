@@ -5,11 +5,29 @@ class AdminItem {
         this.isLastPage = false;
     }
     init() {
-        this.detailModalHandler();
-        this.addModalHandler();
-        this.fillTable();
-        this.paginationHandler();
-        this.searchHandler();
+        $.ajax({
+            method: "GET",
+            url: "/api/login-detail",
+            dataType: "json",
+            success: (response) => {
+                if (!response.isAdmin) {
+                    window.location.hash = "#home";
+                }
+                else {
+                    this.detailModalHandler();
+                    this.addModalHandler();
+                    this.fillTable();
+                    this.paginationHandler();
+                    this.searchHandler();
+                }
+            },
+            statusCode: {
+                401 : () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+        
     }
 
     searchHandler() {

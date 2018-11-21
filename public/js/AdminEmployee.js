@@ -10,11 +10,28 @@ class AdminEmployee {
     }
 
     init() {
-        this.fillTable();
-        this.addModalHandler();
-        this.detailModalHandler();
-        this.paginationHandler();
-        this.searchHandler();
+        $.ajax({
+            method: "GET",
+            url: "/api/login-detail",
+            dataType: "json",
+            success: (response) => {
+                if (!response.isAdmin) {
+                    window.location.hash = "#home";
+                }
+                else {
+                    this.fillTable();
+                    this.addModalHandler();
+                    this.detailModalHandler();
+                    this.paginationHandler();
+                    this.searchHandler();
+                }
+            },
+            statusCode: {
+                401 : () => {
+                    window.location = "login.html";
+                }
+            }
+        })
     }
 
     searchHandler() {
@@ -148,9 +165,9 @@ class AdminEmployee {
                 pictureURL: imageUrl,
                 division: $("#form-add-employee-division").val(),
                 role: $("#form-add-employee-role").val(),
-                superior: {
+                superior: $("#id-superior-add-form").text ? {
                     idUser: parseInt($("#id-superior-add-form").text())
-                }
+                } : null
             }];
             if (this.validateSingleEntry(request[0])) {
                 this.addUser(request, false);
@@ -266,11 +283,6 @@ class AdminEmployee {
         }
         if (!request.division) {
             form_division.addClass("is-invalid");
-            result = false;
-        }
-        if (!request.superior.idUser) {
-            $(".superior-validation").text("Please provide a superior");
-            form_superior.addClass("is-invalid");
             result = false;
         }
 
@@ -427,9 +439,9 @@ class AdminEmployee {
                     pictureURL: $("#employee-update-section img").attr("src"),
                     division: $("#form-update-employee-division").val(),
                     role: $("#form-update-employee-role").val(),
-                    superior: {
+                    superior: $("#id-superior-update-form").text() ? {
                         idUser: parseInt($("#id-superior-update-form").text())
-                    }
+                    } : null
                 };
                 if (this.validateSingleEntry(request)) {
                     $.ajax({
@@ -550,7 +562,7 @@ class AdminEmployee {
         $.ajax({
             method: "GET",
             url: "/api/user-items",
-            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser},
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort: "idUserHasItem"},
             dataType: "json",
             success: (response) => {
                 var content = '';
