@@ -10,14 +10,12 @@ class Handover {
 
 
     fillRequestTable() {
-        console.log("MASUK!!");
         $.ajax({
             method: "GET",
             url: "api/requests",
             data: {page: this.itemPage, limit: this.itemLimit, status: "APPROVED", sort: "idRequest"},
             dataType: "json",
             success: (response) => {
-                console.log("OINKK");
                 console.log(response);
                 var content = "";
                 response.content.forEach(element => {
