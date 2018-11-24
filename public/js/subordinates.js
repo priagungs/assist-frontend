@@ -218,6 +218,9 @@ class SubordinatesDashboard {
                     console.log(response);
                 }
             });
+
+            // this.fillSubDetail(); masih binggung get iduser yang request selain
+            //  nembak api
         });
     }
 }

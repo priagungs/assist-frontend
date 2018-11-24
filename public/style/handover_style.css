@@ -6,3 +6,8 @@
     padding-top: 20px;
     padding-bottom: 5px;
 }
+
+.handover-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
