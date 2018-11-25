@@ -13,9 +13,8 @@
 }
 
 .form-control {
-	position: relative;
 	font-size: 16px;
-	height: auto;
+	height: 50%;
 	padding: 10px;
 }
 
@@ -27,8 +26,8 @@ body {
     background-size: cover;
 }
 
-.login-form {
-	margin-top: 50%;
+#pwd-container {
+    min-height: 100vh;
 }
 
 form[role=login] {

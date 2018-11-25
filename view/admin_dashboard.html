@@ -44,33 +44,33 @@
                             <div class="container-fluid">
                                 <section id="detail-item">
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-12 col-sm-5">
                                             <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
                                         </div>
-                                        <div class="col-8">
-                                            <p><b>Price</b> : Rp <span class="item-price"></span></p>
-                                            <p><b>Quantity</b> : <span class="item-total-qty"></span></p>
-                                            <p><b>Available Quantity</b> : <span class="item-available-qty"></span></p>
-                                            <p class="item-description"></p>
+                                        <div class="col-12 col-sm-7">
+                                            <h5><b>Price</b> : Rp <span class="item-price"></span></h5>
+                                            <h5><b>Quantity</b> : <span class="item-total-qty"></span></h5>
+                                            <h5><b>Available Quantity</b> : <span class="item-available-qty"></span></h5>
+                                            <h5 class="item-description"></h5>
                                         </div>
                                     </div>
                                     <div class="row justify-content-end">
-                                            <button type="button" class="btn btn-primary update-btn">Update</button>
-                                            <button type="button" class="btn btn-primary delete-btn">Delete</button>
+                                        <button type="button" class="col-4 col-sm-2 btn btn-primary update-btn">Update</button>
+                                        <button type="button" class="col-4 col-sm-2 btn btn-primary delete-btn">Delete</button>
                                     </div>
                                 </section>
 
                                 <section id="update-item" style="display:none">
                                     <form>
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-12 col-sm-5">
                                                 <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
                                                 <div class="image-uploader">
                                                     <label for="item-update-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
                                                     <input type="file" accept="image/*" id="item-update-image-uploader" name="file" class="item-form-image" style="display:none">
                                                 </div>
                                             </div>
-                                            <div class="col-8">
+                                            <div class="col-12 col-sm-7">
                                                 <div class="form-group">
                                                     <label for="form-update-item-name">Item Name</label>
                                                     <input type="text" name="form-update-item-name" id="form-update-item-name" class="form-control item-form-name" value="Indomie Ayam Bawang">
@@ -94,7 +94,7 @@
                                             </div>
                                         </div>
                                         <div class="row justify-content-end">
-                                            <button type="form" class="btn btn-primary save-update-btn">Save</button>
+                                            <button type="form" class="col-4 col-sm-2 btn btn-primary save-update-btn">Save</button>
                                         </div>
                                     </form>
                                 </section>
@@ -126,14 +126,14 @@
                                     <div class="tab-pane fade show active" id="single-item-entry" role="tabpanel" aria-labelledby="single-item-entry-tab">
                                         <form>
                                             <div class="row">
-                                                <div class="col-4">
+                                                <div class="col-12 col-sm-5">
                                                     <img src="/public/images/no-image.jpg" class="img-thumbnail" alt="">
                                                     <div class="image-uploader">
                                                         <label for="item-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
                                                         <input type="file" accept="image/*" name="file" class="item-form-image" id="item-add-image-uploader" style="display:none">
                                                     </div>
                                                 </div>
-                                                <div class="col-8">
+                                                <div class="col-12 col-sm-7">
 
                                                     <div class="form-group">
                                                         <label for="form-add-item-name">Item Name</label>
@@ -233,10 +233,10 @@
                         <div class="modal-body container-fluid">
                             <section id="employee-detail-section">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-12 col-sm-5">
                                         <img src="/public/images/profile.png" class="img-thumbnail" alt="">
                                     </div>
-                                    <div class="col-8">
+                                    <div class="col-12 col-sm-7">
                                         <h3 id="employee-detail-name"></h3>
                                         <h5><strong>ID : </strong><span id="employee-detail-id"></span></h5>
                                         <h5><strong>Admin : </strong><span id="employee-detail-isadmin"></span></h5>
@@ -247,7 +247,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-sm-6 col-12">
                                         <h4>Items</h4>
                                         <table class="table table-hover table-bordered table-sm table-employee-items">
                                             <thead>
@@ -262,7 +262,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="col-md-6 col-sm-12">
+                                    <div class="col-sm-6 col-12">
                                         <h4>Subordinates</h4>
                                         <table class="table table-bordered table-sm table-employee-subordinates">
                                             <thead>
@@ -279,22 +279,22 @@
                                     </div>
                                 </div>
                                 <div class="row justify-content-end">
-                                    <button type="button" class="btn btn-primary update-btn">Update</button>
-                                    <button type="button" class="btn btn-primary delete-btn">Delete</button>
+                                    <button type="button" class="col-4 col-sm-2 btn btn-primary update-btn">Update</button>
+                                    <button type="button" class="col-4 col-sm-2 btn btn-primary delete-btn">Delete</button>
                                 </div>
                             </section>
 
                             <section id="employee-update-section" style="display: none">
                                 <form>
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-12 col-sm-5">
                                             <img src="/public/images/profile.png" class="img-thumbnail default-image-form" alt="">
                                             <div class="image-uploader">
                                                 <label for="employee-update-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
                                                 <input type="file" accept="image/*" name="file" class="employee-form-image" id="employee-update-image-uploader" style="display:none">
                                             </div>
                                         </div>
-                                        <div class="col-8">
+                                        <div class="col-12 col-sm-7">
                                             <div class="form-group">
                                                 <label for="form-update-employee-name">Name</label>
                                                 <input type="text" maxlength="255" name="form-update-employee-name" id="form-update-employee-name" class="form-control employee-form-name" required>
@@ -371,14 +371,14 @@
                                     <div class="tab-pane fade show active" id="single-employee-entry" role="tabpanel" aria-labelledby="single-employee-entry-tab">
                                         <form>
                                             <div class="row">
-                                                <div class="col-4">
+                                                <div class="col-12 col-sm-5">
                                                     <img src="/public/images/profile.png" class="img-thumbnail default-image-form" alt="">
                                                     <div class="image-uploader">
                                                         <label for="employee-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
                                                         <input type="file" accept="image/*" name="file" class="employee-form-image" id="employee-add-image-uploader" style="display:none">
                                                     </div>
                                                 </div>
-                                                <div class="col-8">
+                                                <div class="col-12 col-sm-7">
                                                     <div class="form-group">
                                                         <label for="form-add-employee-name">Name</label>
                                                         <input type="text" maxlength="255" name="form-add-employee-name" id="form-add-employee-name" class="form-control employee-form-name" required>

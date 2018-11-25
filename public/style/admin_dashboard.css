@@ -4,6 +4,11 @@
     justify-content: center;
 }
 
+.img-thumbnail {
+    min-width: 100%;
+    margin-bottom: 1rem;
+}
+
 .item-description {
     text-align: justify;
 }
@@ -123,5 +128,3 @@
     background-color: #5D001E;
     color: white;
 }
-
-
