@@ -92,7 +92,7 @@ class Procurement {
 
                     content += '<td>Rp ' + value + '</td></tr>';
                 });
-                
+
                 $("#table-procurements tbody").html(content);
             },
             statusCode: {
@@ -113,17 +113,17 @@ class Procurement {
                 success: (response) => {
                     $("#transaction-detail-id").text(response.idTransaction);
                     $("#transaction-detail-supplier").text(response.supplier);
-                    
+
                     var date = new Date(response.transactionDate);
                     $("#transaction-detail-date").text(date.toLocaleString());
 
                     $("#transaction-detail-admin").text(response.admin.name + ' (' + response.admin.idUser + ')');
-                    
+
                     var value = 0;
                     var tableContent = '';
                     response.itemTransactions.forEach(element => {
                         value += element.boughtQty * element.price;
-                        
+
                         tableContent += '<tr><td scope="row">' + element.item.idItem + '</td>'
                         + '<td>' + element.item.itemName + '</td>'
                         + '<td>' + element.boughtQty + '</td>'
@@ -173,7 +173,7 @@ class Procurement {
         $("#add-item-transaction-modal").unbind().on('show.bs.modal', () => {
             this.resetAddItemTransactionForm();
             this.addItemTransactionFormHandler();
- 
+
             $("#add-item-transaction-modal-btn").unbind().click(() => {
                 var itemTransaction = {
                     item: {
@@ -247,7 +247,7 @@ class Procurement {
         itemForm.unbind().on('input', () => {
             itemForm.removeClass('is-invalid');
         })
-        
+
         priceForm.unbind().on('input', () => {
             priceForm.removeClass('is-invalid');
         })
@@ -324,7 +324,7 @@ class Procurement {
                         var dropdown_content = "";
                         response.content.forEach((element) => {
                             dropdown_content += '<button class="dropdown-item candidate-item-trx" data-iditem="' + element.idItem + '" data-name="' + element.itemName + '">'
-                            + '<div class="row"><div class="col-2">' 
+                            + '<div class="row"><div class="col-2">'
                             + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
                             + '<div class="col-10">'
                             + '<p><strong>' + element.itemName + '</strong></p>'

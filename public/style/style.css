@@ -107,3 +107,31 @@ thead th{
 .modal {
     padding: 0 !important;
 }
+
+#home .dropdown-menu .row {
+    max-height: 50px;
+    margin: 0;
+}
+
+#home .dropdown-menu img {
+    max-height: 100%;
+    min-width: 48.75px;
+}
+
+#home .dropdown-menu div {
+    padding: 0;
+}
+
+#home .dropdown-menu .col-10 {
+    padding-left: 10px;
+}
+
+#home .dropdown-menu {
+    min-width: 350px;
+}
+
+#admin-dashboard .dropdown-menu p {
+    margin: 0;
+    font-size: 0.7rem;
+    overflow: hidden;
+}

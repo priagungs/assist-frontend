@@ -15,7 +15,23 @@
     <link rel="stylesheet" href="/public/style/procurement.css">
     <link rel="stylesheet" href="/public/style/handover_style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <script type="text/javascript">
+        $.ajax({
+            type: "get",
+            async: false,
+            url: "/api/login-detail",
+            success: function (data, status) {
+                if (!data.isAdmin) {
+                    $(".admin-only").attr("style", "display: none");
+                }
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+    </script>
 </head>
 
 <body>
