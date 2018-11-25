@@ -15,11 +15,10 @@
             <div class="filter-container">
                 <label for="filter" class="mx-auto">Show:</label>
                 <select class="filter mx-auto" data-tableId="items">
-                  <option value="all">All</option>
+                  <option value="sent">Sent</option>
                   <option value="requested">Requested</option>
                   <option value="approved">Approved</option>
                   <option value="rejected">Rejected</option>
-                  <option value="sent">Sent</option>
                   <option value="returned">Returned</option>
                 </select>
             </div>
@@ -28,7 +27,6 @@
         <table id="items" class="table table-responsive-sm table-hover table-bordered">
             <thead>
                 <tr class="text-light">
-                    <th class="text-center dark_red">No</th>
                     <th class="text-center dark_red">Item Name</th>
                     <th class="text-center dark_red">Qty</th>
                     <th class="text-center dark_red">Status</th>
@@ -100,7 +98,13 @@
                     <div class="container-fluid">
                         <nav>
                             <div class="input-group col-8 search-bar">
-                                <input type="text" id="search-item" class="form-control" placeholder="Search" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                                <div id="id-search-item-form" class="id-item" style="display:none"></div>
+                                <div class="dropdown">
+                                    <input type="text" maxlength="255" name="form-search-item" id="form-search-item" class="form-control search-item-form" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <div class="invalid-feedback search-validation"></div>
+                                    <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-search-item" aria-labelledby="form-search-item">
+                                    </div>
+                                </div>
                             </div>
                         </nav>
                         <table id="items" class="table table-responsive-sm table-hover table-bordered">

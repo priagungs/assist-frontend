@@ -56,7 +56,7 @@ class AdminEmployee {
                             + '<td class="text-center">' + element.role + '</td>'
                             + '</tr>';
                         });
-        
+
                         $("#all-employee-table").html(content);
                     },
                     statusCode: {
@@ -193,7 +193,7 @@ class AdminEmployee {
                         var dropdown_content = "";
                         response.content.forEach((element) => {
                             dropdown_content += '<button class="dropdown-item candidate-superior" data-iduser="' + element.idUser + '" data-name="' + element.name + '">'
-                            + '<div class="row"><div class="col-2">' 
+                            + '<div class="row"><div class="col-2">'
                             + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/profile.png") + '" class="img-thumbnail rounded-circle" alt=""></div>'
                             + '<div class="col-10">'
                             + '<p><strong>' + element.name + '</strong></p>'
@@ -327,21 +327,21 @@ class AdminEmployee {
     validateBulkEntries(requests) {
         var upload_form = $("#upload-bulk-employee-entries");
         var invalid_feedback = $("#bulk-employee-entry-invalid-feedback");
-        upload_form.unbind().change(function () {  
+        upload_form.unbind().change(function () {
             upload_form.removeClass("is-invalid");
         });
         this.bulkEntryHandler();
 
         var valid = true;
         for (var request in requests) {
-            if (!requests[request].isAdmin || !requests[request].name || !requests[request].username 
+            if (!requests[request].isAdmin || !requests[request].name || !requests[request].username
                 || !requests[request].division || !requests[request].password
                 || !requests[request].pictureURL || !requests[request].role || !requests[request].superior.idUser) {
                 upload_form.addClass("is-invalid");
                 invalid_feedback.text("Invalid input! All field must be filled");
                 valid = false;
             }
-        } 
+        }
         return valid;
     }
 
@@ -600,5 +600,5 @@ class AdminEmployee {
                 }
             }
         });
-    } 
+    }
 }

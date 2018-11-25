@@ -38,35 +38,65 @@ class Home {
     fillItemTable(idUser) {
         $.ajax({
             method: "GET",
-            url: "/api/requests",
-            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, sort: "idRequest"},
+            url: "/api/user-items",
+            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, sort: "idUserHasItem"},
             dataType: "json",
             success: (response) => {
-                if (response.pictureURL != '') {
-                    $("#profile-photo").attr("src", response.pictureURL);
-                }
-                else {
-                    $("#profile-photo").attr("src", "/public/images/item.jpg");
-                }
-                var no = 1;
                 var content = "";
                 response.content.forEach(element => {
                     content += '<tr class="' + element.requestStatus +
                     '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
                     + '" data-itemname="' + element.item.itemName
-                    + '" data-idrequest="' + element.idRequest + '">'
-                    + '<td class="text-center">' + no + '</td>'
+                    + '" data-status="' + 'SENT'
+                    + '" data-idhasitem="' + element.idUserHasItem + '">'
                     + '<td>' + element.item.itemName +'</td>'
-                    + '<td class="text-center">' + element.reqQty + '</td>'
-                    + '<td class="text-center">' + element.requestStatus + '</td>'
+                    + '<td class="text-center">' + element.hasQty + '</td>'
+                    + '<td class="text-center">' + 'SENT' + '</td>'
                     + '</tr>';
-                    no++;
                     console.log("AUNG" + element.item.itemName);
                 });
                 $("#content-items").html(content);
             }
         })
     }
+    fillCustomItemTable(idUser, status) {
+        $.ajax({
+            method: "GET",
+            url: "/api/requests",
+            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, status:status.toUpperCase(), sort: "idRequest"},
+            dataType: "json",
+            success: (response) => {
+                var content = "";
+                response.content.forEach(element => {
+                    content += '<tr class="' + element.requestStatus +
+                    '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                    + '" data-itemname="' + element.item.itemName
+                    + '" data-status="' + element.requestStatus
+                    + '" data-idrequest="' + element.idRequest + '">'
+                    + '<td>' + element.item.itemName +'</td>'
+                    + '<td class="text-center">' + element.reqQty + '</td>'
+                    + '<td class="text-center">' + element.requestStatus + '</td>'
+                    + '</tr>';
+                    console.log("AUNG" + element.item.itemName);
+                });
+                $("#content-items").html(content);
+            }
+        })
+    }
+
+    tableHandler(idUser) {
+        $(".filter").change(() => {
+            var status = $(".filter").val();
+            this.emptyTable();
+            if (status == "sent") {
+                this.fillItemTable(idUser);
+            } else {
+                console.log(status);
+                this.fillCustomItemTable(idUser, status);
+            }
+        })
+    }
+
     fillHomeItemDetail(idItem) {
         console.log("OINK");
         console.log("oin",idItem);
@@ -98,32 +128,40 @@ class Home {
     detailModalHandler() {
         $("#home-item-detail").unbind().on('show.bs.modal', (event)=> {
             var idItem = $(event.relatedTarget).data('iditem');
+            var status = $(event.relatedTarget).data('status');
+            console.log(idItem);
+            console.log(status);
             this.fillHomeItemDetail(idItem);
+
+            if (status!="SENT" && status!="sent") {
+                var buttonreturn = document.getElementById('return-btn');
+                buttonreturn.style.display='none';
+            }
 
             $("#return-btn").unbind().click(() => {
                 if (confirm("Are you sure you want to return " + $(event.relatedTarget).data('itemname') + '?')) {
-                    this.updateRequest($(event.relatedTarget).data('idrequest'), idItem);
+                    console.log($(event.relatedTarget).data('idhasitem'));
+                    var deleteditem = {
+                        idUserHasItem : $(event.relatedTarget).data('idhasitem')
+                    };
+                    this.deleteRequest(deleteditem, idItem);
                 }
             })
         });
     }
 
-    updateRequest(idRequest, idItem) {
-        // request = {
-        //     idRequest : idRequest,
-        //     requestStatus : "RETURNED"
-        // }
-        console.log(idRequest);
-        // $.ajax({
-        //     method: "PUT",
-        //     url: "api/requests",
-        //     data: JSON.stringify(request),
-        //     contentType: "application/json",
-        //     dataType: "json",
-        //     success: (response) => {
-        //         this.fillItemDetail(idItem);
-        //     }
-        // })
+    deleteRequest(deleteditem, idItem) {
+        $.ajax({
+            method: "DELETE",
+            url: "/api/user-items",
+            data: JSON.stringify(deleteditem),
+            contentType: "application/json",
+            dataType: "json",
+            success: (response) => {
+                this.fillItemDetail(idItem);
+                this.fillItemTable();
+            }
+        })
     }
 
     paginationHandler(idUser) {
@@ -148,51 +186,53 @@ class Home {
         });
     }
 
-    fillCustomItemTable(idUser, status) {
-        $.ajax({
-            method: "GET",
-            url: "/api/requests",
-            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, status: status.toUpperCase(), sort: "idRequest"},
-            dataType: "json",
-            success: (response) => {
-                if (response != null) {
-                    if (response.pictureURL != '') {
-                        $("#profile-photo").attr("src", response.pictureURL);
-                    }
-                    else {
-                        $("#profile-photo").attr("src", "/public/images/item.jpg");
-                    }
-                    var no = 1;
-                    var content = "";
-                    response.content.forEach(element => {
-                        content += '<tr class="' + element.requestStatus + '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem + '">'
-                        + '<td class="text-center">' + no + '</td>'
-                        + '<td>' + element.item.itemName +'</td>'
-                        + '<td class="text-center">' + element.reqQty + '</td>'
-                        + '<td class="text-center">' + element.requestStatus + '</td>'
-                        + '</tr>';
-                        no++;
-                    });
-                    $("#content-items").html(content);
-                }
-            }
-        })
-    }
-
-    tableHandler(idUser) {
-        $(".filter").change(() => {
-            var status = $(".filter").val();
-            this.emptyTable();
-            if (status == "all") {
-                this.fillItemTable(idUser);
-            } else {
-                this.fillCustomItemTable(idUser, status);
-            }
-        })
-    }
-
     emptyTable() {
         var content = "";
         $("#content-items").html(content);
     }
+
+    searchHandler() {
+        $(".search-item-form").unbind().focusin(() => {
+            console.log("masuk search");
+            $("#home .dropdown-menu").html('<p class="dropdown-item"><strong>No Item Found</strong></p>');
+        })
+        $(".search-item-form").on("input", (event) => {
+            console.log("ngetik search");
+            $(".search-item-form").removeClass("is-invalid");
+            $(".id-item").text("");
+            if (event.target.value) {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/items",
+                    data: {page:0, limit: 10, sort: itemName, keyword:event.target.value},
+                    dataType: "json",
+                    success: function (response) {
+                        var dropdown_content = "";
+                        response.content.forEach((element) => {
+                            dropdown_content += '<button class="dropdown-item candidate-item" data-iditem="' + element.idItem + '" data-name="' + element.itemName + '">'
+                            + '<div class="row"><div class="col-10">'
+                            + '<p><strong>' + element.itemName + '</strong></p>'
+                            + '<p><i>Available :' + element.availableQty + '</i></p></div></button>';
+                        });
+                        if (response.content.length > 0) {
+                            $('#home .dropdown-menu').html(dropdown_content);
+                        } else {
+                            $("#home .dropdown-menu").html('<p class="dropdown-item"><strong>No Item Found</strong></p>');
+                        }
+
+                        $("#dropdown-search-item .candidate-superior").unbind().click((event) => {
+                            event.preventDefault();
+                            $("#form-search-item").val($(event.currentTarget).data('name'));
+                            $("#id-search-item-form").text($(event.currentTarget).data('iditem'));
+                        })
+                    }
+                });
+            }
+            else {
+                $('#dropdown-search-item').html('<p class="dropdown-item"><strong>Insert Item</strong></p>');
+            }
+        })
+    }
+
+
 }
