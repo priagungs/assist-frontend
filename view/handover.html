@@ -7,12 +7,14 @@
                 <th class="text-center dark_red">Item Name</th>
                 <th class="text-center dark_red">Employee Name</th>
                 <th class="text-center dark_red">Qty</th>
-                <th class="text-center dark_red"></th>
+                <th class="text-center dark_red">Check For SENT !</th>
             </tr>
         </thead>
         <tbody id="content-items">
         </tbody>
     </table>
+    <div class="d-flex">
+    <div class="flex-grow-1">
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item" id="page-handover-prev">
@@ -29,5 +31,10 @@
             </li>
         </ul>
     </nav>
+    </div>
+    <div class="flex-grow-1 d-flex justify-content-end">
+        <button  type="button" class="h-75 btn btn-success" id="send-button">SENT</button>
+    </div>
+    </div>
 </section>
 

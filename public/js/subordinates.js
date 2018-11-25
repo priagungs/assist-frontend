@@ -13,6 +13,11 @@ class SubordinatesDashboard {
             success: (data, status) => {
                 this.fillSubordinatesDetail(data.idUser);
                 this.detailSubordinateHandler(data.idUser);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
             }
         });
 
