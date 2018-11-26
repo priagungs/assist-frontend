@@ -25,25 +25,34 @@ class SubordinatesDashboard {
 
 
     fillSubordinatesDetail(idUser) {
+
         $.ajax({
             type: "get",
             url: "/api/users",
             data : {page : this.subordinatePage, limit : this.subordinateLimit, sort: this.sortUser, idSuperior : idUser},
             dataType: "json",
             success: (response) => {
+                console.log("ini");
+                console.log(response.content.length);
                 console.log(response.content);
                 console.log("masuk add element");
                 var index=1;
                 var content = "";
-                response.content.forEach(element => {
-                    content += '<tr data-toggle="modal" data-target="#subordinates-detail" data-idUser="' + element.idUser +'">'
-                    + '<td>' + element.name + '</td>'
-                    + '<td>' + element.role + '</td>'
-                    + '<td id="sub-detail-index-'+index+'"> </td>'
-                    + '</tr>';
-                    this.fillCounterRequest(element.idUser,index);
-                    index++;
-                });
+                if(response.content.length > 0) {
+                    response.content.forEach(element => {
+                        content += '<tr data-toggle="modal" data-target="#subordinates-detail" data-idUser="' + element.idUser +'">'
+                        + '<td>' + element.name + '</td>'
+                        + '<td>' + element.role + '</td>'
+                        + '<td id="sub-detail-index-'+index+'"> </td>'
+                        + '</tr>';
+                        this.fillCounterRequest(element.idUser,index);
+                        index++;
+                    });
+                } else {
+                    content = '<tr>'
+                            + '<td colspan="3">There is no Subordinates</td>'
+                            + '</tr>';
+                }
                 $("#data-table-subordinates").html(content);
             }
         });
@@ -63,7 +72,7 @@ class SubordinatesDashboard {
             url: "/api/user/" + idUser,
             dataType : "json",
             success: (response) => {
-                console.log(response);
+                // console.log(response);
                 if (response.pictureURL) {
                     $("#subordinates-detail img").attr("src", response.pictureURL);
                 }
@@ -115,6 +124,7 @@ class SubordinatesDashboard {
             data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort: "idRequest"},
             dataType: "json",
             success: (response) => {
+
                 var idx = 1;
                 var content = '';
                 response.content.forEach((element) => {

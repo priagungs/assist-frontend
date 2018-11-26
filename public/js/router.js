@@ -69,6 +69,9 @@ Router.prototype = {
                     } else if (htmlName == 'handover.html') {
                         var request = new Handover();
                         request.init();
+                    } else if (htmlName == 'setting.html') {
+                        var setting = new Setting();
+                        setting.init();
                     }
                 }
             };

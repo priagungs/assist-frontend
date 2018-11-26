@@ -20,11 +20,6 @@
             type: "get",
             async: false,
             url: "/api/login-detail",
-            success: function (data, status) {
-                if (!data.isAdmin) {
-                    $(".admin-only").attr("style", "display: none");
-                }
-            },
             statusCode: {
                 401: () => {
                     window.location = "login.html";
@@ -43,9 +38,9 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto" id="navbar-list">
                 <li class="nav-item font_white">
-                    <a class="nav-link" href="#home">Home</a>
+                    <a class="nav-link active" href="#home">Home</a>
                 </li>
                 <li class="nav-item font_white">
                     <a class="nav-link" href="#subordinates">Subordinates</a>
@@ -60,7 +55,7 @@
                     <a class="nav-link admin-only" href="#procurement">Procurement</a>
                 </li>
                 <li class="nav-item font_white">
-                    <a class="nav-link admin-only" href="#setting">Setting</a>
+                    <a class="nav-link" href="#setting">Setting</a>
                 </li>
             </ul>
             <div id="logout-button" class="nav-item my-2 my-lg-0">
@@ -81,13 +76,14 @@
     <script src="public/js/route.js"></script>
     <script src="public/js/router.js"></script>
     <script src="public/js/app.js"></script>
-    <script src="public/js/navbar.js"></script>
     <script src="public/js/home.js"></script>
     <script src="/public/js/AdminItem.js"></script>
     <script src="/public/js/AdminEmployee.js"></script>
     <script src="public/js/subordinates.js"></script>
     <script src="/public/js/Procurement.js"></script>
     <script src="/public/js/handover.js"></script>
+    <script src="/public/js/setting.js"></script>
+    <script src="public/js/navbar.js"></script>
 
 
 </body>

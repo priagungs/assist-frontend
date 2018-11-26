@@ -25,6 +25,11 @@ class Home {
     }
 
     fillUserCard(data) {
+        if (data.pictureURL) {
+            $('#profile-photo').attr('src', data.pictureURL);
+        } else {
+            $('#profile-photo').attr('src', "public/images/profile.png");
+        }
         $("#name").text(data.name);
         $("#nip").text(data.idUser);
         $("#division").text(data.division);
@@ -111,11 +116,12 @@ class Home {
             success: (response) => {
                 console.log("hoiii");
                 $("#item-detail-name").text(response.itemName);
-                if (response.pictureURL != '') {
-                    $("#detail-item img").attr("src", response.pictureURL);
+                console.log($("#detail-item img"));
+                if (response.pictureURL) {
+                    $("#img-detail-item-home").attr("src", response.pictureURL);
                 }
                 else {
-                    $("#detail-item img").attr("src", "/public/images/no-image.jpg");
+                    $("#img-detail-item-home").attr("src", "/public/images/no-image.jpg");
                 }
                 $("#detail-item #item-price").text(response.price);
                 $("#detail-item #item-total-qty").text(response.totalQty);
