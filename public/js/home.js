@@ -3,6 +3,7 @@ class Home {
     constructor() {
         this.itemPage = 0;
         this.itemLimit = 10;
+        this.dropdownLimit = 5;
     }
 
     init() {
@@ -11,12 +12,14 @@ class Home {
             url: "/api/login-detail/",
             dataType: "json",
             success: (data, status) => {
+                this.loggedInUser = data;
                 this.fillUserCard(data);
                 this.emptyTable();
                 this.fillItemTable(data.idUser);
                 this.detailModalHandler();
                 this.tableHandler(data.idUser);
                 this.paginationHandler(data.idUser);
+                this.createRequestHandler();
             }
         });
     }
@@ -59,6 +62,7 @@ class Home {
             }
         })
     }
+
     fillCustomItemTable(idUser, status) {
         $.ajax({
             method: "GET",
@@ -94,7 +98,7 @@ class Home {
                 console.log(status);
                 this.fillCustomItemTable(idUser, status);
             }
-        })
+        });
     }
 
     fillHomeItemDetail(idItem) {
@@ -125,8 +129,15 @@ class Home {
             }
         });
     }
+
+    emptyHomeItemDetail() {
+        $("#detail-item").html('');
+        $("#item-detail-name").html('');
+    }
+
     detailModalHandler() {
         $("#home-item-detail").unbind().on('show.bs.modal', (event)=> {
+            // this.emptyHomeItemDetail();
             var idItem = $(event.relatedTarget).data('iditem');
             var status = $(event.relatedTarget).data('status');
             console.log(idItem);
@@ -146,7 +157,7 @@ class Home {
                     };
                     this.deleteRequest(deleteditem, idItem);
                 }
-            })
+            });
         });
     }
 
@@ -159,7 +170,7 @@ class Home {
             dataType: "json",
             success: (response) => {
                 this.fillItemDetail(idItem);
-                this.fillItemTable();
+                this.fillItemTable(this.loggedInUser.idUser);
             }
         })
     }
@@ -191,48 +202,126 @@ class Home {
         $("#content-items").html(content);
     }
 
-    searchHandler() {
-        $(".search-item-form").unbind().focusin(() => {
-            console.log("masuk search");
-            $("#home .dropdown-menu").html('<p class="dropdown-item"><strong>No Item Found</strong></p>');
-        })
-        $(".search-item-form").on("input", (event) => {
-            console.log("ngetik search");
-            $(".search-item-form").removeClass("is-invalid");
-            $(".id-item").text("");
-            if (event.target.value) {
-                $.ajax({
-                    type: "GET",
-                    url: "/api/items",
-                    data: {page:0, limit: 10, sort: itemName, keyword:event.target.value},
-                    dataType: "json",
-                    success: function (response) {
-                        var dropdown_content = "";
-                        response.content.forEach((element) => {
-                            dropdown_content += '<button class="dropdown-item candidate-item" data-iditem="' + element.idItem + '" data-name="' + element.itemName + '">'
-                            + '<div class="row"><div class="col-10">'
-                            + '<p><strong>' + element.itemName + '</strong></p>'
-                            + '<p><i>Available :' + element.availableQty + '</i></p></div></button>';
-                        });
-                        if (response.content.length > 0) {
-                            $('#home .dropdown-menu').html(dropdown_content);
-                        } else {
-                            $("#home .dropdown-menu").html('<p class="dropdown-item"><strong>No Item Found</strong></p>');
-                        }
+    createRequestHandler() {
+        $("#add-request").on('show.bs.modal', () => {
+            this.requestItems = [];
+            this.fillCreateRequestTable();
+            this.searchHandler();
+            this.submitRequestHandler();
+        });
+    }
 
-                        $("#dropdown-search-item .candidate-superior").unbind().click((event) => {
-                            event.preventDefault();
-                            $("#form-search-item").val($(event.currentTarget).data('name'));
-                            $("#id-search-item-form").text($(event.currentTarget).data('iditem'));
-                        })
-                    }
-                });
-            }
-            else {
-                $('#dropdown-search-item').html('<p>')
-            }
+    submitRequestHandler() {
+        $("#add-request-btn").unbind().click(() => {
+            var requestBody = {
+                idUser: this.loggedInUser.idUser,
+                items: this.requestItems
+            };
+            $.ajax({
+                method: "POST",
+                url: "/api/requests",
+                data: JSON.stringify(requestBody),
+                contentType: "application/json",
+                success: () => {
+                    this.fillItemTable(this.loggedInUser.idUser);
+                    $("#add-request").modal('hide');
+                }
+            })
         })
     }
 
 
+    addRequestItems(idItem) {
+        $.ajax({
+            method: "GET",
+            url: "/api/items/" + idItem,
+            dataType: "json",
+            success: (response) => {
+                this.requestItems.push({
+                    item: response,
+                    requestQty: 1
+                });
+                this.fillCreateRequestTable();
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+    }
+
+    fillCreateRequestTable() {
+        var content = '';
+        var index = 0;
+        this.requestItems.forEach((element) => {
+            content += '<tr><td class="text-center">' + element.item.idItem + '</td>'
+                + '<td>' + element.item.itemName + '</td>'
+                + '<td class="target-item-request text-center"><input type="number" data-index="' + index + '" id="item-request-' + element.item.idItem + '" max="' + element.item.availableQty
+                + '" style="width: 3rem" min="1" value="' + element.requestQty + '"></td>'
+                + '<td class="text-center" style="width: 3rem"><i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td></tr>';
+            index++;
+        });
+        $("#content-create-request-items").html(content);
+        $(".remove-item-transaction").unbind().click(event => {
+            var removeIdx = $(event.currentTarget).data('index');
+            this.requestItems.splice(removeIdx, 1);
+            this.fillCreateRequestTable();
+        });
+        $(".target-item-request input").unbind().on('mouseup keyup change', (event) => {
+            var idx = $(event.currentTarget).data('index');
+            this.requestItems[idx].requestQty = parseInt(event.currentTarget.value)
+        });
+    }
+
+    searchHandler() {
+        $("#form-add-item-request").unbind().focusin(() => {
+            $('#home .dropdown-menu').html('<p class="dropdown-item"><strong>Insert Item</strong></p>');
+        });
+        $("#form-add-item-request").on('input', (event) => {
+            $("#form-add-item-request").removeClass("is-invalid");
+            $("#id-item-form").text("");
+            if (event.target.value) {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/items",
+                    data: {page: 0, limit: this.dropdownLimit, sort: "itemName", keyword: event.target.value, minqty: 0},
+                    dataType: "json",
+                    success: (response) => {
+                        var dropdown_content = "";
+                        response.content.forEach((element) => {
+                            dropdown_content += '<button class="dropdown-item candidate-item-trx" data-iditem="' + element.idItem + '" data-name="' + element.itemName + '">'
+                            + '<div class="row"><div class="col-2">'
+                            + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
+                            + '<div class="col-10">'
+                            + '<p><strong>' + element.itemName + '</strong></p>'
+                            + '<p>ID : ' + element.idItem + '</p>'
+                            + '<p>Available Qty : ' + element.availableQty + '</p>'
+                            + '</div></div></button>';
+                        });
+                        if (response.content.length > 0) {
+                            $('#home .dropdown-menu').html(dropdown_content);
+                        }
+                        else {
+                            $('#home .dropdown-menu').html('<p class="dropdown-item"><strong>Item not found</strong></p>');
+                        }
+
+                        $("#dropdown-add-item-request .candidate-item-trx").unbind().click((event) => {
+                            event.preventDefault();
+                            $("#form-add-item-request").val("");
+                            this.addRequestItems(parseInt($(event.currentTarget).data('iditem')));
+                        });
+                    },
+                    statusCode: {
+                        401: () => {
+                            window.location = "login.html";
+                        }
+                    }
+                });
+            }
+            else {
+                $('#dropdown-add-item-transaction').html('<p class="dropdown-item"><strong>Insert Item</strong></p>');
+            }
+        });
+    }
 }

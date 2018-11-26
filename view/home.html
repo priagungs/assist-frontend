@@ -96,36 +96,35 @@
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <nav>
-                            <div class="input-group col-8 search-bar">
-                                <div id="id-search-item-form" class="id-item" style="display:none"></div>
-                                <div class="dropdown">
-                                    <input type="text" maxlength="255" name="form-search-item" id="form-search-item" class="form-control search-item-form" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <div class="invalid-feedback search-validation"></div>
-                                    <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-search-item" aria-labelledby="form-search-item">
-                                    </div>
+                        <div class="input-group col-8 search-bar">
+                            <div id="id-item-form" style="display:none"></div>
+                            <div class="dropdown">
+                                <input placeholder="Insert Item Name Here" type="text" maxlength="255" name="form-add-item-request" id="form-add-item-request" class="form-control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="invalid-feedback">Please provide a valid item</div>
+                                <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-add-item-request" aria-labelledby="form-add-item-request">
                                 </div>
                             </div>
-                        </nav>
-                        <table id="items" class="table table-responsive-sm table-hover table-bordered">
+                        </div>
+                        <table id="items" class="table table-sm table-bordered">
                             <thead>
                                 <tr class="text-light">
+                                    <th class="text-center dark_red">ID</th>
                                     <th class="text-center dark_red">Item Name</th>
                                     <th class="text-center dark_red">Qty</th>
+                                    <th></th>
                                 </tr>
                             </thead>
-                            <tbody id="content-items">
+                            <tbody id="content-create-request-items">
+                                
                             </tbody>
-                      </table>
-                      <div class="modal-footer">
-                          <button type="button" class="btn btn-secondary" id="return-btn">Request</button>
-                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                      </div>
+                        </table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="add-request-btn">Request</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 </section>

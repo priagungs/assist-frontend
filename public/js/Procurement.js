@@ -313,7 +313,7 @@ class Procurement {
                 + '<td class="d-flex justify-content-between">Rp ' + element.boughtQty * element.price + '<i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td>';
                 index++;
                 totalPrice += element.boughtQty * element.price;
-            })
+            });
             content += '<tr><td colspan="3" class="text-right">Total</td><td>Rp ' + totalPrice + '</td></tr>'
             $("#table-new-procurement tbody").html(content);
         }
@@ -325,7 +325,7 @@ class Procurement {
             var removedIdx = $(event.currentTarget).data('index');
             this.itemTransactions.splice(removedIdx, 1);
             this.fillNewTransactionTable();
-        })
+        });
     }
 
     resetNewTransactionTable() {

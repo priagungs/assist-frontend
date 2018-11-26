@@ -126,3 +126,40 @@ th, td {
 .filter {
     cursor: pointer;
 }
+
+#home .dropdown-menu .row {
+    max-height: 50px;
+    margin: 0;
+}
+
+#home .dropdown-menu img {
+    height: 100%;
+    min-width: 48.75px;
+    max-width: 48.75px;
+}
+
+#home .dropdown-menu div {
+    padding: 0;
+}
+
+#home .dropdown-menu .col-10 {
+    padding-left: 10px;
+}
+
+#home .dropdown-menu .col-2 {
+    min-width: 48.75px;
+}
+
+#home .dropdown-menu {
+    min-width: 350px;
+}
+
+#home .dropdown-menu p {
+    margin: 0;
+    font-size: 0.7rem;
+    overflow: hidden;
+}
+
+#home .remove-item-transaction {
+    cursor: pointer;
+}
