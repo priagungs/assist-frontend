@@ -229,7 +229,7 @@ class Home {
                 });
             }
             else {
-                $('#dropdown-search-item').html('<p class="dropdown-item"><strong>Insert Item</strong></p>');
+                $('#dropdown-search-item').html('<p>')
             }
         })
     }
