@@ -129,9 +129,3 @@ thead th{
 #home .dropdown-menu {
     min-width: 350px;
 }
-
-#admin-dashboard .dropdown-menu p {
-    margin: 0;
-    font-size: 0.7rem;
-    overflow: hidden;
-}
