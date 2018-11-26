@@ -61,10 +61,6 @@
     display: block;
 }
 
-#admin-dashboard {
-    padding: 30px 20px;
-}
-
 #admin-dashboard .dropdown-menu .row {
     max-height: 50px;
     margin: 0;

@@ -194,8 +194,6 @@ class Procurement {
                 }
             });
         });
-        this.buyBtnHandler();
-
     }
 
     buyBtnHandler() {
@@ -316,6 +314,7 @@ class Procurement {
             });
             content += '<tr><td colspan="3" class="text-right">Total</td><td>Rp ' + totalPrice + '</td></tr>'
             $("#table-new-procurement tbody").html(content);
+            this.buyBtnHandler();
         }
         else {
             $("#transaction-table-wrapper").html("");

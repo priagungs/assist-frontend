@@ -2,7 +2,7 @@ class Home {
 
     constructor() {
         this.itemPage = 0;
-        this.itemLimit = 10;
+        this.itemLimit = 1;
         this.dropdownLimit = 5;
     }
 
