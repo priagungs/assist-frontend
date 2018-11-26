@@ -45,7 +45,7 @@ class Handover {
                     + '<td class="text-center">' + element.reqQty + '</td>'
                     + '<td class="text-center">'
                     + '<label class="form-check-label">'
-                    + '<input type="radio" class="form-check-input" name="opt'+idx+'" value="SENT" >'
+                    + '<input type="checkbox" class="form-check-input" name="opt'+idx+'" value="SENT" >'
                     + 'ready for send'
                     + '</label>'
                     + '</td>'
