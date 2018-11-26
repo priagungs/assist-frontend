@@ -20,7 +20,8 @@ $(document).ready(() => {
             new Route('profile', "user_card.html"),
             new Route('admin', "admin_dashboard.html"),
             new Route('procurement', "procurement.html"),
-            new Route('handover', "handover.html")
+            new Route('handover', "handover.html"),
+            new Route('setting', "setting.html")
         ]);
     }
     init();
