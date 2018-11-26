@@ -75,24 +75,28 @@ class Procurement {
                 this.lastPage = response.totalPages-1;
                 this.paginationHandler();
                 var content = "";
-                response.content.forEach(element => {
-                    content += '<tr data-toggle="modal" data-target="#transaction-detail" data-idtransaction="' + element.idTransaction + '">'
-                    + '<td scope="row">' + element.idTransaction + '</td>'
-                    + '<td>' + element.admin.name + '</td>'
-                    + '<td>' + element.supplier + '</td>';
+                if (response.content.length > 0) {
+                    response.content.forEach(element => {
+                        content += '<tr data-toggle="modal" data-target="#transaction-detail" data-idtransaction="' + element.idTransaction + '">'
+                        + '<td scope="row">' + element.idTransaction + '</td>'
+                        + '<td>' + element.admin.name + '</td>'
+                        + '<td>' + element.supplier + '</td>';
 
-                    var date = new Date(element.transactionDate);
+                        var date = new Date(element.transactionDate);
 
-                    content += '<td>' + date.toLocaleString() + '</td>';
+                        content += '<td>' + date.toLocaleString() + '</td>';
 
-                    var value = 0;
-                    element.itemTransactions.forEach(itemTrx => {
-                        value += itemTrx.boughtQty * itemTrx.price;
-                    })
+                        var value = 0;
+                        element.itemTransactions.forEach(itemTrx => {
+                            value += itemTrx.boughtQty * itemTrx.price;
+                        })
 
-                    content += '<td>Rp ' + value + '</td></tr>';
-                });
-
+                        content += '<td>Rp ' + value + '</td></tr>';
+                    });
+                }
+                else {
+                    content = '<td colspan="5">No transaction found</td>';
+                }
                 $("#table-procurements tbody").html(content);
             },
             statusCode: {
@@ -273,19 +277,49 @@ class Procurement {
     }
 
     fillNewTransactionTable() {
-        var content = ""
         var totalPrice = 0;
         var index = 0;
-        this.itemTransactions.forEach(element => {
-            content += '<tr><td>' + element.item.idItem + '</td>'
-            + '<td>' + element.item.itemName + '</td>'
-            + '<td>' + element.boughtQty + '</td>'
-            + '<td class="d-flex justify-content-between">Rp ' + element.boughtQty * element.price + '<i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td>';
-            index++;
-            totalPrice += element.boughtQty * element.price;
-        })
-        content += '<tr><td colspan="3" class="text-right">Total</td><td>Rp ' + totalPrice + '</td></tr>'
-        $("#table-new-procurement tbody").html(content);
+        if (this.itemTransactions.length > 0) {
+            var content = ""
+            var content_wrapper = `<table class="table table-bordered table-responsive-sm" id="table-new-procurement">
+                <thead>
+                    <tr class="text-light">
+                        <th class="text-center dark_red">ID Item</th>
+                        <th class="text-center dark_red">Item Name</th>
+                        <th class="text-center dark_red">Bought Quantity</th>
+                        <th class="text-center dark_red">Total Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-end">
+                <div class="form-group row col-8 col-md-6 col-lg-4">
+                    <input type="text" name="form-supplier-add-transaction" id="form-supplier-add-transaction" class="form-control" placeholder="Insert supplier name here" required>
+                    <div class="invalid-feedback" id="transaction-validation">Please provide a valid supplier</div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button type="button" class="btn btn-primary" id="buy-btn">Buy</button>
+            </div>`;
+
+            $("#transaction-table-wrapper").html(content_wrapper);
+
+            this.itemTransactions.forEach(element => {
+                content += '<tr><td>' + element.item.idItem + '</td>'
+                + '<td>' + element.item.itemName + '</td>'
+                + '<td>' + element.boughtQty + '</td>'
+                + '<td class="d-flex justify-content-between">Rp ' + element.boughtQty * element.price + '<i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td>';
+                index++;
+                totalPrice += element.boughtQty * element.price;
+            })
+            content += '<tr><td colspan="3" class="text-right">Total</td><td>Rp ' + totalPrice + '</td></tr>'
+            $("#table-new-procurement tbody").html(content);
+        }
+        else {
+            $("#transaction-table-wrapper").html("");
+        }
 
         $(".remove-item-transaction").unbind().click((event) => {
             var removedIdx = $(event.currentTarget).data('index');
