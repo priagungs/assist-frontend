@@ -85,29 +85,9 @@
                 <h2>Add New Transaction</h2>
                 <i class="fas fa-plus" id="add-item-transaction-btn" data-toggle="modal" data-target="#add-item-transaction-modal"></i>
             </div>
-            <table class="table table-bordered table-responsive-sm" id="table-new-procurement">
-                <thead>
-                    <tr class="text-light">
-                        <th class="text-center dark_red">ID Item</th>
-                        <th class="text-center dark_red">Item Name</th>
-                        <th class="text-center dark_red">Bought Quantity</th>
-                        <th class="text-center dark_red">Total Price</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-            <div class="d-flex justify-content-end">
-                <div class="form-group row col-8 col-md-6 col-lg-4">
-                    <input type="text" name="form-supplier-add-transaction" id="form-supplier-add-transaction" class="form-control" placeholder="Insert supplier name here" required>
-                    <div class="invalid-feedback" id="transaction-validation">Please provide a valid supplier</div>
-                </div>
+            <div id="transaction-table-wrapper">
+                
             </div>
-            <div class="d-flex justify-content-end">
-                <button type="button" class="btn btn-primary" id="buy-btn">Buy</button>
-            </div>
-
             <!-- Modal add item transaction -->
             <div class="modal fade" id="add-item-transaction-modal" tabindex="-1" role="dialog" aria-labelledby="add-item-transaction-title" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-sm" role="document">

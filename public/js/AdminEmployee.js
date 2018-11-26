@@ -118,16 +118,20 @@ class AdminEmployee {
                 this.lastPage = response.totalPages-1;
                 this.paginationHandler();
                 var content = '';
-                response.content.forEach(element => {
-                    content += '<tr data-toggle="modal" data-target="#employee-detail" data-iduser="' + element.idUser + '">'
-                    + '<td scope="row">' + element.idUser + '</td>'
-                    + '<td>' + element.name + '</td>'
-                    + '<td>' + element.username + '</td>'
-                    + '<td class="text-center">' + element.division + '</td>'
-                    + '<td class="text-center">' + element.role + '</td>'
-                    + '</tr>';
-                });
-
+                if (response.content.length > 0) {
+                    response.content.forEach(element => {
+                        content += '<tr data-toggle="modal" data-target="#employee-detail" data-iduser="' + element.idUser + '">'
+                        + '<td scope="row">' + element.idUser + '</td>'
+                        + '<td>' + element.name + '</td>'
+                        + '<td>' + element.username + '</td>'
+                        + '<td class="text-center">' + element.division + '</td>'
+                        + '<td class="text-center">' + element.role + '</td>'
+                        + '</tr>';
+                    });
+                }
+                else {
+                    content = '<p>No active user available</p>';
+                }
                 $("#all-employee-table").html(content);
             },
             statusCode: {
@@ -566,11 +570,16 @@ class AdminEmployee {
             dataType: "json",
             success: (response) => {
                 var content = '';
-                response.content.forEach((element) => {
-                    content += '<tr><td class="text-center" scope="row">' + element.item.idItem + '</td>'
-                    + '<td class="text-center">' + element.item.itemName+ '</td>'
-                    + '<td class="text-center">' + element.hasQty + '</td>';
-                });
+                if (response.content.length > 0) {
+                    response.content.forEach((element) => {
+                        content += '<tr><td class="text-center" scope="row">' + element.item.idItem + '</td>'
+                        + '<td class="text-center">' + element.item.itemName+ '</td>'
+                        + '<td class="text-center">' + element.hasQty + '</td>';
+                    });
+                }
+                else {
+                    content = '<td colspan="3">This employee has no item</td>';
+                }
                 $(".table-employee-items tbody").html(content);
             },
             statusCode: {
@@ -587,11 +596,16 @@ class AdminEmployee {
             dataType: "json",
             success: function (response) {
                 var content = '';
-                response.content.forEach((element) => {
-                    content += '<tr><td class="text-center" scope="row">' + element.idUser + '</td>'
-                    + '<td>' + element.name + '</td>'
-                    + '<td class="text-center">' + element.role + '</td>'
-                });
+                if (response.content.length > 0) {
+                    response.content.forEach((element) => {
+                        content += '<tr><td class="text-center" scope="row">' + element.idUser + '</td>'
+                        + '<td>' + element.name + '</td>'
+                        + '<td class="text-center">' + element.role + '</td>'
+                    });
+                }
+                else {
+                    content = '<td colspan="3">This employee has no subordinate</td>';
+                }
                 $(".table-employee-subordinates tbody").html(content);
             },
             statusCode: {

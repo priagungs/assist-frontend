@@ -45,7 +45,7 @@ class Handover {
                     + '<td class="text-center">' + element.reqQty + '</td>'
                     + '<td class="text-center">'
                     + '<label class="form-check-label">'
-                    + '<input type="radio" class="form-check-input" name="opt'+idx+'" value="SENT" >'
+                    + '<input type="checkbox" class="form-check-input chk-box" name="opt'+idx+'" value="SENT" >'
                     + 'ready for send'
                     + '</label>'
                     + '</td>'
@@ -140,4 +140,22 @@ class Handover {
             this.fillRequestTable();
         });
     }
+
 }
+
+$(document).ready(()=>{
+    console.log("asdf");
+    function triggerChange() {
+        $('.chk-box').trigger("change");
+    }
+
+    $(".chk-box").change(function() {
+        alert("triggered!");
+     });
+
+    $(".chk-box").on("click",()=>{
+        console.log("clicksuccess");
+        alert("click");
+    });
+     triggerChange();
+});
