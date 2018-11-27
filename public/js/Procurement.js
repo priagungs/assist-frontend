@@ -143,7 +143,10 @@ class Procurement {
                 }
             });
             this.deleteHandler(idTransaction);
-        })
+            $("#print-transaction").unbind().click(() => {
+                window.location = "/api/invoice/" + idTransaction;
+            })
+        });
     }
 
     deleteHandler(idTransaction) {
@@ -228,6 +231,7 @@ class Procurement {
                             $("#nav-create-procurement-tab").removeClass("active").attr("aria-selected", "false");
                             $("#nav-procurements").addClass("active show");
                             $("#nav-create-procurement").removeClass("active show");
+                            window.location = "/api/invoice/" + response.idTransaction;
                         },
                         statusCode: {
                             400: () => {

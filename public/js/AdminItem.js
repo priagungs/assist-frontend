@@ -238,6 +238,11 @@ class AdminItem {
                     content = '<td colspan="3">No employee has this item</td>';
                 }
                 $("#admin-has-item-table").html(content);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
             }
         });
     }
