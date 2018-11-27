@@ -175,7 +175,9 @@ class AdminItem {
                 }
             }
         });
-
+        $("#print-item-detail").unbind().click(() => {
+            window.location = "/api/item-detail/" + idItem;
+        });
         this.fillHasItemTable(idItem);
         this.paginationHasItemHandler(idItem);
     }

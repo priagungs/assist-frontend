@@ -13,9 +13,12 @@
     text-align: justify;
 }
 
-.save-update-btn, .update-btn, .delete-btn, .save-employee-add-btn {
+#admin-dashboard .save-update-btn, .update-btn, .delete-btn, .save-employee-add-btn, .print-btn {
+    margin-left: 1rem;
+}
+
+#admin-dashboard .print-btn {
     margin-right: 15px;
-    margin-left: 15px;
 }
 
 #item tbody tr, #all-employee-table {
