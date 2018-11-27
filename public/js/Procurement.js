@@ -286,6 +286,7 @@ class Procurement {
                         <th class="text-center dark_red">Item Name</th>
                         <th class="text-center dark_red">Bought Quantity</th>
                         <th class="text-center dark_red">Total Price</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -308,7 +309,8 @@ class Procurement {
                 content += '<tr><td>' + element.item.idItem + '</td>'
                 + '<td>' + element.item.itemName + '</td>'
                 + '<td>' + element.boughtQty + '</td>'
-                + '<td class="d-flex justify-content-between">Rp ' + element.boughtQty * element.price + '<i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td>';
+                + '<td>Rp ' + element.boughtQty * element.price + '</td>'
+                + '<td class="text-center"><i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td>';
                 index++;
                 totalPrice += element.boughtQty * element.price;
             });
