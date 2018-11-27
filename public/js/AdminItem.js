@@ -2,6 +2,9 @@ class AdminItem {
     constructor() {
         this.page = 0;
         this.limit = 10;
+        this.hasItemPage = 0;
+        this.hasItemLimit = 10;
+        this.isHasItemLastPage = false;
         this.isLastPage = false;
     }
     init() {
@@ -27,7 +30,7 @@ class AdminItem {
                 }
             }
         });
-        
+
     }
 
     searchHandler() {
@@ -50,21 +53,20 @@ class AdminItem {
                             + '</tr>';
                         });
                         this.isLastPage = response.last;
-                        this.lastPage = response.totalPages-1;
                         if (response.last) {
                             $("#page-item-next").addClass("disabled");
                         }
                         else {
                             $("#page-item-next").removeClass("disabled");
                         }
-        
+
                         if (response.first) {
                             $("#page-item-prev").addClass("disabled");
                         }
                         else {
                             $("#page-item-prev").removeClass("disabled");
                         }
-        
+
                         $("#item tbody").html(content);
                     },
                     statusCode: {
@@ -120,7 +122,6 @@ class AdminItem {
                     + '</tr>';
                 });
                 this.isLastPage = response.last;
-                this.lastPage = response.totalPages-1;
                 if (response.last) {
                     $("#page-item-next").addClass("disabled");
                 }
@@ -135,7 +136,7 @@ class AdminItem {
                     $("#page-item-prev").removeClass("disabled");
                 }
 
-                $("#item tbody").html(content);
+                $("#admin-item-main-table").html(content);
             },
             statusCode: {
                 401: () => {
@@ -174,6 +175,71 @@ class AdminItem {
                 }
             }
         });
+
+        this.fillHasItemTable(idItem);
+        this.paginationHasItemHandler(idItem);
+    }
+
+    paginationHasItemHandler(idItem) {
+        this.hasItemPage = 0;
+        $("#page-has-item-prev:not(.disabled)").unbind().click(() => {
+            if (this.hasItemPage > 0) {
+                this.hasItemPage--;
+                this.fillHasItemTable(idItem);
+                if (this.hasItemPage == 0) {
+                    $("#page-has-item-prev").addClass("disabled");
+                }
+            }
+        });
+
+        $("#page-has-item-next:not(.disabled").unbind().click(() => {
+            if (!this.isHasItemLastPage) {
+                this.hasItemPage++;
+                this.fillHasItemTable(idItem);
+                if (this.isHasItemLastPage) {
+                    $("#page-item-next").addClass("disabled");
+                }
+            }
+        });
+    }
+
+    fillHasItemTable(idItem) {
+        $.ajax({
+            method: "GET",
+            url: "/api/user-items",
+            data: {page: this.hasItemPage, limit: this.hasItemLimit,
+                sort: "user.name", idItem: idItem},
+            dataType: "json",
+            success: (response) => {
+                this.isHasItemLastPage = response.last;
+                if (response.last) {
+                    $("#page-has-item-next").addClass("disabled");
+                }
+                else {
+                    $("#page-has-item-next").removeClass("disabled");
+                }
+
+                if (response.first) {
+                    $("#page-has-item-prev").addClass("disabled");
+                }
+                else {
+                    $("#page-has-item-prev").removeClass("disabled");
+                }
+
+                var content = "";
+                if (response.content.length > 0) {
+                    response.content.forEach(element => {
+                        content += '<tr><td class="text-center">' + element.user.idUser + '</td>'
+                        + '<td>' + element.user.name + '</td>'
+                        + '<td class="text-center">' + element.hasQty + '</td></tr>';
+                    });
+                }
+                else {
+                    content = '<td colspan="3">No employee has this item</td>';
+                }
+                $("#admin-has-item-table").html(content);
+            }
+        });
     }
 
     detailModalHandler() {
@@ -185,7 +251,6 @@ class AdminItem {
                 $("#update-item").css("display", "block");
                 $(".modal-header").css("display", "none");
                 this.updateFormHandler(idItem);
-
             });
 
             $(".delete-btn").unbind().click(() => {
