@@ -15,7 +15,8 @@
                 </div>
                 <i class="fas fa-plus " data-toggle="modal" data-target="#add-item"></i>
             </div>
-            <table class="table table-responsive-sm table-hover table-bordered ">
+            <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="item-table-spinner"><div></div></div></div>
+            <table id="admin-item-table" class="table table-responsive-sm table-hover table-bordered ">
                 <thead>
                     <tr class="text-light">
                         <th class="text-center dark_red">ID</th>
@@ -34,6 +35,7 @@
             <div class="modal fade" data-keyboard="false" data-backdrop="static" id="item-detail" tabindex="-1" role="dialog" aria-labelledby="itemDetailId" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                     <div class="modal-content">
+                        <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="item-detail-spinner"><div></div></div></div>
                         <div class="modal-header">
                             <h4 class="modal-title" id="itemDetailId"></h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -58,7 +60,8 @@
                                     <div class="row mt-3">
                                         <div class="col-12">
                                             <h4>Who Has This Item</h4>
-                                            <table class="table table-bordered table-sm">
+                                            <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="item-detail-hasitem-spinner"><div></div></div></div>
+                                            <table id="item-detail-hasitem-table" class="table table-bordered table-sm">
                                                 <thead>
                                                     <tr class="text-light">
                                                         <th class="text-center dark_red">ID User</th>
@@ -243,7 +246,8 @@
                 </div>
                 <i class="fas fa-plus " data-toggle="modal" data-target="#add-employee"></i>
             </div>
-            <table class="table table-responsive-sm table-hover table-bordered ">
+            <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="employee-table-spinner"><div></div></div></div>
+            <table id="admin-employee-table" class="table table-responsive-sm table-hover table-bordered ">
                 <thead>
                     <tr class="text-light">
                         <th class="text-center dark_red">ID</th>
@@ -262,6 +266,7 @@
             <div class="modal fade" id="employee-detail" tabindex="-1" role="dialog" aria-labelledby="employee-detail-title" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                     <div class="modal-content">
+                        <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="employee-detail-spinner"><div></div></div></div>
                         <div class="modal-header">
                         <h5 class="modal-title" id="employee-detail-title">Employee Detail</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">

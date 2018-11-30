@@ -108,6 +108,10 @@ class AdminEmployee {
     }
 
     fillTable() {
+        var spinner = $("#employee-table-spinner");
+        var table = $("#admin-employee-table");
+        spinner.attr("style", "display: block");
+        table.attr("style", "display: none");
         $.ajax({
             method: "GET",
             url: "/api/users",
@@ -133,9 +137,12 @@ class AdminEmployee {
                     content = '<p>No active user available</p>';
                 }
                 $("#all-employee-table").html(content);
+                spinner.attr("style", "display: none");
+                table.attr("style", "display: table");        
             },
             statusCode: {
                 401: () => {
+                    spinner.attr("style", "display: none");
                     window.location = "login.html";
                 }
             }
@@ -154,8 +161,10 @@ class AdminEmployee {
         var imageUrl = '';
         $("#employee-add-image-uploader").unbind().change(() => {
             var formData = new FormData($("#add-employee form")[0]);
-            imageUrl = Helper.uploadFile(formData);
-            $("#add-employee img").attr("src", imageUrl);
+            Helper.uploadFile(formData, function(response) {
+                imageUrl = response.file.slice(21);
+                $("#add-employee img").attr("src", imageUrl);
+            });
         })
         this.superiorFormHandler();
 
@@ -177,7 +186,7 @@ class AdminEmployee {
                 this.addUser(request, false);
             }
             this.superiorFormHandler();
-        })
+        });
     }
 
     superiorFormHandler() {
@@ -429,9 +438,11 @@ class AdminEmployee {
             $("#employee-detail-section").attr("style", "display: none");
             $("#employee-update-image-uploader").unbind().change(() => {
                 var formData = new FormData($("#employee-update-section form")[0]);
-                var imageUrl = Helper.uploadFile(formData);
-                $("#employee-update-section img").attr("src", imageUrl);
-            })
+                Helper.uploadFile(formData, function(response) {
+                    var imageUrl = response.file.slice(21);
+                    $("#employee-update-section img").attr("src", imageUrl);
+                });
+            });
             $(".save-employee-update-btn").unbind().click(() => {
                 event.preventDefault();
                 var request = {
@@ -530,6 +541,14 @@ class AdminEmployee {
     }
 
     fillDetail(idUser) {
+        var spinner = $("#employee-detail-spinner");
+        var header = $("#employee-detail .modal-header");
+        var body = $("#employee-detail .modal-body");
+        spinner.attr("style", "display: block");
+        header.attr("style", "display: none");
+        body.attr("style", "display: none");
+
+        var counter = 0;
         $.ajax({
             method: "GET",
             url: "/api/user/" + idUser,
@@ -555,9 +574,17 @@ class AdminEmployee {
                     $("#employee-detail-superior-name").text('');
                     $("#employee-detail-superior-id").text('');
                 }
+
+                counter++;
+                if (counter === 3) {
+                    spinner.attr("style", "display: none");
+                    header.attr("style", "display: flex");
+                    body.attr("style", "display: block");
+                }
             },
             statusCode: {
                 401: () => {
+                    spinner.attr("display", "none");
                     window.location = "login.html";
                 }
             }
@@ -581,9 +608,17 @@ class AdminEmployee {
                     content = '<td colspan="3">This employee has no item</td>';
                 }
                 $(".table-employee-items tbody").html(content);
+                
+                counter++;
+                if (counter === 3) {
+                    spinner.attr("style", "display: none");
+                    header.attr("style", "display: flex");
+                    body.attr("style", "display: block");
+                }
             },
             statusCode: {
                 401: () => {
+                    spinner.attr("display", "none");
                     window.location = "login.html";
                 }
             }
@@ -607,9 +642,16 @@ class AdminEmployee {
                     content = '<td colspan="3">This employee has no subordinate</td>';
                 }
                 $(".table-employee-subordinates tbody").html(content);
+                counter++;
+                if (counter === 3) {
+                    spinner.attr("style", "display: none");
+                    header.attr("style", "display: flex");
+                    body.attr("style", "display: block");
+                }
             },
             statusCode: {
                 401: () => {
+                    spinner.attr("display", "none");
                     window.location = "login.html";
                 }
             }
