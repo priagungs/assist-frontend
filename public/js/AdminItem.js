@@ -43,28 +43,33 @@ class AdminItem {
                     dataType: "json",
                     success: (response) => {
                         var content = "";
-                        response.content.forEach(element => {
-                            content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
-                            + '<td scope="row">' + element.idItem + '</td>'
-                            + '<td>' + element.itemName + '</td>'
-                            + '<td>Rp' + element.price + '</td>'
-                            + '<td class="text-center">' + element.totalQty + '</td>'
-                            + '<td class="text-center">' + element.availableQty + '</td>'
-                            + '</tr>';
-                        });
-                        this.isLastPage = response.last;
-                        if (response.last) {
-                            $("#page-item-next").addClass("disabled");
-                        }
-                        else {
-                            $("#page-item-next").removeClass("disabled");
-                        }
+                        if (response.content.length > 0) {
+                            response.content.forEach(element => {
+                                content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
+                                + '<td scope="row">' + element.idItem + '</td>'
+                                + '<td>' + element.itemName + '</td>'
+                                + '<td>Rp' + element.price + '</td>'
+                                + '<td class="text-center">' + element.totalQty + '</td>'
+                                + '<td class="text-center">' + element.availableQty + '</td>'
+                                + '</tr>';
+                            });
+                            this.isLastPage = response.last;
+                            if (response.last) {
+                                $("#page-item-next").addClass("disabled");
+                            }
+                            else {
+                                $("#page-item-next").removeClass("disabled");
+                            }
 
-                        if (response.first) {
-                            $("#page-item-prev").addClass("disabled");
+                            if (response.first) {
+                                $("#page-item-prev").addClass("disabled");
+                            }
+                            else {
+                                $("#page-item-prev").removeClass("disabled");
+                            }
                         }
                         else {
-                            $("#page-item-prev").removeClass("disabled");
+                            content = '<td colspan="5">No item available</td>';
                         }
 
                         $("#item tbody").html(content);
@@ -112,28 +117,33 @@ class AdminItem {
             dataType: "json",
             success: (response) => {
                 var content = "";
-                response.content.forEach(element => {
-                    content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
-                    + '<td scope="row">' + element.idItem + '</td>'
-                    + '<td>' + element.itemName + '</td>'
-                    + '<td>Rp' + element.price + '</td>'
-                    + '<td class="text-center">' + element.totalQty + '</td>'
-                    + '<td class="text-center">' + element.availableQty + '</td>'
-                    + '</tr>';
-                });
-                this.isLastPage = response.last;
-                if (response.last) {
-                    $("#page-item-next").addClass("disabled");
-                }
-                else {
-                    $("#page-item-next").removeClass("disabled");
-                }
+                if (response.content.length > 0) {
+                    response.content.forEach(element => {
+                        content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
+                        + '<td scope="row">' + element.idItem + '</td>'
+                        + '<td>' + element.itemName + '</td>'
+                        + '<td>Rp' + element.price + '</td>'
+                        + '<td class="text-center">' + element.totalQty + '</td>'
+                        + '<td class="text-center">' + element.availableQty + '</td>'
+                        + '</tr>';
+                    });
+                    this.isLastPage = response.last;
+                    if (response.last) {
+                        $("#page-item-next").addClass("disabled");
+                    }
+                    else {
+                        $("#page-item-next").removeClass("disabled");
+                    }
 
-                if (response.first) {
-                    $("#page-item-prev").addClass("disabled");
+                    if (response.first) {
+                        $("#page-item-prev").addClass("disabled");
+                    }
+                    else {
+                        $("#page-item-prev").removeClass("disabled");
+                    }
                 }
                 else {
-                    $("#page-item-prev").removeClass("disabled");
+                    content = '<td colspan="5">No item available</td>';
                 }
 
                 $("#admin-item-main-table").html(content);
@@ -147,6 +157,12 @@ class AdminItem {
     }
 
     fillDetail(idItem) {
+        var spinner = $("#item-detail-spinner");
+        var header = $("#item-detail .modal-header");
+        var body = $("#item-detail .modal-body");
+        spinner.attr("style", "display: block");
+        header.attr("style", "display: none");
+        body.attr("style", "display: none");
         $.ajax({
             type: "GET",
             url: "/api/items/" + idItem,
@@ -167,10 +183,14 @@ class AdminItem {
                 $("#form-update-item-name").val($("#itemDetailId").text());
                 $("#form-update-item-price").val($(".item-price").text());
                 $("#form-update-item-totalqty").val($(".item-total-qty").text());
-                $("#form-update-item-description").val($(".item-description").text())
+                $("#form-update-item-description").val($(".item-description").text());
+                spinner.attr("style", "display: none");
+                header.attr("style", "display: flex");
+                body.attr("style", "display: block");
             },
             responseStatus : {
                 401 : () => {
+                    spinner.attr("style", "display: none");
                     window.location = "login.html";
                 }
             }
@@ -206,6 +226,10 @@ class AdminItem {
     }
 
     fillHasItemTable(idItem) {
+        var spinner = $("#item-detail-hasitem-spinner");
+        var table = $("#item-detail-hasitem-table");
+        spinner.attr("style", "display: block");
+        table.attr("style", "display: none");
         $.ajax({
             method: "GET",
             url: "/api/user-items",
@@ -240,6 +264,8 @@ class AdminItem {
                     content = '<td colspan="3">No employee has this item</td>';
                 }
                 $("#admin-has-item-table").html(content);
+                spinner.attr("style", "display: none");
+                table.attr("style", "display: table");
             },
             statusCode: {
                 401: () => {
@@ -262,17 +288,19 @@ class AdminItem {
 
             $(".delete-btn").unbind().click(() => {
                 this.deleteItem(idItem);
-            })
+            });
         });
     }
 
     updateFormHandler(idItem) {
         $("#item-update-image-uploader").unbind().change(() => {
             var formData = new FormData($("#update-item form")[0]);
-            var imageUrl = Helper.uploadFile(formData);
-            $("#update-item img").attr("src", imageUrl);
-            $("#detail-item img").attr("src", imageUrl);
-        })
+            Helper.uploadFile(formData, function(response) {
+                var imageUrl = response.file.slice(21);
+                $("#update-item img").attr("src", imageUrl);
+                $("#detail-item img").attr("src", imageUrl);
+            });
+        });
 
         $("#update-item .save-update-btn").unbind().click((event) => {
             event.preventDefault();
@@ -287,7 +315,7 @@ class AdminItem {
             if (this.singleEntryValidation(request)) {
                 this.updateItem(request, idItem);
             }
-        })
+        });
     }
 
     addModalHandler() {
@@ -339,9 +367,12 @@ class AdminItem {
         var imageUrl = '';
         $("#item-add-image-uploader").unbind().change(() => {
             var formData = new FormData($("#add-item form")[0]);
-            imageUrl = Helper.uploadFile(formData);
-            $("#add-item img").attr("src", imageUrl);
-        })
+            Helper.uploadFile(formData, function(response) {
+                imageUrl = response.file.slice(21);
+                $("#add-item img").attr("src", imageUrl);
+            });
+        });
+
         $("#add-item .save-update-btn").unbind().click((event) => {
             event.preventDefault();
             var requests = [{

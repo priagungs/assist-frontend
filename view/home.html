@@ -1,14 +1,17 @@
 <section id="home">
-    <div class="row card-container">
-        <img id="profile-photo" src="" class="circle" alt="">
-        <div class="card">
-                <h4><span id="name"></h4>
-                <h5>NIP         = <span id="nip"></h5>
-                <h5>Division    = <span id="division"></h5>
-                <h5>Role        = <span id="role"></h5>
-                <h5>Superior    = <span id="superior-name"></span>(<span id="superior-id"></span>)</h5>
+    <div class="card-container row">
+        <div class="col-12 col-md-5">
+            <img id="profile-photo" src="" class="circle  mx-auto d-block" alt="">
+        </div>
+        <div class="card col-12 col-md-7">
+            <h4><span id="name"></h4>
+            <h5>NIP         = <span id="nip"></h5>
+            <h5>Division    = <span id="division"></h5>
+            <h5>Role        = <span id="role"></h5>
+            <h5>Superior    = <span id="superior-name"></span>(<span id="superior-id"></span>)</h5>
         </div>
     </div>
+    
     <div>
         <div class="item-title-container">
             <h3 class="font-weight-bold font-red">Items</h3>
@@ -24,7 +27,7 @@
             </div>
             <i class="fas fa-plus " data-toggle="modal" data-target="#add-request"></i>
         </div>
-        <table id="items" class="table table-responsive-sm table-hover table-bordered">
+        <table id="items" class="table table-hover table-bordered">
             <thead>
                 <tr class="text-light">
                     <th class="text-center dark_red">Item Name</th>

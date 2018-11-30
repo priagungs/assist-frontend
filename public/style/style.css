@@ -37,6 +37,7 @@ html, body {
 }
 
 /* ricky sub_detail */
+
 .page-number {
     margin-left: 5px;
     margin-right: 5px;
@@ -47,34 +48,34 @@ html, body {
     background-color: #5D001E;
 }
 
-.table{
+.table {
     border: 1px solid gray;
 }
 
-.subordinates-item-table{
+.subordinates-item-table {
     flex-grow: 1;
 }
 
-.subordinates-item-table, .subordinates-request-table{
+.subordinates-item-table, .subordinates-request-table {
     flex-grow: 1;
 }
 
-thead th{
-    background-color : #5D001E;
-    color : white;
+thead th {
+    background-color: #5D001E;
+    color: white;
 }
 
 .btn, .btn-default {
-    color : white;
+    color: white;
 }
 
 .modal-subordinates {
-    width : 75%;
+    width: 75%;
     max-width: 100%;
 }
 
-#data-table-subordinates tr{
-    cursor : pointer;
+#data-table-subordinates tr {
+    cursor: pointer;
 }
 
 .form-check-inline {
@@ -124,4 +125,60 @@ thead th{
 
 #home .dropdown-menu {
     min-width: 350px;
+}
+
+@keyframes lds-rolling {
+    0% {
+        -webkit-transform: translate(-50%, -50%) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translate(-50%, -50%) rotate(360deg);
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@-webkit-keyframes lds-rolling {
+    0% {
+        -webkit-transform: translate(-50%, -50%) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translate(-50%, -50%) rotate(360deg);
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.lds-rolling {
+    position: relative;
+    display: none;
+    margin: 0 auto;
+}
+
+.lds-rolling div, .lds-rolling div:after {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border: 20px solid #5D001E;
+    border-top-color: transparent;
+    border-radius: 50%;
+}
+
+.lds-rolling div {
+    -webkit-animation: lds-rolling 1s linear infinite;
+    animation: lds-rolling 1s linear infinite;
+    top: 100px;
+    left: 100px;
+}
+
+.lds-rolling div:after {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.lds-rolling {
+    width: 200px !important;
+    height: 200px !important;
+    -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+    transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
 }

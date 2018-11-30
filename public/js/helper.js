@@ -1,18 +1,14 @@
 class Helper {
-    static uploadFile(formData) {
+    static uploadFile(formData, callback) {
         var result = '';
         $.ajax({
             method: "POST",
-            async: false,
             url: "/api/upload",
             data: formData,
             dataType: "json",
             contentType: false,
             processData: false,
-            success: function (response) {
-                result = response.file.slice(21);
-            }
+            success: callback
         });
-        return result;
     }
 }

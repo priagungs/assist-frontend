@@ -70,29 +70,35 @@ th, td {
 }
 
 .card-container {
-    justify-content: center;
-    align-items: center;
+    /* justify-content: center;
+    align-items: center; */
+    max-width: 100%;
+    margin: 0;
 }
 
+
 .circle {
-    width: 8em;
-    height: 8em;
+    /* max-width: 50%;
+    min-width: 50%; */
+    width: auto;
+    height: 100%;
     border-radius: 50%;
     border: solid 0.2em #5D001E;
-    margin-right: 2em;
+}
+
+@media (max-width: 768px) {
+    .card {
+        margin-top: 1.4rem;
+    }
 }
 
 .card {
     color: #5D001E;
     padding: 0.5em;
-    width: 30%;
-}
-.card > h4 {
-    font-weight: bold;
 }
 
-.card > h5 {
-    margin-top: 0.05em;
+.card > h4 {
+    font-weight: bold;
 }
 
 .page-number {
