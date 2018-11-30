@@ -11,7 +11,7 @@ $(document).ready(function(){
             }
         }
     });
-    $("#login").click(function(){
+    $("#login").click(() =>{
         var username = $("#username").val();
         var password = $("#password").val();
         var formData = {
