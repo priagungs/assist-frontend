@@ -110,10 +110,6 @@ class AdminItem {
     }
 
     fillTable() {
-        var spinner = $("#item-table-spinner");
-        var table = $("#admin-item-table");
-        spinner.attr("style", "display: block");
-        table.attr("style", "display: none");
         $.ajax({
             method: "GET",
             url: "/api/items",
@@ -151,12 +147,9 @@ class AdminItem {
                 }
 
                 $("#admin-item-main-table").html(content);
-                spinner.attr("style", "display: none");
-                table.attr("style", "display: table");
             },
             statusCode: {
                 401: () => {
-                    spinner.attr("style", "display: none");
                     window.location = "login.html";
                 }
             }

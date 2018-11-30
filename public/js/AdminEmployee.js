@@ -108,10 +108,6 @@ class AdminEmployee {
     }
 
     fillTable() {
-        var spinner = $("#employee-table-spinner");
-        var table = $("#admin-employee-table");
-        spinner.attr("style", "display: block");
-        table.attr("style", "display: none");
         $.ajax({
             method: "GET",
             url: "/api/users",
@@ -137,12 +133,9 @@ class AdminEmployee {
                     content = '<p>No active user available</p>';
                 }
                 $("#all-employee-table").html(content);
-                spinner.attr("style", "display: none");
-                table.attr("style", "display: table");        
             },
             statusCode: {
                 401: () => {
-                    spinner.attr("style", "display: none");
                     window.location = "login.html";
                 }
             }
@@ -608,7 +601,7 @@ class AdminEmployee {
                     content = '<td colspan="3">This employee has no item</td>';
                 }
                 $(".table-employee-items tbody").html(content);
-                
+
                 counter++;
                 if (counter === 3) {
                     spinner.attr("style", "display: none");
