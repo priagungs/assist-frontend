@@ -21,7 +21,7 @@
     margin-right: 15px;
 }
 
-#item tbody tr, #all-employee-table {
+#admin-item-main-table, #all-employee-table {
     cursor: pointer;
 }
 
@@ -107,6 +107,11 @@
 
 #employee-detail .row {
     margin: 10px;
+}
+
+#employee-detail-section button {
+    width: 100%;
+    margin: 0;
 }
 
 @media (min-width: 576px) {

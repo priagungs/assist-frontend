@@ -110,6 +110,9 @@ class Procurement {
     detailModalHandler() {
         $("#transaction-detail").on('show.bs.modal', (event) => {
             var idTransaction = $(event.relatedTarget).data("idtransaction");
+            var spinner = $("#transaction-detail-spinner").css("display", "block");
+            var header = $("#transaction-detail .modal-header").css("display", "none");
+            var body = $("#transaction-detail .modal-body").css("display", "none");
             $.ajax({
                 method: "GET",
                 url: "/api/transactions/" + idTransaction,
@@ -135,6 +138,9 @@ class Procurement {
                     })
                     $("#transaction-detail-value").text(value);
                     $("#table-procurement-detail tbody").html(tableContent);
+                    spinner.css("display", "none");
+                    header.css("display", "flex");
+                    body.css("display", "block");
                 },
                 statusCode: {
                     401: () => {
