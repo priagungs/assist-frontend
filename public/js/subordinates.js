@@ -13,6 +13,7 @@ class SubordinatesDashboard {
             success: (data, status) => {
                 this.fillSubordinatesDetail(data.idUser);
                 this.detailSubordinateHandler(data.idUser);
+                this.callOke(data.idUser);
             },
             statusCode: {
                 401: () => {
@@ -61,15 +62,14 @@ class SubordinatesDashboard {
     detailSubordinateHandler(idUser) {
         $("#subordinates-detail").unbind().on('show.bs.modal',(event) => {
             var idSub = $(event.relatedTarget).data("iduser");
-            this.fillSubDetail(idSub);
-            this.callOke(idUser);
+            this.fillSubDetail(idUser,idSub);
         });
     }
 
-    fillSubDetail(idUser) {
+    fillSubDetail(idUser,idSub) {
         $.ajax({
             method: "GET",
-            url: "/api/user/" + idUser,
+            url: "/api/user/" + idSub,
             dataType : "json",
             success: (response) => {
                 // console.log(response);
@@ -100,15 +100,22 @@ class SubordinatesDashboard {
         $.ajax({
             method: "GET",
             url: "/api/user-items",
-            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort: "idUserHasItem"},
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idSub, sort: "idUserHasItem"},
             dataType: "json",
             success: (response) => {
+                var idx = 1;
                 var content = '';
                 response.content.forEach((element) => {
                     content += '<tr><td class="text-center" scope="row">' + element.item.idItem + '</td>'
                     + '<td class="text-center">' + element.item.itemName+ '</td>'
                     + '<td class="text-center">' + element.hasQty + '</td>';
+                    idx++;
                 });
+                if (idx == 1){
+                    content = '<tr>'
+                            + '<td colspan=3> There is no request</td>'
+                            + '</tr>';
+                }
                 $(".subordinates-item-table tbody").html(content);
             },
             statusCode: {
@@ -121,40 +128,80 @@ class SubordinatesDashboard {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort: "idRequest"},
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idSub, sort: "idRequest"},
             dataType: "json",
             success: (response) => {
-
+                console.log(response.content);
                 var idx = 1;
                 var content = '';
                 response.content.forEach((element) => {
-                    content += '<tr>'
-                    + '<td id="data-ke-'+ idx +'" id-request="'+element.idRequest+'"class="text-center" scope="row">' + element.item.idItem + '</td>'
-                    + '<td class="text-center">' + element.item.itemName+ '</td>'
-                    + '<td class="text-center">' + element.reqQty + '</td>'
-                    + '<td class="text-center">' + element.requestStatus + '</td>';
-                    var radioButton = '<div class="form-check-inline">'
-                    + '<label class="form-check-label">';
-                    if(element.requestStatus != "REQUESTED"){
-                        radioButton +='<input type="radio" class="form-check-input" name="opt'+idx+'" value="Yes" disabled>Yes'
-                            + '</label>'
-                            + '<label class="form-check-label">'
-                            + '<input type="radio" class="form-check-input" name="opt'+idx+'" value="No" disabled>No';
-                    } else {
-                        radioButton+= '<input type="radio" class="form-check-input" name="opt'+idx+'" value="Yes" >Yes'
+                    if (element.requestStatus == "REQUESTED") {
+                        content += '<tr>'
+                        + '<td id="data-ke-'+ idx +'" id-request="'+element.idRequest+'"class="text-center" scope="row">' + element.item.idItem + '</td>'
+                        + '<td class="text-center">' + element.item.itemName+ '</td>'
+                        + '<td class="text-center">' + element.reqQty + '</td>'
+                        + '<td class="text-center">' + element.requestStatus + '</td>'
+                        + '<td class="text-center">'
+                        + '<div class="form-check-inline">'
+                        + '<label class="form-check-label">'
+                        + '<input type="radio" class="form-check-input" name="opt'+idx+'" value="Yes" >Yes'
                         + '</label>'
                         + '<label class="form-check-label">'
-                        + '<input type="radio" class="form-check-input" name="opt'+idx+'" value="No" >No';
+                        + '<input type="radio" class="form-check-input" name="opt'+idx+'" value="No" >No'
+                        + '</label>'
+                        + '</div>'
+                        + '</td>'
+                        + '</tr>';
+                        idx++;
                     }
-                        radioButton += '</label>'
-                        + '</div>';
-                    content += '<td class="text-center">' + radioButton + '</td>';
-                    content += '</tr>';
-                    idx++;
                 });
+                if (idx > 1) {
+                    var contentButton = '';
+                    contentButton = '<button id="oke-button" type="button" class="btn btn-success" >Approve</button>';
+                    $("#button-request").html(contentButton);
+                    this.callOke(idUser,idSub);
+                } else {
+                    content = '<tr>'
+                            + '<td colspan=5> There is no request</td>'
+                            + '</tr>';
+                    $("#button-request").html("");
+                }
                 idx--;
                 $(".subordinates-request-table tbody").attr("counter",idx);
                 $(".subordinates-request-table tbody").html(content);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
+            }
+        });
+
+        $.ajax({
+            method: "GET",
+            url: "/api/requests",
+            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idSub, sort: "idRequest"},
+            dataType: "json",
+            success: (response) => {
+                var idx =1;
+                var content = '';
+                response.content.forEach((element) => {
+                    if(element.requestStatus != "REQUESTED") {
+                        content += '<tr>'
+                        + '<td class="text-center" scope="row">' + element.item.idItem + '</td>'
+                        + '<td class="text-center">' + element.item.itemName+ '</td>'
+                        + '<td class="text-center">' + element.reqQty + '</td>'
+                        + '<td class="text-center">' + element.requestStatus + '</td>';
+                        content += '</tr>';
+                        idx ++;
+                    }
+                });
+                if (idx == 1){
+                    content = '<tr>'
+                            + '<td colspan=4> There is no request</td>'
+                            + '</tr>';
+                }
+                $(".subordinates-history-table tbody").html(content);
             },
             statusCode: {
                 401: () => {
@@ -171,7 +218,14 @@ class SubordinatesDashboard {
             data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort:"idRequest"},
             dataType: "json",
             success: (response) => {
-                var count = response.content.length;
+                var count = 0;
+                var length = response.content.length;
+                console.log("response counter");
+                for (var i = 0 ; i < length; i ++) {
+                    if(response.content[i].requestStatus == "REQUESTED"){
+                        count++;
+                    }
+                }
                 $("#sub-detail-index-"+index,).html(count);
             },
             statusCode: {
@@ -182,7 +236,7 @@ class SubordinatesDashboard {
         });
     }
 
-    callOke(idUser){
+    callOke(idUser,idSub){
         $("#oke-button").on("click",() =>{
             var idx =1 ;
             var numberOfRecord = $("#subordinates-request-table-details").attr("counter");
@@ -228,14 +282,16 @@ class SubordinatesDashboard {
                 dataType: "json",
                 success: (response) => {
                     console.log(response);
+                    this.fillSubDetail(idUser, idSub);
+                    this.fillSubordinatesDetail(idUser);
+                    location.reload(true);
                 },
                 error : (response) => {
                     console.log(response);
                 }
             });
 
-            // this.fillSubDetail(); masih binggung get iduser yang request selain
-            //  nembak api
+
         });
     }
 }
