@@ -110,6 +110,8 @@ class AdminItem {
     }
 
     fillTable() {
+        var spinner = $("#admin-item-spinner").css("display", "block");
+        var section = $("#admin-item-section").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "/api/items",
@@ -147,9 +149,12 @@ class AdminItem {
                 }
 
                 $("#admin-item-main-table").html(content);
+                spinner.css("display", "none");
+                section.removeClass("d-none");
             },
             statusCode: {
                 401: () => {
+                    spinner.css("display", "none");
                     window.location = "login.html";
                 }
             }
@@ -254,11 +259,16 @@ class AdminItem {
 
                 var content = "";
                 if (response.content.length > 0) {
+                    var count = 0;
                     response.content.forEach(element => {
                         content += '<tr><td class="text-center">' + element.user.idUser + '</td>'
                         + '<td>' + element.user.name + '</td>'
                         + '<td class="text-center">' + element.hasQty + '</td></tr>';
+                        count++;
                     });
+                    for (var i = count; i < this.hasItemLimit; i++) {
+                        content += '<tr style="height: 2rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                    }
                 }
                 else {
                     content = '<td colspan="3">No employee has this item</td>';

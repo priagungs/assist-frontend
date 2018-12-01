@@ -65,6 +65,8 @@ class Procurement {
     }
 
     fillTable() {
+        var spinner = $("#procurement-table-spinner").addClass("d-block");
+        var table = $("#table-procurements").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "/api/transactions",
@@ -98,9 +100,12 @@ class Procurement {
                     content = '<td colspan="5">No transaction found</td>';
                 }
                 $("#table-procurements tbody").html(content);
+                spinner.removeClass("d-block");
+                table.removeClass("d-none");
             },
             statusCode: {
                 401: () => {
+                    spinner.removeClass("d-block");
                     window.location = "login.html";
                 }
             }

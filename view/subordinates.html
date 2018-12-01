@@ -1,7 +1,8 @@
 <section id="subordinates">
     <script src="/public/js/subordinates.js"></script>
     <h1 id="title-subordinates"> Subordinates </h1>
-    <table class="table table-hover table-bordered table-lg table-responsive-xs">
+    <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="subordinates-table-spinner"><div></div></div></div>
+    <table id="table-subordinates" class="table table-hover table-bordered table-lg table-responsive-xs">
         <thead>
             <tr>
                 <th> Name </th>
@@ -12,13 +13,36 @@
         <tbody id="data-table-subordinates">
         </tbody>
     </table>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item" id="page-subordinates-prev">
+                <a class="page-link" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                </a>
+            </li>
+            <li class="page-item page-next" id="page-subordinates-next">
+                <a class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
     <!-- Modal -->
     <div id="subordinates-detail" class=" row modal fade" role="dialog">
         <div class="modal-dialog modal-subordinates modal-lg modal-dialog-centered">
             <!-- Modal content-->
             <div class="modal-content row">
+                <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="subordinates-detail-spinner"><div></div></div></div>
                 <div class="modal-header">
                     <h2 class="modal-title"> Subordinates Detail </h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <script src="subordinates.js"></script>
@@ -35,9 +59,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-12 col-md-6 subordinates-item-table">
+                        <div class="col-12 subordinates-item-table">
                             <h4>Items</h4>
-                            <table class="table table-bordered table-sm">
+                            <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="subordinates-detail-item-spinner"><div></div></div></div>
+                            <table id="subordinate-item-table" class="table table-bordered table-sm">
                                 <thead>
                                     <tr>
                                         <th class="text-center"> Id </th>
@@ -48,27 +73,62 @@
                                 <tbody>
                                 </tbody>
                             </table>
+                            <nav aria-label="Page navigation example" id="sub-item-pagination">
+                                <ul class="pagination">
+                                    <li class="page-item" id="page-subordinates-item-prev">
+                                        <a class="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item page-next" id="page-subordinates-item-next">
+                                        <a class="page-link" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
-                        <div class="col-12 col-md-6 subordinates-history-table">
+                        <div class="col-12 subordinates-history-table">
                             <h4>History Requests</h4>
-                            <table class="table table-bordered table-responsive-xs table-sm">
+                            <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="subordinates-detail-request-spinner"><div></div></div></div>
+                            <table id="subordinate-request-table" class="table table-bordered table-responsive-xsm table-sm">
                                 <thead>
                                     <tr>
                                         <th class="text-center"> Id </th>
                                         <th class="text-center"> Item Name </th>
                                         <th class="text-center"> Quantity </th>
                                         <th class="text-center"> Status </th>
+                                        <th class="text-center"> Request Date </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                             </table>
+                            <nav aria-label="Page navigation example" id="sub-request-pagination">
+                                <ul class="pagination">
+                                    <li class="page-item" id="page-subordinates-request-prev">
+                                        <a class="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item page-next" id="page-subordinates-request-next">
+                                        <a class="page-link" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
 
                     </div>
                     <div class="row">
                         <div class="col-12 subordinates-request-table">
                             <h4>New Requests</h4>
+                            <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="subordinates-detail-newrequest-spinner"><div></div></div></div>
                             <table class="table table-bordered table-responsive-sm table-sm" id="subordinate-new-request-table">
                                 <thead>
                                     <tr>
@@ -82,14 +142,27 @@
                                 <tbody id="subordinates-request-table-details">
                                 </tbody>
                             </table>
+                            <nav aria-label="Page navigation example" id="sub-newrequest-pagination">
+                                <ul class="pagination">
+                                    <li class="page-item" id="page-subordinates-newrequest-prev">
+                                        <a class="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item page-next" id="page-subordinates-newrequest-next">
+                                        <a class="page-link" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
                             <div id="button-request" class="d-flex justify-content-end">
                             </div>
                         </div>
 
                     </div>
-                </div>
-                <div class="modal-footer row">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

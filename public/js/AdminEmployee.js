@@ -42,6 +42,22 @@ class AdminEmployee {
         })
     }
 
+    resetPage() {
+        this.page = 0;
+        this.limit = 10;
+        this.sortBy = "name";
+        this.dropdownLimit = 5;
+        this.isLastPage = false;
+        
+        this.itemPage = 0;
+        this.itemLimit = 5;
+        this.isItemLastPage = false;
+
+        this.subordinatePage = 0;
+        this.subordinateLimit = 5;
+        this.isSubordinateLastPage = false;
+    }
+
     searchHandler() {
         $("#search-employee").unbind().on("input", (event) => {
             if (event.target.value) {
@@ -103,7 +119,7 @@ class AdminEmployee {
                 nextBtn.removeClass("disabled");
                 this.fillTable();
             }
-        })
+        });
 
         prevBtn.unbind().click(() => {
             if (this.page > 0) {
@@ -111,10 +127,12 @@ class AdminEmployee {
                 this.fillTable();
                 prevBtn.removeClass("disabled");
             }
-        })
+        });
     }
 
     fillTable() {
+        var spinner = $("#admin-employee-spinner").css("display", "block");
+        var section = $("#admin-employee-section").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "/api/users",
@@ -139,9 +157,12 @@ class AdminEmployee {
                     content = '<p>No active user available</p>';
                 }
                 $("#all-employee-table").html(content);
+                spinner.css("display", "none");
+                section.removeClass("d-none");
             },
             statusCode: {
                 401: () => {
+                    spinner.css("display", "none");
                     window.location = "login.html";
                 }
             }
@@ -420,6 +441,7 @@ class AdminEmployee {
     detailModalHandler() {
         $("#employee-detail").unbind().on('show.bs.modal', (event) => {
             var idUser = $(event.relatedTarget).data("iduser");
+            this.resetPage();
             this.fillDetail(idUser);
             this.resetAddForm();
             this.updateHandler(idUser);
@@ -610,7 +632,7 @@ class AdminEmployee {
                     });
 
                     for (var i = count; i < this.itemLimit; i++) {
-                        content += '<tr style="height: 2rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                        content += '<tr style="height: 2rem"><td></td><td></td><td></td></tr>';
                     }
 
                     $("#employee-item-pagination").css("display", "block");
