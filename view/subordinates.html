@@ -1,7 +1,7 @@
 <section id="subordinates">
     <script src="/public/js/subordinates.js"></script>
     <h1 id="title-subordinates"> Subordinates </h1>
-    <table class="table table-responsive-sm table-hover table-bordered table-lg">
+    <table class="table table-hover table-bordered table-lg table-responsive-xs">
         <thead>
             <tr>
                 <th> Name </th>
@@ -15,81 +15,83 @@
     <!-- Modal -->
     <div id="subordinates-detail" class=" row modal fade" role="dialog">
         <div class="modal-dialog modal-subordinates modal-lg modal-dialog-centered">
-          <!-- Modal content-->
-          <div class="modal-content row">
-            <div class="modal-header">
-              <h2 class="modal-title"> Subordinates Detail </h2>
-            </div>
-            <div class="modal-body">
-              <script src="subordinates.js"></script>
-                <div class="row profile-card">
-                    <div class="col-3">
-                        <img src="/public/images/profile.png" class="img-fluid profile-image" alt="">
+            <!-- Modal content-->
+            <div class="modal-content row">
+                <div class="modal-header">
+                    <h2 class="modal-title"> Subordinates Detail </h2>
+                </div>
+                <div class="modal-body">
+                    <script src="subordinates.js"></script>
+                    <div class="row profile-card mb-3">
+                        <div class="col-12 col-sm-4">
+                            <img src="/public/images/profile.png" class="img-fluid profile-image" alt="">
+                        </div>
+                        <div class="col-12 col-sm-8">
+                            <h3 id="sub-name">Priagung Satyagama</h3>
+                            <h4 id="sub-id">NIP : 13516089</h4>
+                            <h4 id="sub-division">Division : Engineering</h4>
+                            <h4 id="sub-role">Role : Software Engineer</h4>
+                            <h4 id="sub-superior">Superior : Inggriani Liem (NIP : 13515111)</h4>
+                        </div>
                     </div>
-                    <div class="col-9">
-                        <h3 id="sub-name">Priagung Satyagama</h3>
-                        <h4 id="sub-id">NIP         : 13516089</h4>
-                        <h4 id="sub-division">Division    : Engineering</h4>
-                        <h4 id="sub-role">Role        : Software Engineer</h4>
-                        <h4 id="sub-superior">Superior    : Inggriani Liem (NIP : 13515111)</h4>
+                    <div class="row">
+                        <div class="col-12 col-md-6 subordinates-item-table">
+                            <h4>Items</h4>
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"> Id </th>
+                                        <th class="text-center"> Item Name </th>
+                                        <th class="text-center"> Quantity </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-12 col-md-6 subordinates-history-table">
+                            <h4>History Requests</h4>
+                            <table class="table table-bordered table-responsive-xs table-sm">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"> Id </th>
+                                        <th class="text-center"> Item Name </th>
+                                        <th class="text-center"> Quantity </th>
+                                        <th class="text-center"> Status </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-12 subordinates-request-table">
+                            <h4>New Requests</h4>
+                            <table class="table table-bordered table-responsive-sm table-sm" id="subordinate-new-request-table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center"> Id </th>
+                                        <th class="text-center"> Item Name </th>
+                                        <th class="text-center"> Quantity</th>
+                                        <th class="text-center"> Status</th>
+                                        <th class="text-center"> Approve</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="subordinates-request-table-details">
+                                </tbody>
+                            </table>
+                            <div id="button-request" class="d-flex justify-content-end">
+                            </div>
+                        </div>
+
                     </div>
                 </div>
-              <div class="row">
-                  <div class="col-5 subordinates-item-table">
-                      <table class="table table-responsive-sm table-hover table-bordered table-sm">
-                              <span>Table Item</span>
-                              <thead>
-                                  <tr>
-                                      <th class="text-center"> Id </th>
-                                      <th class="text-center"> Item Name </th>
-                                      <th class="text-center"> Quantity </th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                              </tbody>
-                          </table>
-                  </div>
-                  <div class="col col-7 subordinates-request-table">
-                      <span>Table Request</span>
-                      <table class="table table-responsive-sm table-hover table-bordered table-sm">
-                          <thead>
-                              <tr>
-                                  <th class="text-center"> Id </th>
-                                  <th class="text-center"> Item Name </th>
-                                  <th class="text-center"> Quantity</th>
-                                  <th class="text-center"> Status</th>
-                                  <th class="text-center"> Approve</th>
-                              </tr>
-                          </thead>
-                          <tbody id="subordinates-request-table-details">
-                          </tbody>
-                      </table>
-                      <div id="button-request" class= "d-flex justify-content-end">
-                      </div>
-                  </div>
-              </div>
-                <div class="row">
-                    <div class="col-5 subordinates-history-table">
-                        <table class="table table-responsive-sm table-hover table-bordered table-sm">
-                            <span>Table History Request</span>
-                            <thead>
-                                <tr>
-                                    <th class="text-center"> Id </th>
-                                    <th class="text-center"> Item Name </th>
-                                    <th class="text-center"> Quantity </th>
-                                    <th class="text-center"> Status </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="modal-footer row">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
-            <div class="modal-footer row">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 </section>

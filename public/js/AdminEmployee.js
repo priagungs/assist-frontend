@@ -7,6 +7,14 @@ class AdminEmployee {
         this.sortBy = "name";
         this.dropdownLimit = 5;
         this.isLastPage = false;
+        
+        this.itemPage = 0;
+        this.itemLimit = 5;
+        this.isItemLastPage = false;
+
+        this.subordinatePage = 0;
+        this.subordinateLimit = 5;
+        this.isSubordinateLastPage = false;
     }
 
     init() {
@@ -44,7 +52,6 @@ class AdminEmployee {
                     dataType: "json",
                     success: (response) => {
                         this.isLastPage = response.last;
-                        this.lastPage = response.totalPages-1;
                         this.paginationHandler();
                         var content = '';
                         response.content.forEach(element => {
@@ -115,7 +122,6 @@ class AdminEmployee {
             dataType: "json",
             success: (response) => {
                 this.isLastPage = response.last;
-                this.lastPage = response.totalPages-1;
                 this.paginationHandler();
                 var content = '';
                 if (response.content.length > 0) {
@@ -567,13 +573,11 @@ class AdminEmployee {
                     $("#employee-detail-superior-name").text('');
                     $("#employee-detail-superior-id").text('');
                 }
-
-                counter++;
-                if (counter === 3) {
-                    spinner.attr("style", "display: none");
-                    header.attr("style", "display: flex");
-                    body.attr("style", "display: block");
-                }
+                spinner.attr("style", "display: none");
+                header.attr("style", "display: flex");
+                body.attr("style", "display: block");
+                this.fillUserItemTable(idUser);
+                this.fillUserSubordinateTable(idUser);
             },
             statusCode: {
                 401: () => {
@@ -582,71 +586,163 @@ class AdminEmployee {
                 }
             }
         });
+    }
 
+    fillUserItemTable(idUser) {
+        var spinner = $("#employee-item-spinner").css("display", "block");
+        var table = $(".table-employee-items").css("display", "none");
         $.ajax({
             method: "GET",
             url: "/api/user-items",
-            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort: "idUserHasItem"},
+            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, sort: "idUserHasItem"},
             dataType: "json",
             success: (response) => {
+                this.isItemLastPage = response.last;
+                this.paginationItemHandler(idUser);
                 var content = '';
                 if (response.content.length > 0) {
+                    var count = 0;
                     response.content.forEach((element) => {
                         content += '<tr><td class="text-center" scope="row">' + element.item.idItem + '</td>'
                         + '<td class="text-center">' + element.item.itemName+ '</td>'
-                        + '<td class="text-center">' + element.hasQty + '</td>';
+                        + '<td class="text-center">' + element.hasQty + '</td></tr>';
+                        count++;
                     });
+
+                    for (var i = count; i < this.itemLimit; i++) {
+                        content += '<tr style="height: 2rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                    }
+
+                    $("#employee-item-pagination").css("display", "block");
                 }
                 else {
+                    $("#employee-item-pagination").css("display", "none");
                     content = '<td colspan="3">This employee has no item</td>';
                 }
                 $(".table-employee-items tbody").html(content);
-
-                counter++;
-                if (counter === 3) {
-                    spinner.attr("style", "display: none");
-                    header.attr("style", "display: flex");
-                    body.attr("style", "display: block");
-                }
+                spinner.css("display", "none");
+                table.css("display", "table");
             },
             statusCode: {
                 401: () => {
-                    spinner.attr("display", "none");
+                    spinner.css("display", "none");
                     window.location = "login.html";
                 }
             }
         });
+    }
 
+    fillUserSubordinateTable(idUser) {
+        var spinner = $("#employee-subordinate-spinner").css("display", "block");
+        var table = $(".table-employee-subordinates").css("display", "none");
         $.ajax({
             method: "GET",
             url: "/api/users",
-            data: {page: 0, limit: JAVA_MAX_INTEGER, sort: this.sortBy, idSuperior: idUser},
+            data: {page: this.subordinatePage, limit: this.subordinateLimit, sort: this.sortBy, idSuperior: idUser},
             dataType: "json",
-            success: function (response) {
+            success: (response) => {
+                this.isSubordinateLastPage = response.last;
+                this.paginationSubordinateHandler(idUser);
                 var content = '';
                 if (response.content.length > 0) {
+                    var count = 0;
                     response.content.forEach((element) => {
                         content += '<tr><td class="text-center" scope="row">' + element.idUser + '</td>'
                         + '<td>' + element.name + '</td>'
-                        + '<td class="text-center">' + element.role + '</td>'
+                        + '<td class="text-center">' + element.role + '</td></tr>';
+                        count++;
                     });
+
+                    for (var i = count; i < this.subordinateLimit; i++) {
+                        content += '<tr style="height: 2rem"><td></td><td></td><td></td></tr>'
+                    }
+
+                    $("#employee-subordinate-pagination").css("display", "block");
                 }
                 else {
+                    $("#employee-subordinate-pagination").css("display", "none");
                     content = '<td colspan="3">This employee has no subordinate</td>';
                 }
                 $(".table-employee-subordinates tbody").html(content);
-                counter++;
-                if (counter === 3) {
-                    spinner.attr("style", "display: none");
-                    header.attr("style", "display: flex");
-                    body.attr("style", "display: block");
-                }
+                spinner.css("display", "none");
+                table.css("display", "table");
             },
             statusCode: {
                 401: () => {
-                    spinner.attr("display", "none");
+                    spinner.css("display", "none");
                     window.location = "login.html";
                 }
+            }
+        });
+    }
+
+    paginationItemHandler(idUser) {
+        var nextBtn = $("#page-employee-item-next");
+        var prevBtn = $("#page-employee-item-prev");
+
+        if (this.itemPage == 0) {
+            console.log("masuk");
+            prevBtn.addClass("disabled");
+        }
+        else {
+            prevBtn.removeClass("disabled");
+        }
+
+        if (this.isItemLastPage) {
+            nextBtn.addClass("disabled");
+        }
+        else {
+            nextBtn.removeClass("disabled");
+        }
+
+        nextBtn.unbind().click(() => {
+            if (!this.isItemLastPage) {
+                this.itemPage++;
+                nextBtn.removeClass("disabled");
+                this.fillUserItemTable(idUser);
+            }
+        })
+
+        prevBtn.unbind().click(() => {
+            if (this.itemPage > 0) {
+                this.itemPage--;
+                this.fillUserItemTable(idUser);
+                prevBtn.removeClass("disabled");
+            }
+        })
+    }
+
+    paginationSubordinateHandler(idUser) {
+        var nextBtn = $("#page-employee-subordinate-next");
+        var prevBtn = $("#page-employee-subordinate-prev");
+
+        if (this.subordinatePage == 0) {
+            prevBtn.addClass("disabled");
+        }
+        else {
+            prevBtn.removeClass("disabled");
+        }
+
+        if (this.isSubordinateLastPage) {
+            nextBtn.addClass("disabled");
+        }
+        else {
+            nextBtn.removeClass("disabled");
+        }
+
+        nextBtn.unbind().click(() => {
+            if (!this.isSubordinateLastPage) {
+                this.subordinatePage++;
+                nextBtn.removeClass("disabled");
+                this.fillUserSubordinateTable(idUser);
+            }
+        });
+
+        prevBtn.unbind().click(() => {
+            if (this.subordinatePage > 0) {
+                this.subordinatePage--;
+                this.fillUserSubordinateTable(idUser);
+                prevBtn.removeClass("disabled");
             }
         });
     }

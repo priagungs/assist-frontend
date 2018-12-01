@@ -2,7 +2,6 @@
 $(document).ready(() => {
     $.ajax({
         type: "get",
-        async: false,
         url: "/api/login-detail",
         success: function (data, status) {
             if (!data.isAdmin) {

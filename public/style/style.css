@@ -69,11 +69,6 @@ thead th {
     color: white;
 }
 
-.modal-subordinates {
-    width: 75%;
-    max-width: 100%;
-}
-
 #data-table-subordinates tr {
     cursor: pointer;
 }
@@ -90,6 +85,14 @@ thead th {
 #subordinates .row {
     margin-left: 0;
     margin-right: 0;
+}
+
+@media (max-width: 350px) {
+    #subordinates .table-responsive-xs {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
 }
 
 .page-link {

@@ -79,16 +79,16 @@ class SubordinatesDashboard {
                 else {
                     $("#subordinates-detail img").attr("src", "/public/images/profile.png");
                 }
-                $("#sub-name").text(response.name);
-                $("#sub-id").text("NIP      : "+response.idUser);
-                $("#sub-division").text("Division   : "+response.division);
-                $("#sub-role").text("Role       : "+response.role);
-                var superiorContent = "Superior : "
+                $("#sub-name").html("<b>" + response.name + "</b>");
+                $("#sub-id").html("NIP      : <b>" + response.idUser + "</b>");
+                $("#sub-division").html("Division   : <b>" + response.division + "</b>");
+                $("#sub-role").html("Role       : <b>" + response.role + "</b>");
+                var superiorContent = "Superior : <b>"
                     + response.superior.name
                     + " (NIP :"
                     + response.superior.idUser
-                    +")";
-                $("#sub-superior").text(superiorContent);
+                    +")</b>";
+                $("#sub-superior").html(superiorContent);
             },
             statusCode: {
                 401: () => {
@@ -156,11 +156,13 @@ class SubordinatesDashboard {
                     }
                 });
                 if (idx > 1) {
+                    $("#subordinate-new-request-table").addClass("table-responsive-sm").removeClass("table-responsive-xs");
                     var contentButton = '';
                     contentButton = '<button id="oke-button" type="button" class="btn btn-success" >Approve</button>';
                     $("#button-request").html(contentButton);
                     this.callOke(idUser,idSub);
                 } else {
+                    $("#subordinate-new-request-table").addClass("table-responsive-xs").removeClass("table-responsive-sm");
                     content = '<tr>'
                             + '<td colspan=5> There is no request</td>'
                             + '</tr>';
