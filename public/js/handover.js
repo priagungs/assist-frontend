@@ -12,10 +12,8 @@ class Handover {
             type: "get",
             url: "/api/login-detail",
             success: (data, status) => {
-                var idAdmin = data.idUser;
-                console.log("id admin jancuk");
-                console.log(idAdmin);
-                this.fillRequestTable(idAdmin);
+                this.idAdmin = data.idUser;
+                this.fillRequestTable();
                 // this.sendRequest(idAdmin);
             },
             statusCode: {
@@ -28,17 +26,15 @@ class Handover {
     }
 
 
-    fillRequestTable(idAdmin) {
-        console.log("ini id admin"+idAdmin);
+    fillRequestTable() {
         $.ajax({
             method: "GET",
             url: "api/requests",
             dataType: "json",
             data: {page: this.page, limit: this.limit, status: "APPROVED", sort: "idRequest"},
             success: (response) => {
-                console.log(response);
                 this.isLastPage = response.last;
-                this.paginationHandler(idAdmin);
+                this.paginationHandler();
                 var content = "";
                 var idx = 1;
                 response.content.forEach(element => {
@@ -60,8 +56,7 @@ class Handover {
                     var contentButton = '';
                     contentButton = '<button id="sent-button" type="button" class="btn btn-primary" >SENT</button>';
                     $("#button-sent-area").html(contentButton);
-                    console.log("call send request dengan id admin"+idAdmin);
-                    this.sendRequest(idAdmin);
+                    this.sendRequest();
                 } else {
                     content = '<tr>'
                             + '<td colspan=5> There is no request</td>'
@@ -75,12 +70,10 @@ class Handover {
         });
     }
 
-    paginationHandler(idAdmin) {
-        console.log("paging handler"+idAdmin);
+    paginationHandler() {
         var nextBtn = $("#page-handover-next");
         var prevBtn = $("#page-handover-prev");
 
-        console.log(this.page);
         if (this.page == 0) {
             prevBtn.addClass("disabled");
         }
@@ -99,7 +92,7 @@ class Handover {
             if (!this.isLastPage) {
                 this.page++;
                 nextBtn.removeClass("disabled");
-                this.fillRequestTable(idAdmin);
+                this.fillRequestTable();
             }
         })
 
@@ -107,15 +100,14 @@ class Handover {
             if (this.page > 0) {
                 this.page--;
                 prevBtn.removeClass("disabled");
-                this.fillRequestTable(idAdmin);
+                this.fillRequestTable();
             }
         })
     }
 
-    sendRequest(idAdmin) {
+    sendRequest() {
         $("#sent-button").click(() =>{
-            console.log("called");
-            var idx =1 ;
+            var idx = 1 ;
             var numberOfRecord = $("#content-items").attr("counter");
             var requests = []
 
@@ -123,15 +115,10 @@ class Handover {
                 var input = 'input[name=\'opt'+idx+'\']';
                 var request = {};
                 if($(input).is(":checked") && !($(input).is(":disabled"))) {
-                    var value = $(input+':checked').val();
-                    console.log(value);
-                    console.log($('#data-ke-'+idx).text());
-                    console.log("id Requestnya"+$('#data-ke-'+idx).attr("id-request"));
-                    console.log(idAdmin);
                     request = {
                         idRequest : parseInt($('#data-ke-'+idx).attr("id-request")),
                         idSuperior : "\0",
-                        idAdmin : idAdmin,
+                        idAdmin : this.idAdmin,
                         requestStatus : "SENT"
                     }
                     requests.push(request);
@@ -146,20 +133,16 @@ class Handover {
                     contentType: "application/json",
                     dataType: "json",
                     success: (response) => {
-                        console.log(JSON.stringify(requests));
-                        console.log(response);
-                        alert("item sended");
+                        alert("item sent!");
                         this.fillRequestTable();
                     },
                     error : (response) => {
-                        console.log(JSON.stringify(requests));
                         console.log(response);
                     }
                 });
             } else {
                 alert('not request selected');
             }
-            
         });
     }
 

@@ -1,6 +1,4 @@
-#handover-page table tr {
-    cursor: pointer;
-}
+
 
 .handover-disabled {
     pointer-events: none;
