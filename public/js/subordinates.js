@@ -531,9 +531,9 @@ class SubordinatesDashboard {
                 dataType: "json",
                 success: (response) => {
                     console.log(response);
-                    this.fillSubDetail(idUser, idSub);
-                    this.fillSubordinatesDetail(idUser);
                     location.reload(true);
+                    this.fillSubDetail(idUser, idSub);
+                    // this.fillSubordinatesDetail(idUser);
                 },
                 error : (response) => {
                     console.log(response);

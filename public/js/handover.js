@@ -12,8 +12,11 @@ class Handover {
             type: "get",
             url: "/api/login-detail",
             success: (data, status) => {
-                this.fillRequestTable();
-                this.sendRequest(data.idUser);
+                var idAdmin = data.idUser;
+                console.log("id admin jancuk");
+                console.log(idAdmin);
+                this.fillRequestTable(idAdmin);
+                // this.sendRequest(idAdmin);
             },
             statusCode: {
                 401: () => {
@@ -25,7 +28,8 @@ class Handover {
     }
 
 
-    fillRequestTable() {
+    fillRequestTable(idAdmin) {
+        console.log("ini id admin"+idAdmin);
         $.ajax({
             method: "GET",
             url: "api/requests",
@@ -34,7 +38,7 @@ class Handover {
             success: (response) => {
                 console.log(response);
                 this.isLastPage = response.last;
-                this.paginationHandler();
+                this.paginationHandler(idAdmin);
                 var content = "";
                 var idx = 1;
                 response.content.forEach(element => {
@@ -52,6 +56,18 @@ class Handover {
                     + '</tr>'
                     idx++;
                 });
+                if (idx > 1) {
+                    var contentButton = '';
+                    contentButton = '<button id="sent-button" type="button" class="btn btn-primary" >SENT</button>';
+                    $("#button-sent-area").html(contentButton);
+                    console.log("call send request dengan id admin"+idAdmin);
+                    this.sendRequest(idAdmin);
+                } else {
+                    content = '<tr>'
+                            + '<td colspan=5> There is no request</td>'
+                            + '</tr>';
+                    $("#button-sent-area").html("");
+                }
                 idx--;
                 $("#content-items").attr("counter",idx)
                 $("#content-items").html(content);
@@ -59,7 +75,8 @@ class Handover {
         });
     }
 
-    paginationHandler() {
+    paginationHandler(idAdmin) {
+        console.log("paging handler"+idAdmin);
         var nextBtn = $("#page-handover-next");
         var prevBtn = $("#page-handover-prev");
 
@@ -82,21 +99,22 @@ class Handover {
             if (!this.isLastPage) {
                 this.page++;
                 nextBtn.removeClass("disabled");
-                this.fillRequestTable();
+                this.fillRequestTable(idAdmin);
             }
         })
 
         prevBtn.unbind().click(() => {
             if (this.page > 0) {
                 this.page--;
-                this.fillRequestTable();
                 prevBtn.removeClass("disabled");
+                this.fillRequestTable(idAdmin);
             }
         })
     }
 
-    sendRequest(idUser) {
-        $("#send-button").on("click",() =>{
+    sendRequest(idAdmin) {
+        $("#sent-button").click(() =>{
+            console.log("called");
             var idx =1 ;
             var numberOfRecord = $("#content-items").attr("counter");
             var requests = []
@@ -109,53 +127,57 @@ class Handover {
                     console.log(value);
                     console.log($('#data-ke-'+idx).text());
                     console.log("id Requestnya"+$('#data-ke-'+idx).attr("id-request"));
-                    console.log(idUser);
+                    console.log(idAdmin);
                     request = {
                         idRequest : parseInt($('#data-ke-'+idx).attr("id-request")),
                         idSuperior : "\0",
-                        idAdmin : idUser,
+                        idAdmin : idAdmin,
                         requestStatus : "SENT"
                     }
                     requests.push(request);
                     $(input).prop("disabled","disabled");
                 }
             }
-            console.log(JSON.stringify(requests));
-
-
-            $.ajax({
-                method : "PUT",
-                url : "/api/requests",
-                data : JSON.stringify(requests),
-                contentType: "application/json",
-                dataType: "json",
-                success: (response) => {
-                    console.log(response);
-                },
-                error : (response) => {
-                    console.log(response);
-                }
-            });
-            alert("item sended");
-            this.fillRequestTable();
+            if(requests.length > 0) {
+                $.ajax({
+                    method : "PUT",
+                    url : "/api/requests",
+                    data : JSON.stringify(requests),
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: (response) => {
+                        console.log(JSON.stringify(requests));
+                        console.log(response);
+                        alert("item sended");
+                        this.fillRequestTable();
+                    },
+                    error : (response) => {
+                        console.log(JSON.stringify(requests));
+                        console.log(response);
+                    }
+                });
+            } else {
+                alert('not request selected');
+            }
+            
         });
     }
 
 }
 
-$(document).ready(()=>{
-    console.log("asdf");
-    function triggerChange() {
-        $('.chk-box').trigger("change");
-    }
+// $(document).ready(()=>{
+//     console.log("asdf");
+//     function triggerChange() {
+//         $('.chk-box').trigger("change");
+//     }
 
-    $(".chk-box").change(function() {
-        alert("triggered!");
-     });
+//     $(".chk-box").change(function() {
+//         alert("triggered!");
+//      });
 
-    $(".chk-box").on("click",()=>{
-        console.log("clicksuccess");
-        alert("click");
-    });
-     triggerChange();
-});
+//     $(".chk-box").on("click",()=>{
+//         console.log("clicksuccess");
+//         alert("click");
+//     });
+//      triggerChange();
+// });
