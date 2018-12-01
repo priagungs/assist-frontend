@@ -1,10 +1,10 @@
 class Handover {
     constructor() {
         this.page = 0;
-        this.limit = 1;
         this.sortBy = "idRequest";
         this.dropdownLimit = 5;
         this.isLastPage = false;
+        this.requestLimit = 7;
     }
 
     init() {
@@ -31,7 +31,7 @@ class Handover {
             method: "GET",
             url: "api/requests",
             dataType: "json",
-            data: {page: this.page, limit: this.limit, status: "APPROVED", sort: "idRequest"},
+            data: {page: this.page, limit: this.requestLimit, status: "APPROVED", sort: "idRequest"},
             success: (response) => {
                 this.isLastPage = response.last;
                 this.paginationHandler();
@@ -53,6 +53,9 @@ class Handover {
                     idx++;
                 });
                 if (idx > 1) {
+                    for (var i = idx; i <= this.requestLimit; i++) {
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>';
+                    }
                     var contentButton = '';
                     contentButton = '<button id="sent-button" type="button" class="btn btn-primary" >SENT</button>';
                     $("#button-sent-area").html(contentButton);
