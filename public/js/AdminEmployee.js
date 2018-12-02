@@ -132,7 +132,7 @@ class AdminEmployee {
 
     fillTable() {
         var spinner = $("#admin-employee-spinner").css("display", "block");
-        var section = $("#admin-employee-section").addClass("d-none");
+        var section = $("#all-employee-table").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "/api/users",

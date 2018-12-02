@@ -27,6 +27,8 @@ class Handover {
 
 
     fillRequestTable() {
+        var spinner = $("#handover-table-spinner").addClass("d-block");
+        var table = $("#content-handover-items").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "api/requests",
@@ -67,8 +69,10 @@ class Handover {
                     $("#button-sent-area").html("");
                 }
                 idx--;
-                $("#content-items").attr("counter",idx)
-                $("#content-items").html(content);
+                $("#content-handover-items").attr("counter",idx)
+                $("#content-handover-items").html(content);
+                spinner.removeClass("d-block");
+                table.removeClass("d-none");
             }
         });
     }
@@ -111,7 +115,7 @@ class Handover {
     sendRequest() {
         $("#sent-button").click(() =>{
             var idx = 1 ;
-            var numberOfRecord = $("#content-items").attr("counter");
+            var numberOfRecord = $("#content-handover-items").attr("counter");
             var requests = []
 
             for(idx = 1; idx <= numberOfRecord; idx++) {

@@ -57,7 +57,7 @@ class SubordinatesDashboard {
 
     fillSubordinatesDetail(idUser) {
         var spinner = $("#subordinates-table-spinner").addClass("d-block");
-        var table = $("#table-subordinates").addClass("d-none");
+        var table = $("#data-table-subordinates").addClass("d-none");
         $.ajax({
             type: "get",
             url: "/api/users",

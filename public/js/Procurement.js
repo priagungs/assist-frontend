@@ -66,7 +66,7 @@ class Procurement {
 
     fillTable() {
         var spinner = $("#procurement-table-spinner").addClass("d-block");
-        var table = $("#table-procurements").addClass("d-none");
+        var table = $("#table-procurements tbody").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "/api/transactions",

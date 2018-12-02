@@ -111,7 +111,7 @@ class AdminItem {
 
     fillTable() {
         var spinner = $("#admin-item-spinner").css("display", "block");
-        var section = $("#admin-item-section").addClass("d-none");
+        var section = $("#admin-item-main-table").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "/api/items",
