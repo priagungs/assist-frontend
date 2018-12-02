@@ -2,8 +2,13 @@ class Home {
 
     constructor() {
         this.itemPage = 0;
-        this.itemLimit = 1;
+        this.itemLimit = 100;
+        this.isLastPage = false;
+        this.reqPage = 0;
+        this.reqLimit = 10;
+        this.isReqLastPage = false;
         this.dropdownLimit = 5;
+
     }
 
     init() {
@@ -51,18 +56,35 @@ class Home {
             dataType: "json",
             success: (response) => {
                 var content = "";
-                response.content.forEach(element => {
-                    content += '<tr class="' + element.requestStatus +
-                    '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
-                    + '" data-itemname="' + element.item.itemName
-                    + '" data-status="' + 'SENT'
-                    + '" data-idhasitem="' + element.idUserHasItem + '">'
-                    + '<td>' + element.item.itemName +'</td>'
-                    + '<td class="text-center">' + element.hasQty + '</td>'
-                    + '<td class="text-center">' + 'SENT' + '</td>'
-                    + '</tr>';
-                    console.log("AUNG" + element.item.itemName);
-                });
+                if (response.content.length > 0) {
+                    response.content.forEach(element => {
+                        content += '<tr class="' + element.requestStatus +
+                        '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                        + '" data-itemname="' + element.item.itemName
+                        + '" data-status="' + 'SENT'
+                        + '" data-idhasitem="' + element.idUserHasItem + '">'
+                        + '<td>' + element.item.itemName +'</td>'
+                        + '<td class="text-center">' + element.hasQty + '</td>'
+                        + '<td class="text-center">' + 'SENT' + '</td>'
+                        + '</tr>';
+                    });
+                    this.isLastPage = response.last;
+                    if (response.last) {
+                        $("#page-item-home-next").addClass("disabled");
+                    }
+                    else {
+                        $("#page-item-home-next").removeClass("disabled");
+                    }
+
+                    if (response.first) {
+                        $("#page-item-home-prev").addClass("disabled");
+                    }
+                    else {
+                        $("#page-item-home-prev").removeClass("disabled");
+                    }
+                } else {
+                    content = '<td colspan="3">No item available</td>';
+                }
                 $("#content-items").html(content);
             }
         })
@@ -75,22 +97,84 @@ class Home {
             data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, status:status.toUpperCase(), sort: "idRequest"},
             dataType: "json",
             success: (response) => {
-                var content = "";
-                response.content.forEach(element => {
-                    content += '<tr class="' + element.requestStatus +
-                    '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
-                    + '" data-itemname="' + element.item.itemName
-                    + '" data-status="' + element.requestStatus
-                    + '" data-idrequest="' + element.idRequest + '">'
-                    + '<td>' + element.item.itemName +'</td>'
-                    + '<td class="text-center">' + element.reqQty + '</td>'
-                    + '<td class="text-center">' + element.requestStatus + '</td>'
-                    + '</tr>';
-                    console.log("AUNG" + element.item.itemName);
-                });
+                if (response.content.length > 0) {
+                    var content = "";
+                    response.content.forEach(element => {
+                        content += '<tr class="' + element.requestStatus +
+                        '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                        + '" data-itemname="' + element.item.itemName
+                        + '" data-status="' + element.requestStatus
+                        + '" data-idrequest="' + element.idRequest + '">'
+                        + '<td>' + element.item.itemName +'</td>'
+                        + '<td class="text-center">' + element.reqQty + '</td>'
+                        + '<td class="text-center">' + element.requestStatus + '</td>'
+                        + '</tr>';
+                    });
+                    this.isLastPage = response.last;
+                    if (response.last) {
+                        $("#page-item-home-next").addClass("disabled");
+                    }
+                    else {
+                        $("#page-item-home-next").removeClass("disabled");
+                    }
+
+                    if (response.first) {
+                        $("#page-item-home-prev").addClass("disabled");
+                    }
+                    else {
+                        $("#page-item-home-prev").removeClass("disabled");
+                    }
+                } else {
+                    content = '<td colspan="3">No request available</td>';
+                }
                 $("#content-items").html(content);
             }
         })
+    }
+
+    fillRequestItemTable(idUser) {
+        $.ajax({
+            method: "GET",
+            url: "/api/requests",
+            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, sort: "idRequest"},
+            dataType: "json",
+            success: (response) => {
+                if (response.content.length > 0) {
+                    var content = "";
+                    response.content.forEach(element => {
+                        if (element.requestStatus != 'SENT') {
+                            content += '<tr class="' + element.requestStatus +
+                            '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                            + '" data-itemname="' + element.item.itemName
+                            + '" data-status="' + element.requestStatus
+                            + '" data-idrequest="' + element.idRequest + '">'
+                            + '<td>' + element.item.itemName +'</td>'
+                            + '<td class="text-center">' + element.reqQty + '</td>'
+                            + '<td class="text-center">' + element.requestStatus + '</td>'
+                            + '</tr>';
+                        }
+                    });
+                    this.isLastPage = response.last;
+                    if (response.last) {
+                        $("#page-item-home-next").addClass("disabled");
+                    }
+                    else {
+                        $("#page-item-home-next").removeClass("disabled");
+                    }
+
+                    if (response.first) {
+                        $("#page-item-home-prev").addClass("disabled");
+                    }
+                    else {
+                        $("#page-item-home-prev").removeClass("disabled");
+                    }
+                } else {
+                    content = '<td colspan="3">No request available</td>';
+                }
+                $("#content-items").html(content);
+            }
+        })
+
     }
 
     tableHandler(idUser) {
@@ -99,8 +183,9 @@ class Home {
             this.emptyTable();
             if (status == "sent") {
                 this.fillItemTable(idUser);
+            } else if (status == "allreq") {
+                this.fillRequestItemTable(idUser);
             } else {
-                console.log(status);
                 this.fillCustomItemTable(idUser, status);
             }
         });
@@ -146,8 +231,6 @@ class Home {
             // this.emptyHomeItemDetail();
             var idItem = $(event.relatedTarget).data('iditem');
             var status = $(event.relatedTarget).data('status');
-            console.log(idItem);
-            console.log(status);
             this.fillHomeItemDetail(idItem);
 
             if (status!="SENT" && status!="sent") {
@@ -161,24 +244,24 @@ class Home {
                     var deleteditem = {
                         idUserHasItem : $(event.relatedTarget).data('idhasitem')
                     };
-                    this.deleteRequest(deleteditem, idItem);
+                    $.ajax({
+                        method: "DELETE",
+                        url: "/api/user-items",
+                        data: JSON.stringify(deleteditem),
+                        contentType: "application/json",
+                        dataType: "json",
+                        success: (response) => {
+                            // this.fillItemTable(this.loggedInUser.idUser);
+                            // $("#home-item-detail").modal('hide');
+                            // this.fillItemTable(this.loggedInUser.idUser);
+                        }
+                    })
+                    $("#home-item-detail").modal('hide');
+                    this.emptyTable();
+                    this.fillItemTable(this.loggedInUser.idUser);
                 }
             });
         });
-    }
-
-    deleteRequest(deleteditem, idItem) {
-        $.ajax({
-            method: "DELETE",
-            url: "/api/user-items",
-            data: JSON.stringify(deleteditem),
-            contentType: "application/json",
-            dataType: "json",
-            success: (response) => {
-                this.fillItemDetail(idItem);
-                this.fillItemTable(this.loggedInUser.idUser);
-            }
-        })
     }
 
     paginationHandler(idUser) {
@@ -190,17 +273,17 @@ class Home {
                     $("#page-item-prev").addClass("disabled");
                 }
             }
-        });
+        })
 
         $("#page-item-next:not(.disabled").unbind().click(() => {
-            if (this.itemPage < this.itemLimit && !this.isLastPageItem) {
+            if (!this.isLastPage) {
                 this.itemPage++;
                 this.fillItemTable(idUser);
-                if (this.itemPage == this.itemLimit || this.isLastPageItem) {
+                if (this.isLastPage) {
                     $("#page-item-next").addClass("disabled");
                 }
             }
-        });
+        })
     }
 
     emptyTable() {

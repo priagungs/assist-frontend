@@ -11,7 +11,7 @@
             <h5>Superior    = <span id="superior-name"></span>(<span id="superior-id"></span>)</h5>
         </div>
     </div>
-    
+
     <div>
         <div class="item-title-container">
             <h3 class="font-weight-bold font-red">Items</h3>
@@ -19,6 +19,7 @@
                 <label for="filter" class="mx-auto">Show:</label>
                 <select class="filter mx-auto" data-tableId="items">
                   <option value="sent">Sent</option>
+                  <option value="allreq">All Requests</option>
                   <option value="requested">Requested</option>
                   <option value="approved">Approved</option>
                   <option value="rejected">Rejected</option>
@@ -41,13 +42,13 @@
       <!-- Pagination -->
       <nav aria-label="Page navigation">
           <ul class="pagination">
-              <li class="page-item" id="page-item-prev">
+              <li class="page-item" id="page-item-home-prev">
                   <a class="page-link" aria-label="Previous">
                       <span aria-hidden="true">&laquo;</span>
                       <span class="sr-only">Previous</span>
                   </a>
               </li>
-              <li class="page-item page-next" id="page-item-next">
+              <li class="page-item page-next" id="page-item-home-next">
                   <a class="page-link" aria-label="Next">
                       <span aria-hidden="true">&raquo;</span>
                       <span class="sr-only">Next</span>
@@ -118,7 +119,7 @@
                                 </tr>
                             </thead>
                             <tbody id="content-create-request-items">
-                                
+
                             </tbody>
                         </table>
                         <div class="modal-footer">
