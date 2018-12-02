@@ -46,10 +46,9 @@ class Handover {
                     + '<td class="text-center">' + element.requestBy.name + '</td>'
                     + '<td class="text-center">' + element.reqQty + '</td>'
                     + '<td class="text-center">'
-                    + '<label class="form-check-label">'
-                    + '<input type="checkbox" class="form-check-input chk-box" name="opt'+idx+'" value="SENT" >'
-                    + 'ready for send'
-                    + '</label>'
+                    + '<div class="row justify-content-center align-items-center"><label class="col-12 col-md-9 form-check-label">ready for send'
+                    + '</label><input type="checkbox" style="position: relative" class="form-check-input col-12 col-md-3 chk-box" name="opt'+idx+'" value="SENT" >'
+                    + '</div>'
                     + '</td>'
                     + '</tr>'
                     idx++;
@@ -59,7 +58,7 @@ class Handover {
                         content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>';
                     }
                     var contentButton = '';
-                    contentButton = '<button id="sent-button" type="button" class="btn btn-primary" >SENT</button>';
+                    contentButton = '<button id="sent-button" type="button" class="btn btn-primary" >SEND</button>';
                     $("#button-sent-area").html(contentButton);
                     this.sendRequest();
                 } else {

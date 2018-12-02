@@ -116,8 +116,6 @@ th, td {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 1em;
-    margin-right: 1em;
 }
 
 .item-title-container i {

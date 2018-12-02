@@ -203,6 +203,9 @@ class Home {
     fillHomeItemDetail(idItem) {
         console.log("OINK");
         console.log("oin",idItem);
+        var spinner = $("#home-item-detail-spinner").addClass("d-block");
+        var header = $("#home-item-detail .modal-header").addClass("d-none");
+        var body = $("#home-item-detail .modal-body").addClass("d-none");
         $.ajax({
             type: "GET",
             url: "/api/items/" + idItem,
@@ -221,6 +224,9 @@ class Home {
                 $("#detail-item #item-total-qty").text(response.totalQty);
                 $("#detail-item #item-available-qty").text(response.availableQty);
                 $("#detail-item #item-description").text(response.description);
+                spinner.removeClass("d-block");
+                header.removeClass("d-none");
+                body.removeClass("d-none");
             },
             responseStatus : {
                 401 : () => {

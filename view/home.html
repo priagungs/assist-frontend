@@ -12,14 +12,14 @@
         </div>
     </div>
 
-    <div>
-        <div class="item-title-container">
-            <h3 class="font-weight-bold font-red">Items</h3>
+    <div class="mt-4">
+        <h3 class="font-weight-bold font-red">ITEMS</h3>
+        <div class="item-title-container mb-2">
             <div class="filter-container">
                 <label for="filter" class="mx-auto">Show:</label>
                 <select class="filter mx-auto" data-tableId="items">
-                    <option value="sent">Sent</option>
                     <option value="allreq">All Requests</option>
+                    <option value="sent">Sent</option>
                     <option value="requested">Requested</option>
                     <option value="approved">Approved</option>
                     <option value="rejected">Rejected</option>
@@ -67,6 +67,11 @@
         aria-labelledby="item-detail-name" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
+                <div class="lds-css ng-scope">
+                    <div style="width:100%;height:100%" class="lds-rolling" id="home-item-detail-spinner">
+                        <div></div>
+                    </div>
+                </div>
                 <div class="modal-header">
                     <h5 class="modal-title" id="item-detail-name"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
