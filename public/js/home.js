@@ -49,6 +49,8 @@ class Home {
     }
 
     fillItemTable(idUser) {
+        var spinner = $("#home-item-spinner").addClass("d-block");
+        var table = $("#content-items").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "/api/user-items",
@@ -85,7 +87,14 @@ class Home {
                 } else {
                     content = '<td colspan="3">No item available</td>';
                 }
+                spinner.removeClass("d-block");
+                table.removeClass("d-none");
                 $("#content-items").html(content);
+            },
+            statusCode: {
+                401: () => {
+                    window.location = 'login.html'
+                }
             }
         })
     }
@@ -294,6 +303,7 @@ class Home {
     createRequestHandler() {
         $("#add-request").on('show.bs.modal', () => {
             this.requestItems = [];
+            $("#add-new-request-invalid-feedback").removeClass("d-block");
             this.fillCreateRequestTable();
             this.searchHandler();
             this.submitRequestHandler();
@@ -314,8 +324,16 @@ class Home {
                 success: () => {
                     this.fillItemTable(this.loggedInUser.idUser);
                     $("#add-request").modal('hide');
+                },
+                statusCode: {
+                    401: () => {
+                        window.location = 'login.html';
+                    },
+                    400: () => {
+                        $("#add-new-request-invalid-feedback").addClass("d-block");
+                    }
                 }
-            })
+            });
         })
     }
 
