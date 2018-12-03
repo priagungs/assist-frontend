@@ -59,6 +59,7 @@ class Home {
             success: (response) => {
                 var content = "";
                 if (response.content.length > 0) {
+                    var count = 0;
                     response.content.forEach(element => {
                         content += '<tr class="' + element.requestStatus +
                         '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
@@ -69,7 +70,11 @@ class Home {
                         + '<td class="text-center">' + element.hasQty + '</td>'
                         + '<td class="text-center">' + 'SENT' + '</td>'
                         + '</tr>';
+                        count++;
                     });
+                    for (var i = count; i < this.itemLimit; i++) {
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                    }
                     this.isLastPage = response.last;
                     if (response.last) {
                         $("#page-item-home-next").addClass("disabled");
@@ -105,11 +110,12 @@ class Home {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, status:status.toUpperCase(), sort: "idRequest"},
+            data: {page: this.reqPage, limit: this.reqLimit, idUser: idUser, status:status.toUpperCase(), sort: "requestDate"},
             dataType: "json",
             success: (response) => {
                 if (response.content.length > 0) {
                     var content = "";
+                    var count = 0;
                     response.content.forEach(element => {
                         content += '<tr class="' + element.requestStatus +
                         '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
@@ -120,8 +126,12 @@ class Home {
                         + '<td class="text-center">' + element.reqQty + '</td>'
                         + '<td class="text-center">' + element.requestStatus + '</td>'
                         + '</tr>';
+                        count++;
                     });
-                    this.isLastPage = response.last;
+                    for (var i = count; i < this.reqLimit; i++) {
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                    }
+                    this.isReqLastPage = response.last;
                     if (response.last) {
                         $("#page-item-home-next").addClass("disabled");
                     }
@@ -151,10 +161,11 @@ class Home {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, sort: "idRequest"},
+            data: {page: this.reqPage, limit: this.reqLimit, idUser: idUser, sort: "requestDate"},
             dataType: "json",
             success: (response) => {
                 if (response.content.length > 0) {
+                    var count = 0;
                     var content = "";
                     response.content.forEach(element => {
                         if (element.requestStatus != 'SENT') {
@@ -167,9 +178,13 @@ class Home {
                             + '<td class="text-center">' + element.reqQty + '</td>'
                             + '<td class="text-center">' + element.requestStatus + '</td>'
                             + '</tr>';
+                            count++;
                         }
                     });
-                    this.isLastPage = response.last;
+                    for (var i = count; i < this.reqLimit; i++) {
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                    }
+                    this.isReqLastPage = response.last;
                     if (response.last) {
                         $("#page-item-home-next").addClass("disabled");
                     }
@@ -289,22 +304,70 @@ class Home {
     }
 
     paginationHandler(idUser) {
-        $("#page-item-prev:not(.disabled)").unbind().click(() => {
-            if (this.itemPage > 0) {
-                this.itemPage--;
-                this.fillItemTable(idUser);
-                if (this.itemPage == 0) {
-                    $("#page-item-prev").addClass("disabled");
+        $("#page-item-home-prev:not(.disabled)").unbind().click(() => {
+            console.log($(".filter").val());
+            if ($(".filter").val()=="sent") {
+                if (this.itemPage > 0) {
+                    console.log("kurangsent");
+                    this.itemPage--;
+                    this.fillItemTable(idUser);
+                    if (this.itemPage == 0) {
+                        $("#page-item-home-prev").addClass("disabled");
+                    }
+                }
+            } else if ($(".filter").val()=="allreq") {
+                if (this.reqPage > 0) {
+                    console.log("kurangall");
+                    this.reqPage--;
+                    this.fillRequestItemTable(idUser);
+                    if (this.reqPage == 0) {
+                        $("#page-item-home-prev").addClass("disabled");
+                    }
+                }
+            } else {
+                var status = $(".filter").val();
+                if (this.reqPage > 0) {
+                    console.log("kurangreq");
+                    this.reqPage--;
+                    this.fillCustomItemTable(idUser, status);
+                    if (this.reqPage == 0) {
+                        $("#page-item-home-prev").addClass("disabled");
+                    }
                 }
             }
         })
 
-        $("#page-item-next:not(.disabled").unbind().click(() => {
-            if (!this.isLastPage) {
-                this.itemPage++;
-                this.fillItemTable(idUser);
-                if (this.isLastPage) {
-                    $("#page-item-next").addClass("disabled");
+
+
+        $("#page-item-home-next:not(.disabled").unbind().click(() => {
+            console.log($(".filter").val())
+            if ($(".filter").val()=="sent") {
+                if (!this.isLastPage) {
+                    console.log("nambahsent");
+                    this.itemPage++;
+                    this.fillItemTable(idUser);
+                    if (this.isLastPage) {
+                        $("#page-item-home-next").addClass("disabled");
+                    }
+                }
+            } else if ($(".filter").val()=="allreq") {
+                if (!this.isReqLastPage) {
+                    console.log("nambahall");
+                    this.reqPage++;
+                    this.fillRequestItemTable(idUser);
+                    if (this.isReqLastPage) {
+                        $("#page-item-home-next").addClass("disabled");
+                    }
+                }
+            } else {
+                var status = $(".filter").val();
+                if (!this.isReqLastPage) {
+                    console.log("nambahreq");
+                    this.reqPage++;
+                    this.fillCustomItemTable(idUser, status);
+                    if (this.isReqLastPage) {
+                        $("#page-item-home-next").addClass("disabled");
+                    }
                 }
             }
         })
