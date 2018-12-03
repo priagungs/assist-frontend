@@ -78,11 +78,10 @@ th, td {
 
 
 .circle {
-    /* max-width: 50%;
-    min-width: 50%; */
     margin-top: auto;
-    max-width: 70%;
-    max-height: 100%;
+    height: 12rem;
+    width: 12rem;
+    overflow: hidden;
     border-radius: 50%;
     border: solid 0.2em #5D001E;
     

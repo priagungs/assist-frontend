@@ -70,6 +70,7 @@ class AdminEmployee {
                         this.isLastPage = response.last;
                         this.paginationHandler();
                         var content = '';
+                        var counter = 0;
                         response.content.forEach(element => {
                             content += '<tr data-toggle="modal" data-target="#employee-detail" data-iduser="' + element.idUser + '">'
                             + '<td scope="row">' + element.idUser + '</td>'
@@ -78,7 +79,11 @@ class AdminEmployee {
                             + '<td class="text-center">' + element.division + '</td>'
                             + '<td class="text-center">' + element.role + '</td>'
                             + '</tr>';
+                            counter++;
                         });
+                        for (var i = counter; i < this.limit; i++) {
+                            content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>';
+                        }
 
                         $("#all-employee-table").html(content);
                     },
@@ -143,6 +148,7 @@ class AdminEmployee {
                 this.paginationHandler();
                 var content = '';
                 if (response.content.length > 0) {
+                    var counter = 0;
                     response.content.forEach(element => {
                         content += '<tr data-toggle="modal" data-target="#employee-detail" data-iduser="' + element.idUser + '">'
                         + '<td scope="row">' + element.idUser + '</td>'
@@ -151,7 +157,11 @@ class AdminEmployee {
                         + '<td class="text-center">' + element.division + '</td>'
                         + '<td class="text-center">' + element.role + '</td>'
                         + '</tr>';
+                        counter++;
                     });
+                    for (var i = counter; i < this.limit; i++) {
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>'
+                    }
                 }
                 else {
                     content = '<p>No active user available</p>';
@@ -544,20 +554,22 @@ class AdminEmployee {
 
     deleteHandler(idUser) {
         $(".delete-btn").unbind().click(() => {
-            $.ajax({
-                method: "DELETE",
-                url: "/api/user",
-                data: JSON.stringify({idUser: idUser}),
-                contentType: "application/json",
-                success: () => {
-                    this.page = 0;
-                    this.resetAddForm();
-                    this.fillTable();
-                    $("#nav-item").removeClass("active");
-                    $("#nav-employee").addClass("active");
-                    $("#employee-detail").modal('hide');
-                }
-            });
+            if (confirm("are you sure want to delete this employee ?")) {
+                $.ajax({
+                    method: "DELETE",
+                    url: "/api/user",
+                    data: JSON.stringify({idUser: idUser}),
+                    contentType: "application/json",
+                    success: () => {
+                        this.page = 0;
+                        this.resetAddForm();
+                        this.fillTable();
+                        $("#nav-item").removeClass("active");
+                        $("#nav-employee").addClass("active");
+                        $("#employee-detail").modal('hide');
+                    }
+                });
+            }
         })
     }
 
