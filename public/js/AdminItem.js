@@ -44,6 +44,7 @@ class AdminItem {
                     success: (response) => {
                         var content = "";
                         if (response.content.length > 0) {
+                            var counter = 0;
                             response.content.forEach(element => {
                                 content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
                                 + '<td scope="row">' + element.idItem + '</td>'
@@ -52,7 +53,13 @@ class AdminItem {
                                 + '<td class="text-center">' + element.totalQty + '</td>'
                                 + '<td class="text-center">' + element.availableQty + '</td>'
                                 + '</tr>';
+                                counter++;
                             });
+
+                            for (var i = counter; i < this.limit; i++) {
+                                content += '<tr style="height: 2rem"><td></td><td></td><td></td><td></td><td></td></tr>'
+                            }
+
                             this.isLastPage = response.last;
                             if (response.last) {
                                 $("#page-item-next").addClass("disabled");
@@ -120,6 +127,7 @@ class AdminItem {
             success: (response) => {
                 var content = "";
                 if (response.content.length > 0) {
+                    var counter = 0;
                     response.content.forEach(element => {
                         content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
                         + '<td scope="row">' + element.idItem + '</td>'
@@ -128,7 +136,13 @@ class AdminItem {
                         + '<td class="text-center">' + element.totalQty + '</td>'
                         + '<td class="text-center">' + element.availableQty + '</td>'
                         + '</tr>';
+                        counter++;
                     });
+
+                    for (var i = counter; i < this.limit; i++) {
+                        content += '<tr style="height: 2rem"><td></td><td></td><td></td><td></td><td></td></tr>'
+                    }
+
                     this.isLastPage = response.last;
                     if (response.last) {
                         $("#page-item-next").addClass("disabled");
