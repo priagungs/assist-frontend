@@ -2,7 +2,7 @@ class Home {
 
     constructor() {
         this.itemPage = 0;
-        this.itemLimit = 100;
+        this.itemLimit = 10;
         this.isLastPage = false;
         this.reqPage = 0;
         this.reqLimit = 10;
@@ -256,9 +256,13 @@ class Home {
             var status = $(event.relatedTarget).data('status');
             this.fillHomeItemDetail(idItem);
 
-            if (status!="SENT" && status!="sent") {
-                var buttonreturn = document.getElementById('return-btn');
-                buttonreturn.style.display='none';
+            if (status != "SENT" && status != "sent") {
+                var buttonreturn = $('#return-btn');
+                buttonreturn.addClass("d-none")
+            }
+            else {
+                var buttonreturn = $('#return-btn');
+                buttonreturn.removeClass("d-none");
             }
 
             $("#return-btn").unbind().click(() => {
@@ -272,16 +276,13 @@ class Home {
                         url: "/api/user-items",
                         data: JSON.stringify(deleteditem),
                         contentType: "application/json",
-                        dataType: "json",
                         success: (response) => {
-                            // this.fillItemTable(this.loggedInUser.idUser);
-                            // $("#home-item-detail").modal('hide');
-                            // this.fillItemTable(this.loggedInUser.idUser);
+                            $("#home-item-detail").modal('hide');
+                            this.emptyTable();
+                            $(".filter").val("allreq");
+                            this.fillRequestItemTable(this.loggedInUser.idUser);
                         }
                     })
-                    $("#home-item-detail").modal('hide');
-                    this.emptyTable();
-                    this.fillItemTable(this.loggedInUser.idUser);
                 }
             });
         });
@@ -336,7 +337,7 @@ class Home {
                 data: JSON.stringify(requestBody),
                 contentType: "application/json",
                 success: () => {
-                    this.fillItemTable(this.loggedInUser.idUser);
+                    this.fillRequestItemTable(this.loggedInUser.idUser);
                     $("#add-request").modal('hide');
                 },
                 statusCode: {
