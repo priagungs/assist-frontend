@@ -57,7 +57,7 @@ class AdminItem {
                             });
 
                             for (var i = counter; i < this.limit; i++) {
-                                content += '<tr style="height: 2rem"><td></td><td></td><td></td><td></td><td></td></tr>'
+                                content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>'
                             }
 
                             this.isLastPage = response.last;
@@ -140,7 +140,7 @@ class AdminItem {
                     });
 
                     for (var i = counter; i < this.limit; i++) {
-                        content += '<tr style="height: 2rem"><td></td><td></td><td></td><td></td><td></td></tr>'
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>'
                     }
 
                     this.isLastPage = response.last;

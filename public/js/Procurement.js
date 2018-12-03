@@ -78,6 +78,7 @@ class Procurement {
                 this.paginationHandler();
                 var content = "";
                 if (response.content.length > 0) {
+                    var counter = 0;
                     response.content.forEach(element => {
                         content += '<tr data-toggle="modal" data-target="#transaction-detail" data-idtransaction="' + element.idTransaction + '">'
                         + '<td scope="row">' + element.idTransaction + '</td>'
@@ -94,7 +95,11 @@ class Procurement {
                         })
 
                         content += '<td>Rp ' + value + '</td></tr>';
+                        counter++;
                     });
+                    for (var i = counter; i < this.limit; i++) {
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>';
+                    }
                 }
                 else {
                     content = '<td colspan="5">No transaction found</td>';

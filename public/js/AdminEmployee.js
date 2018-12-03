@@ -82,7 +82,7 @@ class AdminEmployee {
                             counter++;
                         });
                         for (var i = counter; i < this.limit; i++) {
-                            content += '<tr style="height: 2rem"><td></td><td></td><td></td><td></td><td></td></tr>'
+                            content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>';
                         }
 
                         $("#all-employee-table").html(content);
@@ -160,7 +160,7 @@ class AdminEmployee {
                         counter++;
                     });
                     for (var i = counter; i < this.limit; i++) {
-                        content += '<tr style="height: 2rem"><td></td><td></td><td></td><td></td><td></td></tr>'
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>'
                     }
                 }
                 else {
@@ -554,20 +554,22 @@ class AdminEmployee {
 
     deleteHandler(idUser) {
         $(".delete-btn").unbind().click(() => {
-            $.ajax({
-                method: "DELETE",
-                url: "/api/user",
-                data: JSON.stringify({idUser: idUser}),
-                contentType: "application/json",
-                success: () => {
-                    this.page = 0;
-                    this.resetAddForm();
-                    this.fillTable();
-                    $("#nav-item").removeClass("active");
-                    $("#nav-employee").addClass("active");
-                    $("#employee-detail").modal('hide');
-                }
-            });
+            if (confirm("are you sure want to delete this employee ?")) {
+                $.ajax({
+                    method: "DELETE",
+                    url: "/api/user",
+                    data: JSON.stringify({idUser: idUser}),
+                    contentType: "application/json",
+                    success: () => {
+                        this.page = 0;
+                        this.resetAddForm();
+                        this.fillTable();
+                        $("#nav-item").removeClass("active");
+                        $("#nav-employee").addClass("active");
+                        $("#employee-detail").modal('hide');
+                    }
+                });
+            }
         })
     }
 
