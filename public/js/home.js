@@ -20,7 +20,7 @@ class Home {
                 this.loggedInUser = data;
                 this.fillUserCard(data);
                 this.emptyTable();
-                this.fillItemTable(data.idUser);
+                this.fillRequestItemTable(data.idUser);
                 this.detailModalHandler();
                 this.tableHandler(data.idUser);
                 this.paginationHandler(data.idUser);
