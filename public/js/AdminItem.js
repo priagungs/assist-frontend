@@ -22,6 +22,7 @@ class AdminItem {
                     this.fillTable();
                     this.paginationHandler();
                     this.searchHandler();
+                    Helper.restoreHandler();
                 }
             },
             statusCode: {

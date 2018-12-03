@@ -1,4 +1,12 @@
 <div id="admin-dashboard">
+    <div class="row justify-content-end">
+        <div>
+            <label for="restore-uploader" class="btn btn-primary btn-sm upload-image-btn mb-0 mr-2">Restore</label>
+            <form class="d-none" id="restore-form"><input type="file" accept=".assist" id="restore-uploader" name="file" class="d-none"></form>
+            <a href="/api/backup" class="btn btn-primary btn-sm">Backup</a>
+        </div>
+        <div class="invalid-feedback" id="restore-invalid"></div>
+    </div>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a id="nav-item" class="nav-item nav-link active" data-toggle="tab" href="#item" role="tab" aria-controls="item" aria-selected="true">Item</a>

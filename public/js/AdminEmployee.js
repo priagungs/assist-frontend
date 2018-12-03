@@ -32,6 +32,7 @@ class AdminEmployee {
                     this.detailModalHandler();
                     this.paginationHandler();
                     this.searchHandler();
+                    Helper.restoreHandler();
                 }
             },
             statusCode: {
@@ -190,7 +191,7 @@ class AdminEmployee {
     singleEntryHandler() {
         var imageUrl = '';
         $("#employee-add-image-uploader").unbind().change(() => {
-            var formData = new FormData($("#add-employee form")[0]);
+            var formData = new FormData($("#add-employee form"));
             Helper.uploadFile(formData, function(response) {
                 imageUrl = response.file.slice(21);
                 $("#add-employee img").attr("src", imageUrl);
