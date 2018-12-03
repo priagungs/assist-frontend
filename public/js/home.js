@@ -100,6 +100,8 @@ class Home {
     }
 
     fillCustomItemTable(idUser, status) {
+        var spinner = $("#home-item-spinner").addClass("d-block");
+        var table = $("#content-items").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "/api/requests",
@@ -137,11 +139,15 @@ class Home {
                     content = '<td colspan="3">No request available</td>';
                 }
                 $("#content-items").html(content);
+                spinner.removeClass("d-block");
+                table.removeClass("d-none");
             }
         })
     }
 
     fillRequestItemTable(idUser) {
+        var spinner = $("#home-item-spinner").addClass("d-block");
+        var table = $("#content-items").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "/api/requests",
@@ -181,6 +187,8 @@ class Home {
                     content = '<td colspan="3">No request available</td>';
                 }
                 $("#content-items").html(content);
+                spinner.removeClass("d-block");
+                table.removeClass("d-none");
             }
         })
 
