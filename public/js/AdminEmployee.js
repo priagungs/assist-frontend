@@ -456,6 +456,7 @@ class AdminEmployee {
             this.fillDetail(idUser);
             this.resetAddForm();
             this.updateHandler(idUser);
+            $("#employee-detail-invalid-feedback").removeClass("d-block");
             this.deleteHandler(idUser);
             $("#employee-update-section").attr("style", "display: none");
             $("#employee-detail-section").removeAttr("style");
@@ -568,6 +569,16 @@ class AdminEmployee {
                         $("#nav-item").removeClass("active");
                         $("#nav-employee").addClass("active");
                         $("#employee-detail").modal('hide');
+                    },
+                    statusCode: {
+                        401: () => {
+                            window.location = "login.html"
+                        },
+                        403: () => {
+                            console.log("test");
+                            $("#employee-detail-invalid-feedback").text("You couldn't delete yourself :(");
+                            $("#employee-detail-invalid-feedback").addClass("d-block");
+                        }
                     }
                 });
             }
