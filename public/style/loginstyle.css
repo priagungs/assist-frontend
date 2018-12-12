@@ -1,0 +1,55 @@
+
+.progress-bar {
+    color: #333;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+	outline: none;
+	padding: 0;
+	margin: 0;
+}
+
+.form-control {
+	font-size: 16px;
+	height: 50%;
+	padding: 10px;
+}
+
+body {
+	background: url(http://i.imgur.com/GHr12sH.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#pwd-container {
+    min-height: 100vh;
+}
+
+form[role=login] {
+	color: #5d5d5d;
+	background: #f2f2f2;
+	padding: 26px;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+form[role=login] img {
+	display: flex;
+	margin: 0 auto;
+	margin-bottom: 35px;
+}
+
+form[role=login] input,
+form[role=login] button {
+	font-size: 18px;
+	margin: 16px 0;
+}
+
+form[role=login] > div {
+	text-align: center;
+}

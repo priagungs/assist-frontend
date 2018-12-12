@@ -1,0 +1,134 @@
+.image-uploader {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.img-thumbnail {
+    min-width: 100%;
+    margin-bottom: 1rem;
+}
+
+.item-description {
+    text-align: justify;
+}
+
+#admin-dashboard .save-update-btn, .update-btn, .delete-btn, .save-employee-add-btn, .print-btn {
+    margin-left: 1rem;
+}
+
+#admin-dashboard .print-btn {
+    margin-right: 15px;
+}
+
+#admin-item-main-table, #all-employee-table {
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #5D001E
+}
+
+#item, #employee {
+    margin-top: 20px;
+}
+
+.search-and-add {
+    display: flex;
+    justify-content: space-between
+}
+
+.search-and-add i {
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.modal-body nav {
+    margin-bottom: 20px;
+}
+
+.nav-item {
+    color: inherit;
+    /* background-color: rgba(180, 0, 57, 0.719); */
+    border-radius: 0px;
+}
+
+.nav-item:hover {
+    background-color: rgb(138, 0, 44);
+    color: white;
+}
+
+#bulk-item-entries a, #bulk-employee-entries a {
+    margin-bottom: 20px;
+    margin-top: 10px;
+    display: block;
+}
+
+#admin-dashboard .dropdown-menu .row {
+    max-height: 50px;
+    margin: 0;
+}
+
+#admin-dashboard .dropdown-menu img {
+    max-height: 100%;
+    min-width: 48.75px;
+}
+
+#admin-dashboard .dropdown-menu div {
+    padding: 0;
+}
+
+#admin-dashboard .dropdown-menu .col-10 {
+    padding-left: 10px;
+}
+
+#admin-dashboard .dropdown-menu .col-2 {
+    min-width: 48.75px;
+}
+
+#admin-dashboard .dropdown-menu {
+    min-width: 350px;
+}
+
+#admin-dashboard .dropdown-menu p {
+    margin: 0;
+    font-size: 0.7rem;
+    overflow: hidden;
+}
+
+/* #employee-detail {
+    padding-left:15px;
+} */
+
+#employee-detail img {
+    min-width: 100%;
+    height: auto;
+}
+
+#employee-detail .row {
+    margin: 10px;
+}
+
+#employee-detail-section button {
+    width: 100%;
+    margin: 0;
+}
+
+@media (min-width: 576px) {
+    .modal-dialog {
+        max-width: 800px;
+    }
+}
+
+.search-bar {
+    /* margin: 0 0 20px auto; */
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.search-bar .input-group-prepend > .input-group-text {
+    border-top-right-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+    background-color: #5D001E;
+    color: white;
+}

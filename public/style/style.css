@@ -1,0 +1,195 @@
+body {
+    background: rgb(223, 223, 223);
+}
+
+html, body {
+    min-height: 100%;
+    height: 100%;
+}
+
+.container {
+    min-height: 100vh;
+    background: white;
+}
+
+#app {
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+.profile-image {
+    display: block;
+    margin: auto;
+}
+
+.dark_red {
+    background-color: #5D001E;
+}
+
+.btn-primary {
+    background-color: #5D001E;
+    border-color: #5D001E;
+}
+
+.btn-primary:hover {
+    background-color: rgb(138, 0, 44);
+    border-color: rgb(138, 0, 44);
+}
+
+/* ricky sub_detail */
+
+.page-number {
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 5px;
+}
+
+.btn {
+    background-color: #5D001E;
+}
+
+.table {
+    border: 1px solid gray;
+}
+
+.subordinates-item-table {
+    flex-grow: 1;
+}
+
+.subordinates-item-table, .subordinates-request-table {
+    flex-grow: 1;
+}
+
+thead th {
+    background-color: #5D001E;
+    color: white;
+}
+
+.btn, .btn-default {
+    color: white;
+}
+
+#data-table-subordinates tr {
+    cursor: pointer;
+}
+
+.form-check-inline {
+    margin-right: 0%;
+}
+
+.form-check-label {
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+#subordinates .row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+@media (max-width: 350px) {
+    .table-responsive-xs {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 470px) {
+    .table-responsive-xsm {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+
+.page-link {
+    color: #5D001E;
+}
+
+.page-link:hover {
+    background-color: rgb(224, 224, 224);
+    color: #5D001E;
+}
+
+.modal {
+    padding: 0 !important;
+}
+
+#home .dropdown-menu .row {
+    max-height: 50px;
+    margin: 0;
+}
+
+#home .dropdown-menu img {
+    max-height: 100%;
+    min-width: 48.75px;
+}
+
+#home .dropdown-menu div {
+    padding: 0;
+}
+
+#home .dropdown-menu .col-10 {
+    padding-left: 10px;
+}
+
+#home .dropdown-menu {
+    min-width: 350px;
+}
+
+@keyframes lds-rolling {
+    0% {
+        -webkit-transform: translate(-50%, -50%) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translate(-50%, -50%) rotate(360deg);
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@-webkit-keyframes lds-rolling {
+    0% {
+        -webkit-transform: translate(-50%, -50%) rotate(0deg);
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translate(-50%, -50%) rotate(360deg);
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+.lds-rolling {
+    position: relative;
+    display: none;
+    margin: 0 auto;
+}
+
+.lds-rolling div, .lds-rolling div:after {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border: 20px solid #5D001E;
+    border-top-color: transparent;
+    border-radius: 50%;
+}
+
+.lds-rolling div {
+    -webkit-animation: lds-rolling 1s linear infinite;
+    animation: lds-rolling 1s linear infinite;
+    top: 100px;
+    left: 100px;
+}
+
+.lds-rolling div:after {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.lds-rolling {
+    width: 200px !important;
+    height: 200px !important;
+    -webkit-transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+    transform: translate(-100px, -100px) scale(1) translate(100px, 100px);
+}

@@ -1,0 +1,133 @@
+<div id="procurement">
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-procurements-tab" data-toggle="tab" href="#nav-procurements" role="tab" aria-controls="nav-procurements" aria-selected="true">Transactions</a>
+            <a class="nav-item nav-link" id="nav-create-procurement-tab" data-toggle="tab" href="#nav-create-procurement" role="tab" aria-controls="nav-create-procurement" aria-selected="false">Buy</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-procurements" role="tabpanel" aria-labelledby="nav-procurements-tab">
+            <!-- All Transactions Table -->
+            <table class="table table-hover table-bordered table-responsive-sm" id="table-procurements">
+                <thead>
+                    <tr class="text-light">
+                        <th class="text-center dark_red">ID</th>
+                        <th class="text-center dark_red">Admin</th>
+                        <th class="text-center dark_red">Supplier</th>
+                        <th class="text-center dark_red">Date</th>
+                        <th class="text-center dark_red">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="procurement-table-spinner"><div></div></div></div>
+
+            <!-- Pagination -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item" id="page-transactions-prev">
+                        <a class="page-link" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </li>
+                    <li class="page-item page-next" id="page-transactions-next">
+                        <a class="page-link" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+
+            <!-- Transaction Detail Modal -->
+            <div class="modal fade" id="transaction-detail" tabindex="-1" role="dialog" aria-labelledby="transaction-detail-title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-rolling" id="transaction-detail-spinner"><div></div></div></div>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="transaction-detail-title">Transaction Detail</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body container-fluid">
+                            <h5><strong>ID Transaction :</strong> <span id="transaction-detail-id"></span></h5>
+                            <h5><strong>Supplier :</strong> <span id="transaction-detail-supplier"></span></h5>
+                            <h5><strong>Transaction Date :</strong> <span id="transaction-detail-date"></span></h5>
+                            <h5><strong>Administrator :</strong> <span id="transaction-detail-admin"></span></h5>
+                            <h5><strong>Value :</strong> Rp <span id="transaction-detail-value"></span></h5>
+                            <table class="table table-hover table-bordered table-sm" id="table-procurement-detail">
+                                <thead>
+                                    <tr class="text-light">
+                                        <th class="text-center dark_red">ID Item</th>
+                                        <th class="text-center dark_red">Item Name</th>
+                                        <th class="text-center dark_red">Bought Quantity</th>
+                                        <th class="text-center dark_red">Total Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary" id="delete-transaction">Delete</button>
+                                <button type="button" class="btn btn-primary" id="print-transaction"><i class="fa fa-print"></i></button>
+                            </div>
+                            <div class="invalid-feedback" id="transaction-delete-invalid-feedback"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="nav-create-procurement" role="tabpanel" aria-labelledby="nav-create-procurement-tab">
+            <div class="d-flex justify-content-between">
+                <h2>Add New Transaction</h2>
+                <i class="fas fa-plus" id="add-item-transaction-btn" data-toggle="modal" data-target="#add-item-transaction-modal"></i>
+            </div>
+            <div id="transaction-table-wrapper">
+
+            </div>
+            <!-- Modal add item transaction -->
+            <div class="modal fade" id="add-item-transaction-modal" tabindex="-1" role="dialog" aria-labelledby="add-item-transaction-title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="add-item-transaction-title">Add Item Transaction</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body container-fluid">
+                            <label for="form-add-item-transaction">Item Name</label>
+                            <div id="id-item-form" style="display:none"></div>
+                            <div class="dropdown">
+                                <input placeholder="Insert Item Name Here" type="text" maxlength="255" name="form-add-item-transaction" id="form-add-item-transaction" class="form-control" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <div class="invalid-feedback">Please provide a valid item</div>
+                                <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-add-item-transaction" aria-labelledby="form-add-item-transaction">
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="form-group col-6">
+                                    <label for="form-add-item-price-transaction">Price</label>
+                                    <input type="number" name="form-add-item-price-transaction" id="form-add-item-price-transaction" class="form-control" required>
+                                    <div class="invalid-feedback">Please provide a valid price</div>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label for="form-add-item-quantity-transaction">Bought Quantity</label>
+                                    <input type="number" name="form-add-item-quantity-transaction" id="form-add-item-quantity-transaction" class="form-control" required>
+                                    <div class="invalid-feedback">Please provide a valid quantity</div>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary" id="add-item-transaction-modal-btn">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

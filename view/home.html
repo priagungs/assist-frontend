@@ -1,0 +1,150 @@
+<section id="home">
+    <div class="card-container row">
+        <div class="col-12 col-md-5">
+            <img id="profile-photo" src="" class="circle mx-auto d-block" alt="">
+        </div>
+        <div class="card col-12 col-md-7">
+            <h4><span id="name"></h4>
+            <h5>NIP = <span id="nip"></h5>
+            <h5>Division = <span id="division"></h5>
+            <h5>Role = <span id="role"></h5>
+            <h5>Superior = <span id="superior-name"></span>(<span id="superior-id"></span>)</h5>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h3 class="font-weight-bold font-red">ITEMS</h3>
+        <div class="item-title-container mb-2">
+            <div class="filter-container">
+                <label for="filter" class="mx-auto">Show:</label>
+                <select class="filter mx-auto" data-tableId="items">
+                    <option value="allreq" selected>All Requests</option>
+                    <option value="sent">Sent</option>
+                    <option value="requested">Requested</option>
+                    <option value="approved">Approved</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="returned">Returned</option>
+                </select>
+            </div>
+            <i class="fas fa-plus " data-toggle="modal" data-target="#add-request"></i>
+        </div>
+        <table id="items" class="table table-hover table-bordered">
+            <thead>
+                <tr class="text-light">
+                    <th class="text-center dark_red">Item Name</th>
+                    <th class="text-center dark_red">Qty</th>
+                    <th class="text-center dark_red">Status</th>
+                </tr>
+            </thead>
+            
+            <tbody id="content-items">
+            </tbody>
+        </table>
+        <div class="lds-css ng-scope">
+            <div style="width:100%;height:100%" class="lds-rolling" id="home-item-spinner">
+                <div></div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li class="page-item" id="page-item-home-prev">
+                    <a class="page-link" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item page-next" id="page-item-home-next">
+                    <a class="page-link" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="home-item-detail" tabindex="-1" role="dialog"
+        aria-labelledby="item-detail-name" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="lds-css ng-scope">
+                    <div style="width:100%;height:100%" class="lds-rolling" id="home-item-detail-spinner">
+                        <div></div>
+                    </div>
+                </div>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="item-detail-name"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <section id="detail-item">
+                        <div class="row">
+                            <div class="col-4">
+                                <img class="img-thumbnail" id="img-detail-item-home" src="" alt="">
+                            </div>
+                            <div class="col-8">
+                                <p><b>Price : </b>Rp <span id="item-price"></span></p>
+                                <p><b>Quantity : </b><span id="item-total-qty"></span></p>
+                                <p><b>Available Quantity : </b><span id="item-available-qty"></span></p>
+                                <p id="item-description"></p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="return-btn">Return Item(s)</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- add request modal -->
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="add-request" tabindex="-1" role="dialog"
+        aria-labelledby="add-request-name" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="add-request-name">Add Request(s)</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="input-group col-8 search-bar">
+                            <div id="id-item-form" style="display:none"></div>
+                            <div class="dropdown">
+                                <input placeholder="Insert Item Name Here" type="text" maxlength="255" name="form-add-item-request"
+                                    id="form-add-item-request" class="form-control" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                <div class="invalid-feedback">Please provide a valid item</div>
+                                <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-add-item-request"
+                                    aria-labelledby="form-add-item-request">
+                                </div>
+                            </div>
+                        </div>
+                        <table id="items" class="table table-sm table-bordered">
+                            <thead>
+                                <tr class="text-light">
+                                    <th class="text-center dark_red">ID</th>
+                                    <th class="text-center dark_red">Item Name</th>
+                                    <th class="text-center dark_red">Qty</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="content-create-request-items">
+
+                            </tbody>
+                        </table>
+                        <div class="invalid-feedback" id="add-new-request-invalid-feedback">Invalid item requested</div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="add-request-btn">Request</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
