@@ -312,7 +312,9 @@ class AdminItem {
             });
 
             $(".delete-btn").unbind().click(() => {
-                this.deleteItem(idItem);
+                if (confirm("Are you sure to delete this item ?")) {
+                    this.deleteItem(idItem);
+                }
             });
         });
     }
