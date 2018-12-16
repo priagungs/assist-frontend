@@ -308,9 +308,7 @@ class AdminEmployee {
         form_superior.unbind().on("input", () => {
             form_superior.removeClass("is-invalid");
         });
-
-        console.log(request);
-        console.log(form_superior);
+                
 
         var result = true;
         if (!request.name) {
@@ -387,7 +385,7 @@ class AdminEmployee {
 
         var valid = true;
         for (var request in requests) {
-            if (!requests[request].isAdmin || !requests[request].name || !requests[request].username
+            if (requests[request].isAdmin == null || !requests[request].name || !requests[request].username
                 || !requests[request].division || !requests[request].password
                 || !requests[request].pictureURL || !requests[request].role || !requests[request].superior.idUser) {
                 upload_form.addClass("is-invalid");
@@ -583,8 +581,7 @@ class AdminEmployee {
                         401: () => {
                             window.location = "login.html"
                         },
-                        403: () => {
-                            console.log("test");
+                        403: () => {                            
                             $("#employee-detail-invalid-feedback").text("You couldn't delete yourself :(");
                             $("#employee-detail-invalid-feedback").addClass("d-block");
                         }
@@ -735,8 +732,7 @@ class AdminEmployee {
         var nextBtn = $("#page-employee-item-next");
         var prevBtn = $("#page-employee-item-prev");
 
-        if (this.itemPage == 0) {
-            console.log("masuk");
+        if (this.itemPage == 0) {            
             prevBtn.addClass("disabled");
         }
         else {
