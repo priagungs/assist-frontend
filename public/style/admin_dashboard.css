@@ -26,7 +26,7 @@
 }
 
 .btn-primary {
-    background-color: #5D001E
+    background-color: #1A237E
 }
 
 #item, #employee {
@@ -54,7 +54,7 @@
 }
 
 .nav-item:hover {
-    background-color: rgb(138, 0, 44);
+    background-color: rgb(41, 54, 194);
     color: white;
 }
 
@@ -96,10 +96,6 @@
     overflow: hidden;
 }
 
-/* #employee-detail {
-    padding-left:15px;
-} */
-
 #employee-detail img {
     min-width: 100%;
     height: auto;
@@ -129,6 +125,6 @@
 .search-bar .input-group-prepend > .input-group-text {
     border-top-right-radius: .25rem;
     border-bottom-right-radius: .25rem;
-    background-color: #5D001E;
+    background-color: #1A237E;
     color: white;
 }

@@ -1,4 +1,4 @@
-class Setting {
+class Settings {
 
     constructor() {
         this.itemPage = 0;
