@@ -23,17 +23,17 @@ html, body {
 }
 
 .dark_red {
-    background-color: #5D001E;
+    background-color: #1A237E;
 }
 
 .btn-primary {
-    background-color: #5D001E;
-    border-color: #5D001E;
+    background-color: #1A237E;
+    border-color: #1A237E;
 }
 
 .btn-primary:hover {
-    background-color: rgb(138, 0, 44);
-    border-color: rgb(138, 0, 44);
+    background-color: rgb(41, 54, 194);
+    border-color: rgb(41, 54, 194);
 }
 
 /* ricky sub_detail */
@@ -45,7 +45,7 @@ html, body {
 }
 
 .btn {
-    background-color: #5D001E;
+    background-color: #1A237E;
 }
 
 .table {
@@ -61,7 +61,7 @@ html, body {
 }
 
 thead th {
-    background-color: #5D001E;
+    background-color: #1A237E;
     color: white;
 }
 
@@ -104,12 +104,12 @@ thead th {
 }
 
 .page-link {
-    color: #5D001E;
+    color: #1A237E;
 }
 
 .page-link:hover {
     background-color: rgb(224, 224, 224);
-    color: #5D001E;
+    color: #1A237E;
 }
 
 .modal {
@@ -170,7 +170,7 @@ thead th {
     position: absolute;
     width: 160px;
     height: 160px;
-    border: 20px solid #5D001E;
+    border: 20px solid #1A237E;
     border-top-color: transparent;
     border-radius: 50%;
 }

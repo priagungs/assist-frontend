@@ -9,7 +9,10 @@ $.ajax({
     dataType: "json",
     success: (data, status) => {
         if (!data.isAdmin) {
-            document.getElementsByClassName('admin-only').style.display = "none";
+            $("#admin-only").addClass("d-none");
+        }
+        else {
+            $("#admin-only").removeClass("d-none")
         }
 
     }

@@ -1,14 +1,35 @@
 <section>
-    <div class="col justify-content-center">
-        <div class="row">
-            <img src="/public/images/profile.png" class="img-fluid profile-image" alt="">
-        </div>
-        <div class="row">
-            <h2>Priagung Satyagama</h2>
-            <h3>NIP         : 13516089</h3>
-            <h3>Division    : Engineering</h3>
-            <h3>Role        : Software Engineer</h3>
-            <h3>Superior    : Inggriani Liem (NIP : 13515111)</h3>
-        </div>
+    <link rel="stylesheet" href="/public/style/setting_style.css">
+    <h1> Settings </h1>
+    <div id="setting-content">
+        <form>
+            <div class="row pt-4 justify-content-center">
+                <div class="col-12 col-sm-8">
+                    <img id="picture-setting" src="/public/images/profile.png" class="img-thumbnail default-image-form" alt="">
+                    <div class="d-flex justify-content-center p-3">
+                        <label for="setting-image-uploader" class="btn btn-primary btn-sm">Choose</label>
+                        <input type="file" accept="image/*" name="file" class="setting-form-image" id="setting-image-uploader" style="display:none">
+                    </div>
+                    <div class="form-group">
+                        <label for="form-add-setting-name">Name</label>
+                        <input type="text" maxlength="255" id="form-add-setting-name" class="form-control" required="">
+                        <div class="invalid-feedback">Please provide a name</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="form-add-setting-password">Password</label>
+                        <input type="password" id="form-add-setting-password" class="form-control" required="">
+                        <div class="invalid-feedback">Please provide a password</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="form-add-setting-confirm-password">Confirm Password</label>
+                        <input type="password" id="form-add-setting-confirm-password" class="form-control" required="">
+                        <div class="invalid-feedback">Password didn't match</div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary save-setting-btn">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 </section>

@@ -144,7 +144,7 @@ class Procurement {
                         tableContent += '<tr><td scope="row">' + element.item.idItem + '</td>'
                         + '<td>' + element.item.itemName + '</td>'
                         + '<td>' + element.boughtQty + '</td>'
-                        + '<td>Rp ' + element.price + '</td></tr>';
+                        + '<td>Rp ' + element.price * element.boughtQty + '</td></tr>';
                     })
                     $("#transaction-detail-value").text(value);
                     $("#table-procurement-detail tbody").html(tableContent);

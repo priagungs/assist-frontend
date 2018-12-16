@@ -1,4 +1,12 @@
 <div id="admin-dashboard">
+    <div class="row justify-content-end">
+        <div>
+            <label for="restore-uploader" class="btn btn-primary btn-sm upload-image-btn mb-0 mr-2">Restore</label>
+            <form class="d-none" id="restore-form"><input type="file" accept=".assist" id="restore-uploader" name="file" class="d-none"></form>
+            <a href="/api/backup" class="btn btn-primary btn-sm">Backup</a>
+        </div>
+        <div class="invalid-feedback" id="restore-invalid"></div>
+    </div>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
             <a id="nav-item" class="nav-item nav-link active" data-toggle="tab" href="#item" role="tab" aria-controls="item" aria-selected="true">Item</a>
@@ -207,7 +215,7 @@
                                     </div>
                                     <div class="tab-pane fade" id="bulk-item-entries" role="tabpanel" aria-labelledby="bulk-item-entries-tab">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="upload-bulk-item-entries">
+                                            <input type="file" class="custom-file-input" accept=".csv" id="upload-bulk-item-entries">
                                             <label class="custom-file-label" for="upload-bulk-item-entries">Choose CSV File</label>
                                             <div id="bulk-item-entry-invalid-feedback" class="invalid-feedback"></div>
                                         </div>
@@ -367,6 +375,7 @@
                                         <button type="button" class="btn btn-primary delete-btn">Delete</button>
                                     </div>
                                 </div>
+                                <div class="invalid-feedback text-right" id="employee-detail-invalid-feedback"></div>
                             </section>
 
                             <section id="employee-update-section" style="display: none">
@@ -410,7 +419,7 @@
                                                 <div id="id-superior-update-form" class="id-superior" style="display:none"></div>
                                                 <div class="dropdown">
                                                     <input type="text" maxlength="255" name="form-update-employee-superior" id="form-update-employee-superior" class="form-control employee-form-superior" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <div class="invalid-feedback superior-validation"></div>
+                                                    <div class="invalid-feedback superior-validation">Please provide a valid superior</div>
                                                     <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-update-employee-superior" aria-labelledby="form-update-employee-superior">
                                                     </div>
                                                 </div>
@@ -494,7 +503,7 @@
                                                         <div id="id-superior-add-form" class="id-superior" style="display:none"></div>
                                                         <div class="dropdown">
                                                             <input type="text" maxlength="255" name="form-add-employee-superior" id="form-add-employee-superior" class="form-control employee-form-superior" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <div class="invalid-feedback">Please provide a superior</div>
+                                                            <div class="invalid-feedback">Please provide a valid superior</div>
                                                             <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-add-employee-superior" aria-labelledby="form-add-employee-superior">
                                                             </div>
                                                         </div>
@@ -515,7 +524,7 @@
                                     </div>
                                     <div class="tab-pane fade" id="bulk-employee-entries" role="tabpanel" aria-labelledby="bulk-employee-entries-tab">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="upload-bulk-employee-entries">
+                                            <input type="file" class="custom-file-input" accept=".csv" id="upload-bulk-employee-entries">
                                             <label class="custom-file-label" for="upload-bulk-employee-entries">Choose CSV File</label>
                                             <div id="bulk-employee-entry-invalid-feedback" class="invalid-feedback"></div>
                                         </div>

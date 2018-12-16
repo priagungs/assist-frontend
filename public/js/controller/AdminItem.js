@@ -22,6 +22,7 @@ class AdminItem {
                     this.fillTable();
                     this.paginationHandler();
                     this.searchHandler();
+                    Helper.restoreHandler();
                 }
             },
             statusCode: {
@@ -311,7 +312,9 @@ class AdminItem {
             });
 
             $(".delete-btn").unbind().click(() => {
-                this.deleteItem(idItem);
+                if (confirm("Are you sure to delete this item ?")) {
+                    this.deleteItem(idItem);
+                }
             });
         });
     }
@@ -353,6 +356,7 @@ class AdminItem {
 
 
     bulkEntriesFormHandler() {
+        $("#upload-bulk-item-entries").removeClass("is-invalid");
         $("#upload-bulk-item-entries").unbind().change((event) => {
             $("#upload-bulk-item-entries").removeClass("is-invalid");
             var files = event.target.files;
@@ -379,7 +383,7 @@ class AdminItem {
                     }
                 })
             }
-            reader.onerror = () => {
+            reader.onerror = (ev) => {
                 $(".item-invalid-feedback").text("Unable to read " + file.name);
                 $(".item-form-name").addClass("is-invalid");
             }
@@ -494,7 +498,6 @@ class AdminItem {
                     if (isBulkEntries) {
                         $("#upload-bulk-item-entries").addClass("is-invalid");
                         $("#bulk-item-entry-invalid-feedback").text("Item name must be unique")
-                        this.bulkEntriesFormHandler();
                     }
                     else {
                         $(".item-invalid-feedback").text("Item name already exists");

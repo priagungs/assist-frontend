@@ -1,0 +1,11 @@
+.row-setting {
+    padding-top: 2rem;
+}
+
+#picture-setting {
+    min-width: 0;
+    width: 15rem;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}

@@ -32,6 +32,7 @@ class AdminEmployee {
                     this.detailModalHandler();
                     this.paginationHandler();
                     this.searchHandler();
+                    Helper.restoreHandler();
                 }
             },
             statusCode: {
@@ -208,7 +209,7 @@ class AdminEmployee {
                 pictureURL: imageUrl,
                 division: $("#form-add-employee-division").val(),
                 role: $("#form-add-employee-role").val(),
-                superior: $("#id-superior-add-form").text ? {
+                superior: $("#id-superior-add-form").text() ? {
                     idUser: parseInt($("#id-superior-add-form").text())
                 } : null
             }];
@@ -286,25 +287,28 @@ class AdminEmployee {
 
         form_username.unbind().on("input", () => {
             form_username.removeClass("is-invalid");
-        })
+        });
 
         form_name.unbind().on("input", () => {
             form_name.removeClass("is-invalid");
-        })
+        });
 
         form_password.unbind().on("input", () => {
             form_password.removeClass("is-invalid");
-        })
+        });
 
         form_division.unbind().on("input", () => {
             form_division.removeClass("is-invalid");
-        })
+        });
 
         form_role.unbind().on("input", () => {
             form_role.removeClass("is-invalid");
-        })
+        });
 
-        console.log(request);
+        form_superior.unbind().on("input", () => {
+            form_superior.removeClass("is-invalid");
+        });
+                
 
         var result = true;
         if (!request.name) {
@@ -326,6 +330,10 @@ class AdminEmployee {
         }
         if (!request.division) {
             form_division.addClass("is-invalid");
+            result = false;
+        }
+        if ((form_superior[1].value || form_superior[0].value) && !request.superior) {
+            form_superior.addClass("is-invalid");
             result = false;
         }
 
@@ -377,7 +385,7 @@ class AdminEmployee {
 
         var valid = true;
         for (var request in requests) {
-            if (!requests[request].isAdmin || !requests[request].name || !requests[request].username
+            if (requests[request].isAdmin == null || !requests[request].name || !requests[request].username
                 || !requests[request].division || !requests[request].password
                 || !requests[request].pictureURL || !requests[request].role || !requests[request].superior.idUser) {
                 upload_form.addClass("is-invalid");
@@ -455,6 +463,7 @@ class AdminEmployee {
             this.fillDetail(idUser);
             this.resetAddForm();
             this.updateHandler(idUser);
+            $("#employee-detail-invalid-feedback").removeClass("d-block");
             this.deleteHandler(idUser);
             $("#employee-update-section").attr("style", "display: none");
             $("#employee-detail-section").removeAttr("style");
@@ -567,10 +576,19 @@ class AdminEmployee {
                         $("#nav-item").removeClass("active");
                         $("#nav-employee").addClass("active");
                         $("#employee-detail").modal('hide');
+                    },
+                    statusCode: {
+                        401: () => {
+                            window.location = "login.html"
+                        },
+                        403: () => {                            
+                            $("#employee-detail-invalid-feedback").text("You couldn't delete yourself :(");
+                            $("#employee-detail-invalid-feedback").addClass("d-block");
+                        }
                     }
                 });
             }
-        })
+        });
     }
 
     fillDetail(idUser) {
@@ -714,8 +732,7 @@ class AdminEmployee {
         var nextBtn = $("#page-employee-item-next");
         var prevBtn = $("#page-employee-item-prev");
 
-        if (this.itemPage == 0) {
-            console.log("masuk");
+        if (this.itemPage == 0) {            
             prevBtn.addClass("disabled");
         }
         else {
