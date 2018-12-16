@@ -47,12 +47,15 @@ class AdminItem {
                         if (response.content.length > 0) {
                             var counter = 0;
                             response.content.forEach(element => {
+                                var price = element.price.toLocaleString('en');
+                                var totalQty = element.totalQty.toLocaleString('en');
+                                var availableQty = element.availableQty.toLocaleString('en');
                                 content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
                                 + '<td scope="row">' + element.idItem + '</td>'
                                 + '<td>' + element.itemName + '</td>'
-                                + '<td>Rp' + element.price + '</td>'
-                                + '<td class="text-center">' + element.totalQty + '</td>'
-                                + '<td class="text-center">' + element.availableQty + '</td>'
+                                + '<td>Rp' + price + '</td>'
+                                + '<td class="text-center">' + totalQty + '</td>'
+                                + '<td class="text-center">' + availableQty + '</td>'
                                 + '</tr>';
                                 counter++;
                             });
@@ -130,12 +133,15 @@ class AdminItem {
                 if (response.content.length > 0) {
                     var counter = 0;
                     response.content.forEach(element => {
+                        var price = element.price.toLocaleString('en');
+                        var totalQty = element.totalQty.toLocaleString('en');
+                        var availableQty = element.availableQty.toLocaleString('en');
                         content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
                         + '<td scope="row">' + element.idItem + '</td>'
                         + '<td>' + element.itemName + '</td>'
-                        + '<td>Rp' + element.price + '</td>'
-                        + '<td class="text-center">' + element.totalQty + '</td>'
-                        + '<td class="text-center">' + element.availableQty + '</td>'
+                        + '<td>Rp' + price + '</td>'
+                        + '<td class="text-center">' + totalQty + '</td>'
+                        + '<td class="text-center">' + availableQty + '</td>'
                         + '</tr>';
                         counter++;
                     });
@@ -195,9 +201,12 @@ class AdminItem {
                 else {
                     $("#detail-item img").attr("src", "/public/images/no-image.jpg");
                 }
-                $(".item-price").text(response.price);
-                $(".item-total-qty").text(response.totalQty);
-                $(".item-available-qty").text(response.availableQty);
+                var price = response.price.toLocaleString('en');
+                var totalQty = response.totalQty.toLocaleString('en');
+                var availableQty = response.availableQty.toLocaleString('en');
+                $(".item-price").text(price);
+                $(".item-total-qty").text(totalQty);
+                $(".item-available-qty").text(availableQty);
                 $(".item-description").text(response.description);
                 $("#update-item img").attr("src", $("#detail-item img").attr("src"));
                 $("#form-update-item-name").val($("#itemDetailId").text());
@@ -275,10 +284,11 @@ class AdminItem {
                 var content = "";
                 if (response.content.length > 0) {
                     var count = 0;
+                    var hasQty = element.hasQty.toLocaleString('en');
                     response.content.forEach(element => {
                         content += '<tr><td class="text-center">' + element.user.idUser + '</td>'
                         + '<td>' + element.user.name + '</td>'
-                        + '<td class="text-center">' + element.hasQty + '</td></tr>';
+                        + '<td class="text-center">' + hasQty + '</td></tr>';
                         count++;
                     });
                     for (var i = count; i < this.hasItemLimit; i++) {

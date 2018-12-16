@@ -94,7 +94,7 @@ class Procurement {
                             value += itemTrx.boughtQty * itemTrx.price;
                         })
 
-                        content += '<td>Rp ' + value + '</td></tr>';
+                        content += '<td>Rp ' + value.toLocaleString('en') + '</td></tr>';
                         counter++;
                     });
                     for (var i = counter; i < this.limit; i++) {
@@ -143,8 +143,8 @@ class Procurement {
 
                         tableContent += '<tr><td scope="row">' + element.item.idItem + '</td>'
                         + '<td>' + element.item.itemName + '</td>'
-                        + '<td>' + element.boughtQty + '</td>'
-                        + '<td>Rp ' + element.price * element.boughtQty + '</td></tr>';
+                        + '<td>' + element.boughtQty.toLocaleString('en') + '</td>'
+                        + '<td>Rp ' + value.toLocaleString('en') + '</td></tr>';
                     })
                     $("#transaction-detail-value").text(value);
                     $("#table-procurement-detail tbody").html(tableContent);
@@ -328,13 +328,13 @@ class Procurement {
             this.itemTransactions.forEach(element => {
                 content += '<tr><td>' + element.item.idItem + '</td>'
                 + '<td>' + element.item.itemName + '</td>'
-                + '<td>' + element.boughtQty + '</td>'
-                + '<td>Rp ' + element.boughtQty * element.price + '</td>'
+                + '<td>' + element.boughtQty.toLocaleString('en') + '</td>'
+                + '<td>Rp ' + (element.boughtQty * element.price).toLocaleString('en') + '</td>'
                 + '<td class="text-center"><i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td>';
                 index++;
                 totalPrice += element.boughtQty * element.price;
             });
-            content += '<tr><td colspan="3" class="text-right">Total</td><td>Rp ' + totalPrice + '</td></tr>'
+            content += '<tr><td colspan="3" class="text-right">Total</td><td>Rp ' + totalPrice.toLocaleString('en') + '</td></tr>'
             $("#table-new-procurement tbody").html(content);
             this.buyBtnHandler();
         }
@@ -384,7 +384,7 @@ class Procurement {
                             + '<div class="col-10">'
                             + '<p><strong>' + element.itemName + '</strong></p>'
                             + '<p>ID : ' + element.idItem + '</p>'
-                            + '<p>Available Qty : ' + element.availableQty + '</p>'
+                            + '<p>Available Qty : ' + element.availableQty.toLocaleString('en') + '</p>'
                             + '</div></div></button>';
                         });
                         if (response.content.length > 0) {

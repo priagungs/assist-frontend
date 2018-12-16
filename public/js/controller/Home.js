@@ -44,7 +44,7 @@ class Home {
             $("#superior-id").text(data.superior.idUser);
         } else {
             $("#superior-name").text();
-            $("#superior-id").text("NULL");
+            $("#superior-id").text("No superior");
         }
     }
 
@@ -60,6 +60,7 @@ class Home {
                 var content = "";
                 if (response.content.length > 0) {
                     var count = 0;
+                    var hasQty = element.hasQty.toLocaleString('en');
                     response.content.forEach(element => {
                         content += '<tr class="' + element.requestStatus +
                         '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
@@ -67,7 +68,7 @@ class Home {
                         + '" data-status="' + 'SENT'
                         + '" data-idhasitem="' + element.idUserHasItem + '">'
                         + '<td>' + element.item.itemName +'</td>'
-                        + '<td class="text-center">' + element.hasQty + '</td>'
+                        + '<td class="text-center">' + hasQty + '</td>'
                         + '<td class="text-center">' + 'SENT' + '</td>'
                         + '</tr>';
                         count++;
@@ -115,6 +116,7 @@ class Home {
             success: (response) => {
                 if (response.content.length > 0) {
                     var content = "";
+                    var reqQty = element.reqQty.toLocaleString('en');
                     var count = 0;
                     response.content.forEach(element => {
                         content += '<tr class="' + element.requestStatus +
@@ -123,7 +125,7 @@ class Home {
                         + '" data-status="' + element.requestStatus
                         + '" data-idrequest="' + element.idRequest + '">'
                         + '<td>' + element.item.itemName +'</td>'
-                        + '<td class="text-center">' + element.reqQty + '</td>'
+                        + '<td class="text-center">' + reqQty + '</td>'
                         + '<td class="text-center">' + element.requestStatus + '</td>'
                         + '</tr>';
                         count++;
@@ -166,6 +168,7 @@ class Home {
             success: (response) => {
                 if (response.content.length > 0) {
                     var count = 0;
+                    var reqQty = element.reqQty.toLocaleString('en');
                     var content = "";
                     response.content.forEach(element => {
                         if (element.requestStatus != 'SENT') {
@@ -175,7 +178,7 @@ class Home {
                             + '" data-status="' + element.requestStatus
                             + '" data-idrequest="' + element.idRequest + '">'
                             + '<td>' + element.item.itemName +'</td>'
-                            + '<td class="text-center">' + element.reqQty + '</td>'
+                            + '<td class="text-center">' + reqQty + '</td>'
                             + '<td class="text-center">' + element.requestStatus + '</td>'
                             + '</tr>';
                             count++;
@@ -234,7 +237,9 @@ class Home {
             url: "/api/items/" + idItem,
             dataType: "json",
             success: (response) => {
-                console.log("hoiii");
+                var price = response.price.toLocaleString('en');
+                var totalQty = response.totalQty.toLocaleString('en');
+                var availableQty = response.availableQty.toLocaleString('en');
                 $("#item-detail-name").text(response.itemName);
                 console.log($("#detail-item img"));
                 if (response.pictureURL) {
@@ -243,9 +248,9 @@ class Home {
                 else {
                     $("#img-detail-item-home").attr("src", "/public/images/no-image.jpg");
                 }
-                $("#detail-item #item-price").text(response.price);
-                $("#detail-item #item-total-qty").text(response.totalQty);
-                $("#detail-item #item-available-qty").text(response.availableQty);
+                $("#detail-item #item-price").text(price);
+                $("#detail-item #item-total-qty").text(totalQty);
+                $("#detail-item #item-available-qty").text(availableQty);
                 $("#detail-item #item-description").text(response.description);
                 spinner.removeClass("d-block");
                 header.removeClass("d-none");
@@ -282,7 +287,6 @@ class Home {
 
             $("#return-btn").unbind().click(() => {
                 if (confirm("Are you sure you want to return " + $(event.relatedTarget).data('itemname') + '?')) {
-                    console.log($(event.relatedTarget).data('idhasitem'));
                     var deleteditem = {
                         idUserHasItem : $(event.relatedTarget).data('idhasitem')
                     };
@@ -308,7 +312,6 @@ class Home {
             console.log($(".filter").val());
             if ($(".filter").val()=="sent") {
                 if (this.itemPage > 0) {
-                    console.log("kurangsent");
                     this.itemPage--;
                     this.fillItemTable(idUser);
                     if (this.itemPage == 0) {
@@ -317,7 +320,6 @@ class Home {
                 }
             } else if ($(".filter").val()=="allreq") {
                 if (this.reqPage > 0) {
-                    console.log("kurangall");
                     this.reqPage--;
                     this.fillRequestItemTable(idUser);
                     if (this.reqPage == 0) {
@@ -327,7 +329,6 @@ class Home {
             } else {
                 var status = $(".filter").val();
                 if (this.reqPage > 0) {
-                    console.log("kurangreq");
                     this.reqPage--;
                     this.fillCustomItemTable(idUser, status);
                     if (this.reqPage == 0) {
@@ -343,7 +344,6 @@ class Home {
             console.log($(".filter").val())
             if ($(".filter").val()=="sent") {
                 if (!this.isLastPage) {
-                    console.log("nambahsent");
                     this.itemPage++;
                     this.fillItemTable(idUser);
                     if (this.isLastPage) {
@@ -352,7 +352,6 @@ class Home {
                 }
             } else if ($(".filter").val()=="allreq") {
                 if (!this.isReqLastPage) {
-                    console.log("nambahall");
                     this.reqPage++;
                     this.fillRequestItemTable(idUser);
                     if (this.isReqLastPage) {
@@ -362,7 +361,6 @@ class Home {
             } else {
                 var status = $(".filter").val();
                 if (!this.isReqLastPage) {
-                    console.log("nambahreq");
                     this.reqPage++;
                     this.fillCustomItemTable(idUser, status);
                     if (this.isReqLastPage) {
@@ -440,10 +438,12 @@ class Home {
         var content = '';
         var index = 0;
         this.requestItems.forEach((element) => {
+            var requestQty = element.requestQty.toLocaleString('en');
+            var availableQty = element.item.availableQty.toLocaleString('en');
             content += '<tr><td class="text-center">' + element.item.idItem + '</td>'
                 + '<td>' + element.item.itemName + '</td>'
-                + '<td class="target-item-request text-center"><input type="number" data-index="' + index + '" id="item-request-' + element.item.idItem + '" max="' + element.item.availableQty
-                + '" style="width: 3rem" min="1" value="' + element.requestQty + '"></td>'
+                + '<td class="target-item-request text-center"><input type="number" data-index="' + index + '" id="item-request-' + element.item.idItem + '" max="' + availableQty
+                + '" style="width: 3rem" min="1" value="' + requestQty + '"></td>'
                 + '<td class="text-center" style="width: 3rem"><i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td></tr>';
             index++;
         });
@@ -475,13 +475,14 @@ class Home {
                     success: (response) => {
                         var dropdown_content = "";
                         response.content.forEach((element) => {
+                            var availableQty = element.availableQty.toLocaleString('en');
                             dropdown_content += '<button class="dropdown-item candidate-item-trx" data-iditem="' + element.idItem + '" data-name="' + element.itemName + '">'
                             + '<div class="row"><div class="col-2">'
                             + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
                             + '<div class="col-10">'
                             + '<p><strong>' + element.itemName + '</strong></p>'
                             + '<p>ID : ' + element.idItem + '</p>'
-                            + '<p>Available Qty : ' + element.availableQty + '</p>'
+                            + '<p>Available Qty : ' + availableQty + '</p>'
                             + '</div></div></button>';
                         });
                         if (response.content.length > 0) {
