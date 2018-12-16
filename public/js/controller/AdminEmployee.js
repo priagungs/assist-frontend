@@ -209,7 +209,7 @@ class AdminEmployee {
                 pictureURL: imageUrl,
                 division: $("#form-add-employee-division").val(),
                 role: $("#form-add-employee-role").val(),
-                superior: $("#id-superior-add-form").text ? {
+                superior: $("#id-superior-add-form").text() ? {
                     idUser: parseInt($("#id-superior-add-form").text())
                 } : null
             }];
@@ -287,25 +287,30 @@ class AdminEmployee {
 
         form_username.unbind().on("input", () => {
             form_username.removeClass("is-invalid");
-        })
+        });
 
         form_name.unbind().on("input", () => {
             form_name.removeClass("is-invalid");
-        })
+        });
 
         form_password.unbind().on("input", () => {
             form_password.removeClass("is-invalid");
-        })
+        });
 
         form_division.unbind().on("input", () => {
             form_division.removeClass("is-invalid");
-        })
+        });
 
         form_role.unbind().on("input", () => {
             form_role.removeClass("is-invalid");
-        })
+        });
+
+        form_superior.unbind().on("input", () => {
+            form_superior.removeClass("is-invalid");
+        });
 
         console.log(request);
+        console.log(form_superior);
 
         var result = true;
         if (!request.name) {
@@ -327,6 +332,10 @@ class AdminEmployee {
         }
         if (!request.division) {
             form_division.addClass("is-invalid");
+            result = false;
+        }
+        if ((form_superior[1].value || form_superior[0].value) && !request.superior) {
+            form_superior.addClass("is-invalid");
             result = false;
         }
 
