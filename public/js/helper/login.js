@@ -11,18 +11,27 @@ $(document).ready(function(){
             }
         }
     });
-    $("#login").click((event) =>{
+    $("#login").unbind().on("click",(event) =>{
         event.preventDefault();
-        var username = $("#username").val();
-        var password = $("#password").val();
-        var formData = {
-            'username'  : $("#username").val(),
-            'password'  : $("#password").val()
-        };
-        if(username === "" || password === ""){
-            console.log("ga ada username");
-            $("#username").css({"border" : "1px solid red"});
-        } else {
+        var valid = true;
+        console.log('asd');
+        if(!$("#username").val()) {
+            $("#username").addClass("is-invalid");
+            valid = false;
+        }
+        if(!$("#password").val()) {
+            $("#password").addClass("is-invalid");
+            valid = false;
+        }
+
+        if (valid) {
+            console.log('masuk');
+            var username = $("#username").val();
+            var password = $("#password").val();
+            var formData = {
+                'username'  : $("#username").val(),
+                'password'  : $("#password").val()
+            };
             $.ajax({
                 type: "post",
                 url: "/api/login",
@@ -31,8 +40,20 @@ $(document).ready(function(){
                     console.log(data);
                     console.log(status);
                     window.location = "index.html"
+                },
+                statusCode : {
+                    401: () => {
+                        alert("The username or password you entered is incorrect");
+                    }
                 }
             });
         }
+    });
+
+    $("#username").unbind().on("input", ()=> {
+        $("#username").removeClass("is-invalid")
+    });
+    $("#password").unbind().on("input", ()=> {
+        $("#password").removeClass("is-invalid")
     });
 });
