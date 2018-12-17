@@ -420,11 +420,10 @@ class AdminItem {
                 price: $("#form-add-item-price").val(),
                 totalQty: $("#form-add-item-totalqty").val()
             }]
-            var validated = this.singleEntryValidation(requests[0]);
-            if (validated) {
+            if (this.singleEntryValidation(requests[0])) {
                 this.addItem(requests, false);
             }
-        })
+        });
     }
 
     singleEntryValidation(request) {
@@ -455,11 +454,11 @@ class AdminItem {
             $(".item-form-description").addClass("is-invalid");
             valid = false;
         }
-        if (request.price == "") {
+        if (request.price == "" || request.price <= 0) {
             $(".item-form-price").addClass("is-invalid");
             valid = false;
         }
-        if (request.totalQty == "") {
+        if (request.totalQty == "" || request.totalQty <= 0) {
             $(".item-form-totalqty").addClass("is-invalid");
             valid = false;
         }
@@ -476,9 +475,11 @@ class AdminItem {
 
         var valid = true;
         for (var request in requests) {
-            if (!requests[request].itemName || !requests[request].description || !requests[request].price || !requests[request].totalQty) {
+            if (!requests[request].itemName || !requests[request].description || 
+                !requests[request].price || !requests[request].totalQty ||
+                requests[request].totalQty <= 0 || requests[request].price <= 0) {
                 upload_form.addClass("is-invalid");
-                invalid_feedback.text("Invalid input! All item name, description, price, and total quantity fields must be filled");
+                invalid_feedback.text("Invalid input!");
                 valid = false;
             }
         }
