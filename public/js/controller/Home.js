@@ -58,9 +58,8 @@ class Home {
             dataType: "json",
             success: (response) => {
                 var content = "";
+                var count = 0;
                 if (response.content.length > 0) {
-                    var count = 0;
-                    var hasQty = element.hasQty.toLocaleString('en');
                     response.content.forEach(element => {
                         content += '<tr class="' + element.requestStatus +
                         '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
@@ -68,7 +67,7 @@ class Home {
                         + '" data-status="' + 'SENT'
                         + '" data-idhasitem="' + element.idUserHasItem + '">'
                         + '<td>' + element.item.itemName +'</td>'
-                        + '<td class="text-center">' + hasQty + '</td>'
+                        + '<td class="text-center">' + element.hasQty.toLocaleString('en') + '</td>'
                         + '<td class="text-center">' + 'SENT' + '</td>'
                         + '</tr>';
                         count++;
@@ -115,10 +114,10 @@ class Home {
             dataType: "json",
             success: (response) => {
                 if (response.content.length > 0) {
-                    var content = "";
-                    var reqQty = element.reqQty.toLocaleString('en');
-                    var count = 0;
                     response.content.forEach(element => {
+                        var content = "";
+                        var reqQty = element.reqQty.toLocaleString('en');
+                        var count = 0;
                         content += '<tr class="' + element.requestStatus +
                         '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
                         + '" data-itemname="' + element.item.itemName
@@ -166,11 +165,11 @@ class Home {
             data: {page: this.reqPage, limit: this.reqLimit, idUser: idUser, sort: "requestDate"},
             dataType: "json",
             success: (response) => {
+                var count = 0;
                 if (response.content.length > 0) {
-                    var count = 0;
-                    var reqQty = element.reqQty.toLocaleString('en');
-                    var content = "";
                     response.content.forEach(element => {
+                        var reqQty = element.reqQty.toLocaleString('en');
+                        var content = "";
                         if (element.requestStatus != 'SENT') {
                             content += '<tr class="' + element.requestStatus +
                             '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
