@@ -284,11 +284,10 @@ class AdminItem {
                 var content = "";
                 if (response.content.length > 0) {
                     var count = 0;
-                    var hasQty = element.hasQty.toLocaleString('en');
                     response.content.forEach(element => {
                         content += '<tr><td class="text-center">' + element.user.idUser + '</td>'
                         + '<td>' + element.user.name + '</td>'
-                        + '<td class="text-center">' + hasQty + '</td></tr>';
+                        + '<td class="text-center">' + element.hasQty.toLocaleString('en') + '</td></tr>';
                         count++;
                     });
                     for (var i = count; i < this.hasItemLimit; i++) {
@@ -475,7 +474,7 @@ class AdminItem {
 
         var valid = true;
         for (var request in requests) {
-            if (!requests[request].itemName || !requests[request].description || 
+            if (!requests[request].itemName || !requests[request].description ||
                 !requests[request].price || !requests[request].totalQty ||
                 requests[request].totalQty <= 0 || requests[request].price <= 0) {
                 upload_form.addClass("is-invalid");

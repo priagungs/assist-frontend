@@ -25,6 +25,11 @@ class Home {
                 this.tableHandler(data.idUser);
                 this.paginationHandler(data.idUser);
                 this.createRequestHandler();
+            },
+            statusCode: {
+                401 : () => {
+                    window.location = "login.html";
+                }
             }
         });
     }
@@ -113,11 +118,12 @@ class Home {
             data: {page: this.reqPage, limit: this.reqLimit, idUser: idUser, status:status.toUpperCase(), sort: "requestDate"},
             dataType: "json",
             success: (response) => {
+
                 if (response.content.length > 0) {
+                    var count = 0;
+                    var content = "";
                     response.content.forEach(element => {
-                        var content = "";
                         var reqQty = element.reqQty.toLocaleString('en');
-                        var count = 0;
                         content += '<tr class="' + element.requestStatus +
                         '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
                         + '" data-itemname="' + element.item.itemName
@@ -130,8 +136,11 @@ class Home {
                         count++;
                     });
                     for (var i = count; i < this.reqLimit; i++) {
+                        console.log(count);
                         content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
                     }
+                    console.log(count);
+
                     this.isReqLastPage = response.last;
                     if (response.last) {
                         $("#page-item-home-next").addClass("disabled");
@@ -152,6 +161,11 @@ class Home {
                 $("#content-items").html(content);
                 spinner.removeClass("d-block");
                 table.removeClass("d-none");
+            },
+            statusCode: {
+                401 : () => {
+                    window.location = "login.html";
+                }
             }
         })
     }
@@ -167,9 +181,9 @@ class Home {
             success: (response) => {
                 var count = 0;
                 if (response.content.length > 0) {
+                    var content = "";
                     response.content.forEach(element => {
                         var reqQty = element.reqQty.toLocaleString('en');
-                        var content = "";
                         if (element.requestStatus != 'SENT') {
                             content += '<tr class="' + element.requestStatus +
                             '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
@@ -206,6 +220,11 @@ class Home {
                 $("#content-items").html(content);
                 spinner.removeClass("d-block");
                 table.removeClass("d-none");
+            },
+            statusCode: {
+                401 : () => {
+                    window.location = "login.html";
+                }
             }
         })
 
@@ -299,6 +318,11 @@ class Home {
                             this.emptyTable();
                             $(".filter").val("allreq");
                             this.fillRequestItemTable(this.loggedInUser.idUser);
+                        },
+                        statusCode: {
+                            401 : () => {
+                                window.location = "login.html";
+                            }
                         }
                     })
                 }
@@ -308,7 +332,6 @@ class Home {
 
     paginationHandler(idUser) {
         $("#page-item-home-prev:not(.disabled)").unbind().click(() => {
-            console.log($(".filter").val());
             if ($(".filter").val()=="sent") {
                 if (this.itemPage > 0) {
                     this.itemPage--;
@@ -340,7 +363,6 @@ class Home {
 
 
         $("#page-item-home-next:not(.disabled").unbind().click(() => {
-            console.log($(".filter").val())
             if ($(".filter").val()=="sent") {
                 if (!this.isLastPage) {
                     this.itemPage++;
