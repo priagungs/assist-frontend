@@ -7,7 +7,7 @@ class AdminEmployee {
         this.sortBy = "name";
         this.dropdownLimit = 5;
         this.isLastPage = false;
-        
+
         this.itemPage = 0;
         this.itemLimit = 5;
         this.isItemLastPage = false;

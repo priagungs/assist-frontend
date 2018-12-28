@@ -22,7 +22,11 @@ class Settings {
 
     fillContent(data) {
         $("#form-add-setting-name").val(data.name);
-        $("#picture-setting").attr("src", data.pictureURL);
+        if ( data.pictureURL == null) {
+            $("#picture-setting").attr("src",'/public/images/profile.png');
+        } else {
+            $("#picture-setting").attr("src", data.pictureURL);
+        }
     }
 
     validateData(data) {
