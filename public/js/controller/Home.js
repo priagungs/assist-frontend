@@ -20,7 +20,7 @@ class Home {
                 this.loggedInUser = data;
                 this.fillUserCard(data);
                 this.emptyTable();
-                this.fillRequestItemTable(data.idUser);
+                this.fillItemTable(data.idUser);
                 this.detailModalHandler();
                 this.tableHandler(data.idUser);
                 this.paginationHandler(data.idUser);
@@ -69,11 +69,11 @@ class Home {
                         content += '<tr class="' + element.requestStatus +
                         '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
                         + '" data-itemname="' + element.item.itemName
-                        + '" data-status="' + 'SENT'
+                        + '" data-status="' + 'ITEM'
                         + '" data-idhasitem="' + element.idUserHasItem + '">'
                         + '<td>' + element.item.itemName +'</td>'
                         + '<td class="text-center">' + element.hasQty.toLocaleString('en') + '</td>'
-                        + '<td class="text-center">' + 'SENT' + '</td>'
+                        + '<td class="text-center">' + "SENT" + '</td>'
                         + '</tr>';
                         count++;
                     });
@@ -136,10 +136,8 @@ class Home {
                         count++;
                     });
                     for (var i = count; i < this.reqLimit; i++) {
-                        console.log(count);
                         content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
                     }
-                    console.log(count);
 
                     this.isReqLastPage = response.last;
                     if (response.last) {
@@ -184,18 +182,16 @@ class Home {
                     var content = "";
                     response.content.forEach(element => {
                         var reqQty = element.reqQty.toLocaleString('en');
-                        if (element.requestStatus != 'SENT') {
-                            content += '<tr class="' + element.requestStatus +
-                            '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
-                            + '" data-itemname="' + element.item.itemName
-                            + '" data-status="' + element.requestStatus
-                            + '" data-idrequest="' + element.idRequest + '">'
-                            + '<td>' + element.item.itemName +'</td>'
-                            + '<td class="text-center">' + reqQty + '</td>'
-                            + '<td class="text-center">' + element.requestStatus + '</td>'
-                            + '</tr>';
-                            count++;
-                        }
+                        content += '<tr class="' + element.requestStatus +
+                        '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                        + '" data-itemname="' + element.item.itemName
+                        + '" data-status="' + element.requestStatus
+                        + '" data-idrequest="' + element.idRequest + '">'
+                        + '<td>' + element.item.itemName +'</td>'
+                        + '<td class="text-center">' + reqQty + '</td>'
+                        + '<td class="text-center">' + element.requestStatus + '</td>'
+                        + '</tr>';
+                        count++;
                     });
                     for (var i = count; i < this.reqLimit; i++) {
                         content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
@@ -234,7 +230,7 @@ class Home {
         $(".filter").change(() => {
             var status = $(".filter").val();
             this.emptyTable();
-            if (status == "sent") {
+            if (status == "item") {
                 this.fillItemTable(idUser);
             } else if (status == "allreq") {
                 this.fillRequestItemTable(idUser);
@@ -245,8 +241,6 @@ class Home {
     }
 
     fillHomeItemDetail(idItem) {
-        console.log("OINK");
-        console.log("oin",idItem);
         var spinner = $("#home-item-detail-spinner").addClass("d-block");
         var header = $("#home-item-detail .modal-header").addClass("d-none");
         var body = $("#home-item-detail .modal-body").addClass("d-none");
@@ -259,7 +253,6 @@ class Home {
                 var totalQty = response.totalQty.toLocaleString('en');
                 var availableQty = response.availableQty.toLocaleString('en');
                 $("#item-detail-name").text(response.itemName);
-                console.log($("#detail-item img"));
                 if (response.pictureURL) {
                     $("#img-detail-item-home").attr("src", response.pictureURL);
                 }
@@ -289,12 +282,11 @@ class Home {
 
     detailModalHandler() {
         $("#home-item-detail").unbind().on('show.bs.modal', (event)=> {
-            // this.emptyHomeItemDetail();
             var idItem = $(event.relatedTarget).data('iditem');
             var status = $(event.relatedTarget).data('status');
             this.fillHomeItemDetail(idItem);
 
-            if (status != "SENT" && status != "sent") {
+            if (status != "ITEM" && status != "item") {
                 var buttonreturn = $('#return-btn');
                 buttonreturn.addClass("d-none")
             }
@@ -317,7 +309,7 @@ class Home {
                             $("#home-item-detail").modal('hide');
                             this.emptyTable();
                             $(".filter").val("allreq");
-                            this.fillRequestItemTable(this.loggedInUser.idUser);
+                            this.fillItemTable(this.loggedInUser.idUser);
                         },
                         statusCode: {
                             401 : () => {
@@ -419,7 +411,7 @@ class Home {
                 data: JSON.stringify(requestBody),
                 contentType: "application/json",
                 success: () => {
-                    this.fillRequestItemTable(this.loggedInUser.idUser);
+                    this.fillItemTable(this.loggedInUser.idUser);
                     $("#add-request").modal('hide');
                 },
                 statusCode: {
