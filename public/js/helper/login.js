@@ -4,17 +4,11 @@ $(document).ready(function(){
         url: "/api/login-detail",
         success: function (data, status) {
             window.location = "index.html";
-        },
-        statusCode: {
-            401: () => {
-                console.log("not login");
-            }
         }
     });
     $("#login").unbind().on("click",(event) =>{
         event.preventDefault();
         var valid = true;
-        console.log('asd');
         if(!$("#username").val()) {
             $("#username").addClass("is-invalid");
             valid = false;
@@ -25,7 +19,6 @@ $(document).ready(function(){
         }
 
         if (valid) {
-            console.log('masuk');
             var username = $("#username").val();
             var password = $("#password").val();
             var formData = {
@@ -37,8 +30,6 @@ $(document).ready(function(){
                 url: "/api/login",
                 data: "username="+username+"&password="+password,
                 success: function (data, status) {
-                    console.log(data);
-                    console.log(status);
                     window.location = "index.html"
                 },
                 statusCode : {

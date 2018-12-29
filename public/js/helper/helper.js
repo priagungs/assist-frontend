@@ -29,7 +29,6 @@ class Helper {
         $("#restore-invalid").removeClass("d-block");
         $("#restore-uploader").unbind().change(() => {
             var formData = new FormData($("#restore-form")[0]);
-            console.log($("#restore-form"));
             Helper.restore(formData, () => {
                 $("#restore-invalid").removeClass("d-block");
                 window.location = 'login.html';

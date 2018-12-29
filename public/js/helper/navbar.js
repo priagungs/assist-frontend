@@ -12,7 +12,7 @@ $.ajax({
             $("#admin-only").addClass("d-none");
         }
         else {
-            $("#admin-only").removeClass("d-none")
+            $("#admin-only").removeClass("d-none");
         }
 
     }

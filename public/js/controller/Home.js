@@ -8,7 +8,6 @@ class Home {
         this.reqLimit = 10;
         this.isReqLastPage = false;
         this.dropdownLimit = 5;
-
     }
 
     init() {
@@ -27,7 +26,7 @@ class Home {
                 this.createRequestHandler();
             },
             statusCode: {
-                401 : () => {
+                401: () => {
                     window.location = "login.html";
                 }
             }
@@ -59,7 +58,7 @@ class Home {
         $.ajax({
             method: "GET",
             url: "/api/user-items",
-            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, sort: "idUserHasItem"},
+            data: { page: this.itemPage, limit: this.itemLimit, idUser: idUser, sort: "idUserHasItem" },
             dataType: "json",
             success: (response) => {
                 var content = "";
@@ -67,18 +66,18 @@ class Home {
                 if (response.content.length > 0) {
                     response.content.forEach(element => {
                         content += '<tr class="' + element.requestStatus +
-                        '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
-                        + '" data-itemname="' + element.item.itemName
-                        + '" data-status="' + 'ITEM'
-                        + '" data-idhasitem="' + element.idUserHasItem + '">'
-                        + '<td>' + element.item.itemName +'</td>'
-                        + '<td class="text-center">' + element.hasQty.toLocaleString('en') + '</td>'
-                        + '<td class="text-center">' + "SENT" + '</td>'
-                        + '</tr>';
+                            '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                            + '" data-itemname="' + element.item.itemName
+                            + '" data-status="' + 'ITEM'
+                            + '" data-idhasitem="' + element.idUserHasItem + '">'
+                            + '<td>' + element.item.itemName + '</td>'
+                            + '<td class="text-center">' + element.hasQty.toLocaleString('en') + '</td>'
+                            + '<td class="text-center">' + "SENT" + '</td>'
+                            + '</tr>';
                         count++;
                     });
                     for (var i = count; i < this.itemLimit; i++) {
-                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>';
                     }
                     this.isLastPage = response.last;
                     if (response.last) {
@@ -103,10 +102,10 @@ class Home {
             },
             statusCode: {
                 401: () => {
-                    window.location = 'login.html'
+                    window.location = 'login.html';
                 }
             }
-        })
+        });
     }
 
     fillCustomItemTable(idUser, status) {
@@ -115,28 +114,28 @@ class Home {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.reqPage, limit: this.reqLimit, idUser: idUser, status:status.toUpperCase(), sort: "requestDate"},
+            data: { page: this.reqPage, limit: this.reqLimit, idUser: idUser, status: status.toUpperCase(), sort: "requestDate" },
             dataType: "json",
             success: (response) => {
-
                 if (response.content.length > 0) {
                     var count = 0;
                     var content = "";
                     response.content.forEach(element => {
                         var reqQty = element.reqQty.toLocaleString('en');
                         content += '<tr class="' + element.requestStatus +
-                        '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
-                        + '" data-itemname="' + element.item.itemName
-                        + '" data-status="' + element.requestStatus
-                        + '" data-idrequest="' + element.idRequest + '">'
-                        + '<td>' + element.item.itemName +'</td>'
-                        + '<td class="text-center">' + reqQty + '</td>'
-                        + '<td class="text-center">' + element.requestStatus + '</td>'
-                        + '</tr>';
+                            '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                            + '" data-itemname="' + element.item.itemName
+                            + '" data-status="' + element.requestStatus
+                            + '" data-idrequest="' + element.idRequest + '">'
+                            + '<td>' + element.item.itemName + '</td>'
+                            + '<td class="text-center">' + reqQty + '</td>'
+                            + '<td class="text-center">' + element.requestStatus + '</td>'
+                            + '</tr>';
                         count++;
                     });
+
                     for (var i = count; i < this.reqLimit; i++) {
-                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>';
                     }
 
                     this.isReqLastPage = response.last;
@@ -161,7 +160,7 @@ class Home {
                 table.removeClass("d-none");
             },
             statusCode: {
-                401 : () => {
+                401: () => {
                     window.location = "login.html";
                 }
             }
@@ -174,7 +173,7 @@ class Home {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.reqPage, limit: this.reqLimit, idUser: idUser, sort: "requestDate"},
+            data: { page: this.reqPage, limit: this.reqLimit, idUser: idUser, sort: "requestDate" },
             dataType: "json",
             success: (response) => {
                 var count = 0;
@@ -183,18 +182,18 @@ class Home {
                     response.content.forEach(element => {
                         var reqQty = element.reqQty.toLocaleString('en');
                         content += '<tr class="' + element.requestStatus +
-                        '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
-                        + '" data-itemname="' + element.item.itemName
-                        + '" data-status="' + element.requestStatus
-                        + '" data-idrequest="' + element.idRequest + '">'
-                        + '<td>' + element.item.itemName +'</td>'
-                        + '<td class="text-center">' + reqQty + '</td>'
-                        + '<td class="text-center">' + element.requestStatus + '</td>'
-                        + '</tr>';
+                            '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                            + '" data-itemname="' + element.item.itemName
+                            + '" data-status="' + element.requestStatus
+                            + '" data-idrequest="' + element.idRequest + '">'
+                            + '<td>' + element.item.itemName + '</td>'
+                            + '<td class="text-center">' + reqQty + '</td>'
+                            + '<td class="text-center">' + element.requestStatus + '</td>'
+                            + '</tr>';
                         count++;
                     });
                     for (var i = count; i < this.reqLimit; i++) {
-                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>';
                     }
                     this.isReqLastPage = response.last;
                     if (response.last) {
@@ -218,12 +217,11 @@ class Home {
                 table.removeClass("d-none");
             },
             statusCode: {
-                401 : () => {
+                401: () => {
                     window.location = "login.html";
                 }
             }
-        })
-
+        });
     }
 
     tableHandler(idUser) {
@@ -267,8 +265,8 @@ class Home {
                 header.removeClass("d-none");
                 body.removeClass("d-none");
             },
-            responseStatus : {
-                401 : () => {
+            responseStatus: {
+                401: () => {
                     window.location = "login.html";
                 }
             }
@@ -281,14 +279,14 @@ class Home {
     }
 
     detailModalHandler() {
-        $("#home-item-detail").unbind().on('show.bs.modal', (event)=> {
+        $("#home-item-detail").unbind().on('show.bs.modal', (event) => {
             var idItem = $(event.relatedTarget).data('iditem');
             var status = $(event.relatedTarget).data('status');
             this.fillHomeItemDetail(idItem);
 
             if (status != "ITEM" && status != "item") {
                 var buttonreturn = $('#return-btn');
-                buttonreturn.addClass("d-none")
+                buttonreturn.addClass("d-none");
             }
             else {
                 var buttonreturn = $('#return-btn');
@@ -298,7 +296,7 @@ class Home {
             $("#return-btn").unbind().click(() => {
                 if (confirm("Are you sure you want to return " + $(event.relatedTarget).data('itemname') + '?')) {
                     var deleteditem = {
-                        idUserHasItem : $(event.relatedTarget).data('idhasitem')
+                        idUserHasItem: $(event.relatedTarget).data('idhasitem')
                     };
                     $.ajax({
                         method: "DELETE",
@@ -312,11 +310,11 @@ class Home {
                             this.fillItemTable(this.loggedInUser.idUser);
                         },
                         statusCode: {
-                            401 : () => {
+                            401: () => {
                                 window.location = "login.html";
                             }
                         }
-                    })
+                    });
                 }
             });
         });
@@ -324,7 +322,7 @@ class Home {
 
     paginationHandler(idUser) {
         $("#page-item-home-prev:not(.disabled)").unbind().click(() => {
-            if ($(".filter").val()=="sent") {
+            if ($(".filter").val() == "sent") {
                 if (this.itemPage > 0) {
                     this.itemPage--;
                     this.fillItemTable(idUser);
@@ -332,7 +330,7 @@ class Home {
                         $("#page-item-home-prev").addClass("disabled");
                     }
                 }
-            } else if ($(".filter").val()=="allreq") {
+            } else if ($(".filter").val() == "allreq") {
                 if (this.reqPage > 0) {
                     this.reqPage--;
                     this.fillRequestItemTable(idUser);
@@ -355,7 +353,7 @@ class Home {
 
 
         $("#page-item-home-next:not(.disabled").unbind().click(() => {
-            if ($(".filter").val()=="sent") {
+            if ($(".filter").val() == "sent") {
                 if (!this.isLastPage) {
                     this.itemPage++;
                     this.fillItemTable(idUser);
@@ -363,7 +361,7 @@ class Home {
                         $("#page-item-home-next").addClass("disabled");
                     }
                 }
-            } else if ($(".filter").val()=="allreq") {
+            } else if ($(".filter").val() == "allreq") {
                 if (!this.isReqLastPage) {
                     this.reqPage++;
                     this.fillRequestItemTable(idUser);
@@ -423,7 +421,7 @@ class Home {
                     }
                 }
             });
-        })
+        });
     }
 
 
@@ -468,7 +466,7 @@ class Home {
         });
         $(".target-item-request input").unbind().on('mouseup keyup change', (event) => {
             var idx = $(event.currentTarget).data('index');
-            this.requestItems[idx].requestQty = parseInt(event.currentTarget.value)
+            this.requestItems[idx].requestQty = parseInt(event.currentTarget.value);
         });
     }
 
@@ -483,20 +481,20 @@ class Home {
                 $.ajax({
                     type: "GET",
                     url: "/api/items",
-                    data: {page: 0, limit: this.dropdownLimit, sort: "itemName", keyword: event.target.value, minqty: 0},
+                    data: { page: 0, limit: this.dropdownLimit, sort: "itemName", keyword: event.target.value, minqty: 0 },
                     dataType: "json",
                     success: (response) => {
                         var dropdown_content = "";
                         response.content.forEach((element) => {
                             var availableQty = element.availableQty.toLocaleString('en');
                             dropdown_content += '<button class="dropdown-item candidate-item-trx" data-iditem="' + element.idItem + '" data-name="' + element.itemName + '">'
-                            + '<div class="row"><div class="col-2">'
-                            + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
-                            + '<div class="col-10">'
-                            + '<p><strong>' + element.itemName + '</strong></p>'
-                            + '<p>ID : ' + element.idItem + '</p>'
-                            + '<p>Available Qty : ' + availableQty + '</p>'
-                            + '</div></div></button>';
+                                + '<div class="row"><div class="col-2">'
+                                + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
+                                + '<div class="col-10">'
+                                + '<p><strong>' + element.itemName + '</strong></p>'
+                                + '<p>ID : ' + element.idItem + '</p>'
+                                + '<p>Available Qty : ' + availableQty + '</p>'
+                                + '</div></div></button>';
                         });
                         if (response.content.length > 0) {
                             $('#home .dropdown-menu').html(dropdown_content);
