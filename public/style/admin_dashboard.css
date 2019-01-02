@@ -5,7 +5,8 @@
 }
 
 .img-thumbnail {
-    min-width: 100%;
+    width: 12rem;
+    height: 12rem;
     margin-bottom: 1rem;
 }
 
@@ -26,7 +27,7 @@
 }
 
 .btn-primary {
-    background-color: #5D001E
+    background-color: #1A237E
 }
 
 #item, #employee {
@@ -54,7 +55,7 @@
 }
 
 .nav-item:hover {
-    background-color: rgb(138, 0, 44);
+    background-color: rgb(41, 54, 194);
     color: white;
 }
 
@@ -70,8 +71,8 @@
 }
 
 #admin-dashboard .dropdown-menu img {
-    max-height: 100%;
-    min-width: 48.75px;
+    height: 3rem;
+    width: 3rem;
 }
 
 #admin-dashboard .dropdown-menu div {
@@ -96,13 +97,9 @@
     overflow: hidden;
 }
 
-/* #employee-detail {
-    padding-left:15px;
-} */
-
 #employee-detail img {
-    min-width: 100%;
-    height: auto;
+    width: 12rem;
+    height: 12rem;
 }
 
 #employee-detail .row {
@@ -129,6 +126,6 @@
 .search-bar .input-group-prepend > .input-group-text {
     border-top-right-radius: .25rem;
     border-bottom-right-radius: .25rem;
-    background-color: #5D001E;
+    background-color: #1A237E;
     color: white;
 }

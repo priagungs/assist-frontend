@@ -57,7 +57,7 @@
                                 <section id="detail-item">
                                     <div class="row">
                                         <div class="col-12 col-sm-5">
-                                            <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
+                                            <img src="/public/images/item.jpg" class="img-thumbnail d-block mx-auto" alt="">
                                         </div>
                                         <div class="col-12 col-sm-7">
                                             <h5><b>Price</b> : Rp <span class="item-price"></span></h5>
@@ -115,7 +115,7 @@
                                     <form>
                                         <div class="row">
                                             <div class="col-12 col-sm-5">
-                                                <img src="/public/images/item.jpg" class="img-thumbnail" alt="">
+                                                <img src="/public/images/item.jpg" class="img-thumbnail d-block mx-auto" alt="">
                                                 <div class="image-uploader">
                                                     <label for="item-update-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
                                                     <input type="file" accept="image/*" id="item-update-image-uploader" name="file" class="item-form-image" style="display:none">
@@ -130,12 +130,12 @@
                                                 <div class="form-group">
                                                     <label for="form-update-item-price">Price</label>
                                                     <input type="number" name="form-update-item-price" min="0" id="form-update-item-price" class="form-control item-form-price" value="2000">
-                                                    <div class="invalid-feedback">Please provide a price</div>
+                                                    <div class="invalid-feedback">Please provide a valid price</div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="form-update-item-totalqty">Total Quantity</label>
                                                     <input type="number" name="form-update-item-totalqty" min="0" id="form-update-item-totalqty" class="form-control item-form-totalqty" value="100">
-                                                    <div class="invalid-feedback invalid-totalqty">Please provide a total quantity</div>
+                                                    <div class="invalid-feedback invalid-totalqty">Please provide a valid total quantity</div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="form-update-item-description">Description</label>
@@ -178,7 +178,7 @@
                                         <form>
                                             <div class="row">
                                                 <div class="col-12 col-sm-5">
-                                                    <img src="/public/images/no-image.jpg" class="img-thumbnail" alt="">
+                                                    <img src="/public/images/no-image.jpg" class="img-thumbnail d-block mx-auto" alt="">
                                                     <div class="image-uploader">
                                                         <label for="item-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
                                                         <input type="file" accept="image/*" name="file" class="item-form-image" id="item-add-image-uploader" style="display:none">
@@ -194,12 +194,12 @@
                                                     <div class="form-group">
                                                         <label for="form-add-item-price">Price</label>
                                                         <input type="number" min="0" name="form-add-item-price" id="form-add-item-price" class="form-control item-form-price" required>
-                                                        <div class="invalid-feedback">Please provide a price</div>
+                                                        <div class="invalid-feedback">Please provide a valid price</div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="form-add-item-totalqty">Total Quantity</label>
                                                         <input type="number" min="0" name="form-add-item-totalqty" id="form-add-item-totalqty" class="form-control item-form-totalqty" required>
-                                                        <div class="invalid-feedback">Please provide a total quantity</div>
+                                                        <div class="invalid-feedback">Please provide a valid total quantity</div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="form-add-item-description">Description</label>
@@ -215,7 +215,7 @@
                                     </div>
                                     <div class="tab-pane fade" id="bulk-item-entries" role="tabpanel" aria-labelledby="bulk-item-entries-tab">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="upload-bulk-item-entries">
+                                            <input type="file" class="custom-file-input" accept=".csv" id="upload-bulk-item-entries">
                                             <label class="custom-file-label" for="upload-bulk-item-entries">Choose CSV File</label>
                                             <div id="bulk-item-entry-invalid-feedback" class="invalid-feedback"></div>
                                         </div>
@@ -289,7 +289,7 @@
                             <section id="employee-detail-section">
                                 <div class="row">
                                     <div class="col-12 col-sm-5">
-                                        <img src="/public/images/profile.png" class="img-thumbnail" alt="">
+                                        <img src="/public/images/profile.png" class="img-thumbnail d-block mx-auto" alt="">
                                     </div>
                                     <div class="col-12 col-sm-7">
                                         <h3 id="employee-detail-name"></h3>
@@ -382,7 +382,7 @@
                                 <form>
                                     <div class="row">
                                         <div class="col-12 col-sm-5">
-                                            <img src="/public/images/profile.png" class="img-thumbnail default-image-form" alt="">
+                                            <img src="/public/images/profile.png" class="img-thumbnail default-image-form d-block mx-auto" alt="">
                                             <div class="image-uploader">
                                                 <label for="employee-update-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
                                                 <input type="file" accept="image/*" name="file" class="employee-form-image" id="employee-update-image-uploader" style="display:none">
@@ -419,7 +419,7 @@
                                                 <div id="id-superior-update-form" class="id-superior" style="display:none"></div>
                                                 <div class="dropdown">
                                                     <input type="text" maxlength="255" name="form-update-employee-superior" id="form-update-employee-superior" class="form-control employee-form-superior" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <div class="invalid-feedback superior-validation"></div>
+                                                    <div class="invalid-feedback superior-validation">Please provide a valid superior</div>
                                                     <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-update-employee-superior" aria-labelledby="form-update-employee-superior">
                                                     </div>
                                                 </div>
@@ -466,7 +466,7 @@
                                         <form>
                                             <div class="row">
                                                 <div class="col-12 col-sm-5">
-                                                    <img src="/public/images/profile.png" class="img-thumbnail default-image-form" alt="">
+                                                    <img src="/public/images/profile.png" class="img-thumbnail default-image-form d-block mx-auto" alt="">
                                                     <div class="image-uploader">
                                                         <label for="employee-add-image-uploader" class="btn btn-primary btn-sm upload-image-btn">Choose</label>
                                                         <input type="file" accept="image/*" name="file" class="employee-form-image" id="employee-add-image-uploader" style="display:none">
@@ -503,7 +503,7 @@
                                                         <div id="id-superior-add-form" class="id-superior" style="display:none"></div>
                                                         <div class="dropdown">
                                                             <input type="text" maxlength="255" name="form-add-employee-superior" id="form-add-employee-superior" class="form-control employee-form-superior" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <div class="invalid-feedback">Please provide a superior</div>
+                                                            <div class="invalid-feedback">Please provide a valid superior</div>
                                                             <div class="dropdown-menu dropdown-menu-left col-xs-12" id="dropdown-add-employee-superior" aria-labelledby="form-add-employee-superior">
                                                             </div>
                                                         </div>
@@ -524,7 +524,7 @@
                                     </div>
                                     <div class="tab-pane fade" id="bulk-employee-entries" role="tabpanel" aria-labelledby="bulk-employee-entries-tab">
                                         <div class="custom-file">
-                                            <input type="file" class="custom-file-input" id="upload-bulk-employee-entries">
+                                            <input type="file" class="custom-file-input" accept=".csv" id="upload-bulk-employee-entries">
                                             <label class="custom-file-label" for="upload-bulk-employee-entries">Choose CSV File</label>
                                             <div id="bulk-employee-entry-invalid-feedback" class="invalid-feedback"></div>
                                         </div>

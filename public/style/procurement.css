@@ -34,9 +34,8 @@
 }
 
 #procurement .dropdown-menu img {
-    height: 100%;
-    min-width: 48.75px;
-    max-width: 48.75px;
+    height: 3rem;
+    width: 3rem;
 }
 
 #procurement .dropdown-menu div {
@@ -68,5 +67,5 @@
 }
 
 #procurement .remove-item-transaction:hover {
-    color: #5D001E;
+    color: #1A237E;
 }

@@ -33,7 +33,6 @@ class SubordinatesDashboard {
                 }
             }
         });
-
     }
 
     resetPage() {
@@ -61,24 +60,20 @@ class SubordinatesDashboard {
         $.ajax({
             type: "get",
             url: "/api/users",
-            data : {page : this.subordinatePage, limit : this.subordinateLimit, sort: this.sortUser, idSuperior : idUser},
+            data: { page: this.subordinatePage, limit: this.subordinateLimit, sort: this.sortUser, idSuperior: idUser },
             dataType: "json",
             success: (response) => {
-                console.log("ini");
-                console.log(response.content.length);
-                console.log(response.content);
-                console.log("masuk add element");
-                var index=1;
+                var index = 1;
                 var content = "";
-                if(response.content.length > 0) {
+                if (response.content.length > 0) {
                     var count = 0;
                     response.content.forEach(element => {
-                        content += '<tr data-toggle="modal" data-target="#subordinates-detail" data-idUser="' + element.idUser +'">'
-                        + '<td>' + element.name + '</td>'
-                        + '<td>' + element.role + '</td>'
-                        + '<td id="sub-detail-index-'+index+'"> </td>'
-                        + '</tr>';
-                        this.fillCounterRequest(element.idUser,index);
+                        content += '<tr data-toggle="modal" data-target="#subordinates-detail" data-idUser="' + element.idUser + '">'
+                            + '<td>' + element.name + '</td>'
+                            + '<td>' + element.role + '</td>'
+                            + '<td id="sub-detail-index-' + index + '"> </td>'
+                            + '</tr>';
+                        this.fillCounterRequest(element.idUser, index);
                         index++;
                         count++;
                     });
@@ -87,8 +82,8 @@ class SubordinatesDashboard {
                     }
                 } else {
                     content = '<tr>'
-                            + '<td colspan="3">There is no Subordinates</td>'
-                            + '</tr>';
+                        + '<td colspan="3">There is no Subordinates</td>'
+                        + '</tr>';
                 }
                 this.isLastPage = response.last;
                 this.paginationHandler(idUser);
@@ -246,23 +241,22 @@ class SubordinatesDashboard {
     }
 
     detailSubordinateHandler(idUser) {
-        $("#subordinates-detail").unbind().on('show.bs.modal',(event) => {
+        $("#subordinates-detail").unbind().on('show.bs.modal', (event) => {
             var idSub = $(event.relatedTarget).data("iduser");
             this.resetPage();
-            this.fillSubDetail(idUser,idSub);
+            this.fillSubDetail(idUser, idSub);
         });
     }
 
-    fillSubDetail(idUser,idSub) {
+    fillSubDetail(idUser, idSub) {
         var spinner = $("#subordinates-detail-spinner").addClass("d-block");
         var header = $("#subordinates-detail .modal-header").addClass("d-none");
         var body = $("#subordinates-detail .modal-body").addClass("d-none");
         $.ajax({
             method: "GET",
             url: "/api/user/" + idSub,
-            dataType : "json",
+            dataType: "json",
             success: (response) => {
-                // console.log(response);
                 if (response.pictureURL) {
                     $("#subordinates-detail img").attr("src", response.pictureURL);
                 }
@@ -277,7 +271,7 @@ class SubordinatesDashboard {
                     + response.superior.name
                     + " (NIP :"
                     + response.superior.idUser
-                    +")</b>";
+                    + ")</b>";
                 $("#sub-superior").html(superiorContent);
                 spinner.removeClass("d-block");
                 header.removeClass("d-none");
@@ -301,22 +295,22 @@ class SubordinatesDashboard {
         $.ajax({
             method: "GET",
             url: "/api/user-items",
-            data: {page: this.itemPage, limit: this.itemLimit, idUser: idSub, sort: "idUserHasItem"},
+            data: { page: this.itemPage, limit: this.itemLimit, idUser: idSub, sort: "idUserHasItem" },
             dataType: "json",
             success: (response) => {
                 var idx = 1;
                 var content = '';
                 response.content.forEach((element) => {
                     content += '<tr><td class="text-center" scope="row">' + element.item.idItem + '</td>'
-                    + '<td class="text-center">' + element.item.itemName+ '</td>'
-                    + '<td class="text-center">' + element.hasQty + '</td>';
+                        + '<td class="text-center">' + element.item.itemName + '</td>'
+                        + '<td class="text-center">' + element.hasQty + '</td>';
                     idx++;
                 });
-                $("#sub-item-pagination").removeClass("d-none")
-                if (idx == 1){
+                $("#sub-item-pagination").removeClass("d-none");
+                if (idx == 1) {
                     content = '<tr>'
-                            + '<td colspan=3> There is no item</td>'
-                            + '</tr>';
+                        + '<td colspan=3> There is no item</td>'
+                        + '</tr>';
                     $("#sub-item-pagination").addClass("d-none");
                 }
                 else {
@@ -348,10 +342,9 @@ class SubordinatesDashboard {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.newRequestPage, limit: this.newRequestLimit, idUser: idSub, sort: "requestDate", status: "REQUESTED"},
+            data: { page: this.newRequestPage, limit: this.newRequestLimit, idUser: idSub, sort: "requestDate", status: "REQUESTED" },
             dataType: "json",
             success: (response) => {
-                console.log(response);
                 var idx = 1;
                 var content = '';
                 this.isNewRequestLastPage = response.last;
@@ -359,21 +352,21 @@ class SubordinatesDashboard {
 
                 response.content.forEach((element) => {
                     content += '<tr>'
-                    + '<td id="data-ke-'+ idx +'" id-request="'+element.idRequest+'"class="text-center" scope="row">' + element.item.idItem + '</td>'
-                    + '<td class="text-center">' + element.item.itemName+ '</td>'
-                    + '<td class="text-center">' + element.reqQty + '</td>'
-                    + '<td class="text-center">' + element.requestStatus + '</td>'
-                    + '<td class="text-center">'
-                    + '<div class="form-check-inline">'
-                    + '<label class="form-check-label">'
-                    + '<input type="radio" class="form-check-input" name="opt'+idx+'" value="Yes" >Yes'
-                    + '</label>'
-                    + '<label class="form-check-label">'
-                    + '<input type="radio" class="form-check-input" name="opt'+idx+'" value="No" >No'
-                    + '</label>'
-                    + '</div>'
-                    + '</td>'
-                    + '</tr>';
+                        + '<td id="data-ke-' + idx + '" id-request="' + element.idRequest + '"class="text-center" scope="row">' + element.item.idItem + '</td>'
+                        + '<td class="text-center">' + element.item.itemName + '</td>'
+                        + '<td class="text-center">' + element.reqQty + '</td>'
+                        + '<td class="text-center">' + element.requestStatus + '</td>'
+                        + '<td class="text-center">'
+                        + '<div class="form-check-inline">'
+                        + '<label class="form-check-label">'
+                        + '<input type="radio" class="form-check-input" name="opt' + idx + '" value="Yes" >Yes'
+                        + '</label>'
+                        + '<label class="form-check-label">'
+                        + '<input type="radio" class="form-check-input" name="opt' + idx + '" value="No" >No'
+                        + '</label>'
+                        + '</div>'
+                        + '</td>'
+                        + '</tr>';
                     idx++;
                 });
                 if (idx > 1) {
@@ -382,17 +375,17 @@ class SubordinatesDashboard {
                     var contentButton = '';
                     contentButton = '<button id="oke-button" type="button" class="btn btn-success" >Approve</button>';
                     $("#button-request").html(contentButton);
-                    this.callOke(idUser,idSub);
+                    this.callOke(idUser, idSub);
                 } else {
                     $("#sub-newrequest-pagination").addClass("d-none");
                     $("#subordinate-new-request-table").addClass("table-responsive-xs").removeClass("table-responsive-sm");
                     content = '<tr>'
-                            + '<td colspan=5> There is no request</td>'
-                            + '</tr>';
+                        + '<td colspan=5> There is no request</td>'
+                        + '</tr>';
                     $("#button-request").html("");
                 }
                 idx--;
-                $(".subordinates-request-table tbody").attr("counter",idx);
+                $(".subordinates-request-table tbody").attr("counter", idx);
                 $(".subordinates-request-table tbody").html(content);
                 spinner.removeClass("d-block");
                 table.removeClass("d-none");
@@ -412,32 +405,32 @@ class SubordinatesDashboard {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.requestPage, limit: this.requestLimit, idUser: idSub, sort: "requestDate"},
+            data: { page: this.requestPage, limit: this.requestLimit, idUser: idSub, sort: "requestDate" },
             dataType: "json",
             success: (response) => {
                 var idx = 1;
                 var content = '';
                 response.content.forEach((element) => {
-                    if(element.requestStatus != "REQUESTED") {
+                    if (element.requestStatus != "REQUESTED") {
                         content += '<tr>'
-                        + '<td class="text-center" scope="row">' + element.item.idItem + '</td>'
-                        + '<td class="text-center">' + element.item.itemName+ '</td>'
-                        + '<td class="text-center">' + element.reqQty + '</td>'
-                        + '<td class="text-center">' + element.requestStatus + '</td>';
+                            + '<td class="text-center" scope="row">' + element.item.idItem + '</td>'
+                            + '<td class="text-center">' + element.item.itemName + '</td>'
+                            + '<td class="text-center">' + element.reqQty + '</td>'
+                            + '<td class="text-center">' + element.requestStatus + '</td>';
 
                         var date = new Date(element.requestDate);
 
                         content += '<td class="text-center">' + date.toLocaleString() + '</td>';
                         content += '</tr>';
-                        idx ++;
+                        idx++;
                     }
                 });
-                $("#sub-request-pagination").removeClass("d-none")
-                if (idx == 1){
+                $("#sub-request-pagination").removeClass("d-none");
+                if (idx == 1) {
                     content = '<tr>'
-                            + '<td colspan=5> There is no request</td>'
-                            + '</tr>';
-                    $("#sub-request-pagination").addClass("d-none")
+                        + '<td colspan=5> There is no request</td>'
+                        + '</tr>';
+                    $("#sub-request-pagination").addClass("d-none");
                 }
                 else {
                     for (var i = idx; i <= this.requestLimit; i++) {
@@ -445,7 +438,7 @@ class SubordinatesDashboard {
                     }
                 }
 
-                this.isRequestLastPage = response.last
+                this.isRequestLastPage = response.last;
                 this.paginationRequestHandler(idSub);
                 $(".subordinates-history-table tbody").html(content);
                 spinner.removeClass("d-block");
@@ -460,22 +453,21 @@ class SubordinatesDashboard {
         });
     }
 
-    fillCounterRequest(idUser,index) {
+    fillCounterRequest(idUser, index) {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort:"idRequest"},
+            data: { page: 0, limit: JAVA_MAX_INTEGER, idUser: idUser, sort: "idRequest" },
             dataType: "json",
             success: (response) => {
                 var count = 0;
                 var length = response.content.length;
-                console.log("response counter");
-                for (var i = 0 ; i < length; i ++) {
-                    if(response.content[i].requestStatus == "REQUESTED"){
+                for (var i = 0; i < length; i++) {
+                    if (response.content[i].requestStatus == "REQUESTED") {
                         count++;
                     }
                 }
-                $("#sub-detail-index-"+index,).html(count);
+                $("#sub-detail-index-" + index).html(count);
             },
             statusCode: {
                 401: () => {
@@ -485,62 +477,53 @@ class SubordinatesDashboard {
         });
     }
 
-    callOke(idUser,idSub){
-        $("#oke-button").on("click",() =>{
-            var idx =1 ;
+    callOke(idUser, idSub) {
+        $("#oke-button").on("click", () => {
+            var idx = 1;
             var numberOfRecord = $("#subordinates-request-table-details").attr("counter");
-            var requests = []
+            var requests = [];
 
-            for(idx = 1; idx <= numberOfRecord; idx++) {
-                var input = 'input[name=\'opt'+idx+'\']';
+            for (idx = 1; idx <= numberOfRecord; idx++) {
+                var input = 'input[name=\'opt' + idx + '\']';
                 var request = {};
-                if($(input).is(":checked") && !($(input).is(":disabled"))) {
-                    var value = $(input+':checked').val();
-                    console.log(value);
-                    console.log($('#data-ke-'+idx).text());
-                    console.log("id Requestnya"+$('#data-ke-'+idx).attr("id-request"));
-                    console.log(idUser);
-
-                    if(value == "Yes"){
+                if ($(input).is(":checked") && !($(input).is(":disabled"))) {
+                    var value = $(input + ':checked').val();
+                    if (value == "Yes") {
                         request = {
-                            idRequest : parseInt($('#data-ke-'+idx).attr("id-request")),
-                            idSuperior : idUser,
-                            idAdmin : "\0",
-                            requestStatus : "APPROVED"
+                            idRequest: parseInt($('#data-ke-' + idx).attr("id-request")),
+                            idSuperior: idUser,
+                            idAdmin: "\0",
+                            requestStatus: "APPROVED"
                         }
                     } else {
                         request = {
-                            idRequest : parseInt($('#data-ke-'+idx).attr("id-request")),
-                            idSuperior : idUser,
-                            idAdmin : "\0",
-                            requestStatus : "REJECTED"
+                            idRequest: parseInt($('#data-ke-' + idx).attr("id-request")),
+                            idSuperior: idUser,
+                            idAdmin: "\0",
+                            requestStatus: "REJECTED"
                         }
                     }
                     requests.push(request);
-                    $(input).prop("disabled","disabled");
+                    $(input).prop("disabled", "disabled");
                 }
             }
-            console.log(JSON.stringify(requests));
-
 
             $.ajax({
-                method : "PUT",
-                url : "/api/requests",
-                data : JSON.stringify(requests),
+                method: "PUT",
+                url: "/api/requests",
+                data: JSON.stringify(requests),
                 contentType: "application/json",
                 dataType: "json",
                 success: (response) => {
-                    console.log(response);
                     location.reload(true);
                     this.fillSubDetail(idUser, idSub);
-                    // this.fillSubordinatesDetail(idUser);
                 },
-                error : (response) => {
-                    console.log(response);
+                statusCode: {
+                    401: () => {
+                        window.location="login.html"
+                    }
                 }
             });
-
-
         });
     }
 }

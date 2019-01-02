@@ -70,7 +70,7 @@ Router.prototype = {
                         var request = new Handover();
                         request.init();
                     } else if (htmlName == 'setting.html') {
-                        var setting = new Setting();
+                        var setting = new Settings();
                         setting.init();
                     }
                 }

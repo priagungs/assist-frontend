@@ -18,7 +18,8 @@
             <div class="filter-container">
                 <label for="filter" class="mx-auto">Show:</label>
                 <select class="filter mx-auto" data-tableId="items">
-                    <option value="allreq" selected>All Requests</option>
+                    <option value="item" selected>Your Item(s)</option>
+                    <option value="allreq">All Requests</option>
                     <option value="sent">Sent</option>
                     <option value="requested">Requested</option>
                     <option value="approved">Approved</option>
@@ -36,7 +37,7 @@
                     <th class="text-center dark_red">Status</th>
                 </tr>
             </thead>
-            
+
             <tbody id="content-items">
             </tbody>
         </table>
@@ -82,7 +83,7 @@
                     <section id="detail-item">
                         <div class="row">
                             <div class="col-4">
-                                <img class="img-thumbnail" id="img-detail-item-home" src="" alt="">
+                                <img class="img-thumbnail d-block mx-auto" id="img-detail-item-home" src="" alt="">
                             </div>
                             <div class="col-8">
                                 <p><b>Price : </b>Rp <span id="item-price"></span></p>
