@@ -36,6 +36,11 @@ html, body {
     border-color: rgb(41, 54, 194);
 }
 
+.img-fluid {
+    height: 12rem;
+    width: 12rem;
+}
+
 /* ricky sub_detail */
 
 .page-number {

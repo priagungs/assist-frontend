@@ -380,7 +380,7 @@ class Procurement {
                         response.content.forEach((element) => {
                             dropdown_content += '<button class="dropdown-item candidate-item-trx" data-iditem="' + element.idItem + '" data-name="' + element.itemName + '">'
                                 + '<div class="row"><div class="col-2">'
-                                + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
+                                + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle d-block mx-auto" alt=""></div>'
                                 + '<div class="col-10">'
                                 + '<p><strong>' + element.itemName + '</strong></p>'
                                 + '<p>ID : ' + element.idItem + '</p>'

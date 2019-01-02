@@ -265,7 +265,13 @@ class Home {
                 header.removeClass("d-none");
                 body.removeClass("d-none");
             },
-            responseStatus: {
+            statusCode: {
+                404: () => {
+                    spinner.removeClass("d-block");
+                    header.removeClass("d-none");
+                    body.removeClass("d-none");
+                    body.text('This item has been deleted')
+                },
                 401: () => {
                     window.location = "login.html";
                 }
@@ -489,7 +495,7 @@ class Home {
                             var availableQty = element.availableQty.toLocaleString('en');
                             dropdown_content += '<button class="dropdown-item candidate-item-trx" data-iditem="' + element.idItem + '" data-name="' + element.itemName + '">'
                                 + '<div class="row"><div class="col-2">'
-                                + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
+                                + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle d-block mx-auto" alt=""></div>'
                                 + '<div class="col-10">'
                                 + '<p><strong>' + element.itemName + '</strong></p>'
                                 + '<p>ID : ' + element.idItem + '</p>'

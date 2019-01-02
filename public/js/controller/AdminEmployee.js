@@ -238,7 +238,7 @@ class AdminEmployee {
                         response.content.forEach((element) => {
                             dropdown_content += '<button class="dropdown-item candidate-superior" data-iduser="' + element.idUser + '" data-name="' + element.name + '">'
                                 + '<div class="row"><div class="col-2">'
-                                + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/profile.png") + '" class="img-thumbnail rounded-circle" alt=""></div>'
+                                + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/profile.png") + '" class="img-thumbnail rounded-circle d-block mx-auto" alt=""></div>'
                                 + '<div class="col-10">'
                                 + '<p><strong>' + element.name + '</strong></p>'
                                 + '<p>ID : ' + element.idUser + '</p>'

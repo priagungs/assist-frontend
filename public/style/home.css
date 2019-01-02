@@ -68,9 +68,8 @@
 }
 
 #home .dropdown-menu img {
-    min-width: 48.75px;
-    max-width: 48.75px;
-    max-height: 48.75px;
+    width: 3rem;
+    height: 3rem;
     object-fit: contain;
 }
 
@@ -107,11 +106,6 @@ img {
 #home .dropdown-menu .row {
     max-height: 50px;
     margin: 0;
-}
-
-#home .dropdown-menu img {
-    max-height: 100%;
-    min-width: 48.75px;
 }
 
 #home .dropdown-menu div {

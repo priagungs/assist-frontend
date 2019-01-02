@@ -1,8 +1,6 @@
 class Settings {
 
     constructor() {
-        this.itemPage = 0;
-        this.itemLimit = 10;
     }
 
     init() {
@@ -70,6 +68,9 @@ class Settings {
                         401: () => {
                             window.location = "login.html";
                         }
+                    },
+                    success: (result) => {
+                        window.location = "login.html";
                     }
                 });
             }
