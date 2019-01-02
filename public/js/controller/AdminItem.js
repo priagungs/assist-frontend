@@ -26,7 +26,7 @@ class AdminItem {
                 }
             },
             statusCode: {
-                401 : () => {
+                401: () => {
                     window.location = "login.html";
                 }
             }
@@ -40,25 +40,28 @@ class AdminItem {
                 $.ajax({
                     method: "GET",
                     url: "/api/items",
-                    data: {page: this.page, limit: this.limit, sort: "itemName", keyword: event.target.value},
+                    data: { page: this.page, limit: this.limit, sort: "itemName", keyword: event.target.value },
                     dataType: "json",
                     success: (response) => {
                         var content = "";
                         if (response.content.length > 0) {
                             var counter = 0;
                             response.content.forEach(element => {
+                                var price = element.price.toLocaleString('en');
+                                var totalQty = element.totalQty.toLocaleString('en');
+                                var availableQty = element.availableQty.toLocaleString('en');
                                 content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
-                                + '<td scope="row">' + element.idItem + '</td>'
-                                + '<td>' + element.itemName + '</td>'
-                                + '<td>Rp' + element.price + '</td>'
-                                + '<td class="text-center">' + element.totalQty + '</td>'
-                                + '<td class="text-center">' + element.availableQty + '</td>'
-                                + '</tr>';
+                                    + '<td scope="row">' + element.idItem + '</td>'
+                                    + '<td>' + element.itemName + '</td>'
+                                    + '<td>Rp' + price + '</td>'
+                                    + '<td class="text-center">' + totalQty + '</td>'
+                                    + '<td class="text-center">' + availableQty + '</td>'
+                                    + '</tr>';
                                 counter++;
                             });
 
                             for (var i = counter; i < this.limit; i++) {
-                                content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>'
+                                content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>';
                             }
 
                             this.isLastPage = response.last;
@@ -92,7 +95,7 @@ class AdminItem {
             else {
                 this.fillTable();
             }
-        })
+        });
     }
 
     paginationHandler() {
@@ -104,7 +107,7 @@ class AdminItem {
                     $("#page-item-prev").addClass("disabled");
                 }
             }
-        })
+        });
 
         $("#page-item-next:not(.disabled").unbind().click(() => {
             if (!this.isLastPage) {
@@ -114,7 +117,7 @@ class AdminItem {
                     $("#page-item-next").addClass("disabled");
                 }
             }
-        })
+        });
     }
 
     fillTable() {
@@ -123,25 +126,28 @@ class AdminItem {
         $.ajax({
             method: "GET",
             url: "/api/items",
-            data: {page: this.page, limit: this.limit, sort: "itemName"},
+            data: { page: this.page, limit: this.limit, sort: "itemName" },
             dataType: "json",
             success: (response) => {
                 var content = "";
                 if (response.content.length > 0) {
                     var counter = 0;
                     response.content.forEach(element => {
+                        var price = element.price.toLocaleString('en');
+                        var totalQty = element.totalQty.toLocaleString('en');
+                        var availableQty = element.availableQty.toLocaleString('en');
                         content += '<tr data-toggle="modal" data-target="#item-detail" data-iditem="' + element.idItem + '">'
-                        + '<td scope="row">' + element.idItem + '</td>'
-                        + '<td>' + element.itemName + '</td>'
-                        + '<td>Rp' + element.price + '</td>'
-                        + '<td class="text-center">' + element.totalQty + '</td>'
-                        + '<td class="text-center">' + element.availableQty + '</td>'
-                        + '</tr>';
+                            + '<td scope="row">' + element.idItem + '</td>'
+                            + '<td>' + element.itemName + '</td>'
+                            + '<td>Rp' + price + '</td>'
+                            + '<td class="text-center">' + totalQty + '</td>'
+                            + '<td class="text-center">' + availableQty + '</td>'
+                            + '</tr>';
                         counter++;
                     });
 
                     for (var i = counter; i < this.limit; i++) {
-                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>'
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td></td><td></td></tr>';
                     }
 
                     this.isLastPage = response.last;
@@ -195,9 +201,12 @@ class AdminItem {
                 else {
                     $("#detail-item img").attr("src", "/public/images/no-image.jpg");
                 }
-                $(".item-price").text(response.price);
-                $(".item-total-qty").text(response.totalQty);
-                $(".item-available-qty").text(response.availableQty);
+                var price = response.price.toLocaleString('en');
+                var totalQty = response.totalQty.toLocaleString('en');
+                var availableQty = response.availableQty.toLocaleString('en');
+                $(".item-price").text(price);
+                $(".item-total-qty").text(totalQty);
+                $(".item-available-qty").text(availableQty);
                 $(".item-description").text(response.description);
                 $("#update-item img").attr("src", $("#detail-item img").attr("src"));
                 $("#form-update-item-name").val($("#itemDetailId").text());
@@ -208,16 +217,18 @@ class AdminItem {
                 header.attr("style", "display: flex");
                 body.attr("style", "display: block");
             },
-            responseStatus : {
-                401 : () => {
+            responseStatus: {
+                401: () => {
                     spinner.attr("style", "display: none");
                     window.location = "login.html";
                 }
             }
         });
+
         $("#print-item-detail").unbind().click(() => {
             window.location = "/api/item-detail/" + idItem;
         });
+
         this.fillHasItemTable(idItem);
         this.paginationHasItemHandler(idItem);
     }
@@ -253,8 +264,10 @@ class AdminItem {
         $.ajax({
             method: "GET",
             url: "/api/user-items",
-            data: {page: this.hasItemPage, limit: this.hasItemLimit,
-                sort: "user.name", idItem: idItem},
+            data: {
+                page: this.hasItemPage, limit: this.hasItemLimit,
+                sort: "user.name", idItem: idItem
+            },
             dataType: "json",
             success: (response) => {
                 this.isHasItemLastPage = response.last;
@@ -277,12 +290,12 @@ class AdminItem {
                     var count = 0;
                     response.content.forEach(element => {
                         content += '<tr><td class="text-center">' + element.user.idUser + '</td>'
-                        + '<td>' + element.user.name + '</td>'
-                        + '<td class="text-center">' + element.hasQty + '</td></tr>';
+                            + '<td>' + element.user.name + '</td>'
+                            + '<td class="text-center">' + element.hasQty.toLocaleString('en') + '</td></tr>';
                         count++;
                     });
                     for (var i = count; i < this.hasItemLimit; i++) {
-                        content += '<tr style="height: 2rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                        content += '<tr style="height: 2rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>';
                     }
                 }
                 else {
@@ -312,7 +325,9 @@ class AdminItem {
             });
 
             $(".delete-btn").unbind().click(() => {
-                this.deleteItem(idItem);
+                if (confirm("Are you sure to delete this item ?")) {
+                    this.deleteItem(idItem);
+                }
             });
         });
     }
@@ -320,7 +335,7 @@ class AdminItem {
     updateFormHandler(idItem) {
         $("#item-update-image-uploader").unbind().change(() => {
             var formData = new FormData($("#update-item form")[0]);
-            Helper.uploadFile(formData, function(response) {
+            Helper.uploadFile(formData, function (response) {
                 var imageUrl = response.file.slice(21);
                 $("#update-item img").attr("src", imageUrl);
                 $("#detail-item img").attr("src", imageUrl);
@@ -349,11 +364,12 @@ class AdminItem {
             this.bulkEntriesFormHandler();
             $("#bulk-item-entries label").text("Choose CSV File");
             $("#upload-bulk-item-entries").val('');
-        })
+        });
     }
 
 
     bulkEntriesFormHandler() {
+        $("#upload-bulk-item-entries").removeClass("is-invalid");
         $("#upload-bulk-item-entries").unbind().change((event) => {
             $("#upload-bulk-item-entries").removeClass("is-invalid");
             var files = event.target.files;
@@ -376,11 +392,11 @@ class AdminItem {
                 }
                 $(".save-update-bulk-btn").unbind().click(() => {
                     if (this.bulkEntriesValidation(requests)) {
-                        this.addItem(requests, true)
+                        this.addItem(requests, true);
                     }
-                })
+                });
             }
-            reader.onerror = () => {
+            reader.onerror = (ev) => {
                 $(".item-invalid-feedback").text("Unable to read " + file.name);
                 $(".item-form-name").addClass("is-invalid");
             }
@@ -392,7 +408,7 @@ class AdminItem {
         var imageUrl = '';
         $("#item-add-image-uploader").unbind().change(() => {
             var formData = new FormData($("#add-item form")[0]);
-            Helper.uploadFile(formData, function(response) {
+            Helper.uploadFile(formData, function (response) {
                 imageUrl = response.file.slice(21);
                 $("#add-item img").attr("src", imageUrl);
             });
@@ -406,12 +422,12 @@ class AdminItem {
                 pictureURL: imageUrl,
                 price: $("#form-add-item-price").val(),
                 totalQty: $("#form-add-item-totalqty").val()
-            }]
-            var validated = this.singleEntryValidation(requests[0]);
-            if (validated) {
+            }];
+
+            if (this.singleEntryValidation(requests[0])) {
                 this.addItem(requests, false);
             }
-        })
+        });
     }
 
     singleEntryValidation(request) {
@@ -442,11 +458,11 @@ class AdminItem {
             $(".item-form-description").addClass("is-invalid");
             valid = false;
         }
-        if (request.price == "") {
+        if (request.price == "" || request.price <= 0) {
             $(".item-form-price").addClass("is-invalid");
             valid = false;
         }
-        if (request.totalQty == "") {
+        if (request.totalQty == "" || request.totalQty <= 0) {
             $(".item-form-totalqty").addClass("is-invalid");
             valid = false;
         }
@@ -463,9 +479,11 @@ class AdminItem {
 
         var valid = true;
         for (var request in requests) {
-            if (!requests[request].itemName || !requests[request].description || !requests[request].price || !requests[request].totalQty) {
+            if (!requests[request].itemName || !requests[request].description ||
+                !requests[request].price || !requests[request].totalQty ||
+                requests[request].totalQty <= 0 || requests[request].price <= 0) {
                 upload_form.addClass("is-invalid");
-                invalid_feedback.text("Invalid input! All item name, description, price, and total quantity fields must be filled");
+                invalid_feedback.text("Invalid input!");
                 valid = false;
             }
         }
@@ -494,8 +512,7 @@ class AdminItem {
                 409: () => {
                     if (isBulkEntries) {
                         $("#upload-bulk-item-entries").addClass("is-invalid");
-                        $("#bulk-item-entry-invalid-feedback").text("Item name must be unique")
-                        this.bulkEntriesFormHandler();
+                        $("#bulk-item-entry-invalid-feedback").text("Item name must be unique");
                     }
                     else {
                         $(".item-invalid-feedback").text("Item name already exists");
@@ -530,7 +547,7 @@ class AdminItem {
                     $("#form-update-item-name").addClass("is-invalid");
                 },
                 400: () => {
-                    $(".invalid-totalqty").text("Total quantity must be more than or equal number of used items")
+                    $(".invalid-totalqty").text("Total quantity must be more than or equal number of used items");
                     $("#form-update-item-totalqty").addClass("is-invalid");
                 },
                 401: () => {
@@ -544,7 +561,7 @@ class AdminItem {
         $.ajax({
             method: "DELETE",
             url: "/api/items",
-            data: JSON.stringify({idItem: idItem}),
+            data: JSON.stringify({ idItem: idItem }),
             contentType: "application/json",
             success: () => {
                 this.page = 0;

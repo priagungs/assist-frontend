@@ -22,7 +22,7 @@ class Procurement {
                 }
             },
             statusCode: {
-                401 : () => {
+                401: () => {
                     window.location = "login.html";
                 }
             }
@@ -53,7 +53,7 @@ class Procurement {
                 nextBtn.removeClass("disabled");
                 this.fillTable();
             }
-        })
+        });
 
         prevBtn.unbind().click(() => {
             if (this.page > 0) {
@@ -61,7 +61,7 @@ class Procurement {
                 this.fillTable();
                 prevBtn.removeClass("disabled");
             }
-        })
+        });
     }
 
     fillTable() {
@@ -70,20 +70,20 @@ class Procurement {
         $.ajax({
             method: "GET",
             url: "/api/transactions",
-            data: {page: this.page, limit: this.limit, sort: "transactionDate"},
+            data: { page: this.page, limit: this.limit, sort: "transactionDate" },
             dataType: "json",
             success: (response) => {
                 this.isLastPage = response.last;
-                this.lastPage = response.totalPages-1;
+                this.lastPage = response.totalPages - 1;
                 this.paginationHandler();
                 var content = "";
                 if (response.content.length > 0) {
                     var counter = 0;
                     response.content.forEach(element => {
                         content += '<tr data-toggle="modal" data-target="#transaction-detail" data-idtransaction="' + element.idTransaction + '">'
-                        + '<td scope="row">' + element.idTransaction + '</td>'
-                        + '<td>' + element.admin.name + '</td>'
-                        + '<td>' + element.supplier + '</td>';
+                            + '<td scope="row">' + element.idTransaction + '</td>'
+                            + '<td>' + element.admin.name + '</td>'
+                            + '<td>' + element.supplier + '</td>';
 
                         var date = new Date(element.transactionDate);
 
@@ -94,7 +94,7 @@ class Procurement {
                             value += itemTrx.boughtQty * itemTrx.price;
                         })
 
-                        content += '<td>Rp ' + value + '</td></tr>';
+                        content += '<td>Rp ' + value.toLocaleString('en') + '</td></tr>';
                         counter++;
                     });
                     for (var i = counter; i < this.limit; i++) {
@@ -142,9 +142,9 @@ class Procurement {
                         value += element.boughtQty * element.price;
 
                         tableContent += '<tr><td scope="row">' + element.item.idItem + '</td>'
-                        + '<td>' + element.item.itemName + '</td>'
-                        + '<td>' + element.boughtQty + '</td>'
-                        + '<td>Rp ' + element.price * element.boughtQty + '</td></tr>';
+                            + '<td>' + element.item.itemName + '</td>'
+                            + '<td>' + element.boughtQty.toLocaleString('en') + '</td>'
+                            + '<td>Rp ' + value.toLocaleString('en') + '</td></tr>';
                     })
                     $("#transaction-detail-value").text(value);
                     $("#table-procurement-detail tbody").html(tableContent);
@@ -161,7 +161,7 @@ class Procurement {
             this.deleteHandler(idTransaction);
             $("#print-transaction").unbind().click(() => {
                 window.location = "/api/invoice/" + idTransaction;
-            })
+            });
         });
     }
 
@@ -171,7 +171,7 @@ class Procurement {
             $.ajax({
                 method: "DELETE",
                 url: "/api/transactions",
-                data: JSON.stringify({idTransaction: idTransaction}),
+                data: JSON.stringify({ idTransaction: idTransaction }),
                 contentType: "application/json",
                 success: () => {
                     this.page = 0;
@@ -187,7 +187,7 @@ class Procurement {
                     }
                 }
             });
-        })
+        });
     }
 
     addNewTransactionHandler() {
@@ -218,7 +218,7 @@ class Procurement {
     buyBtnHandler() {
         $("#form-supplier-add-transaction").unbind().on('input', () => {
             $("#form-supplier-add-transaction").removeClass("is-invalid");
-        })
+        });
 
         $("#buy-btn").unbind().click(() => {
             if (!$("#form-supplier-add-transaction").val()) {
@@ -258,7 +258,7 @@ class Procurement {
                     });
                 }
             }
-        })
+        });
     }
 
     validateItemTransaction(itemTransaction) {
@@ -268,15 +268,15 @@ class Procurement {
 
         itemForm.unbind().on('input', () => {
             itemForm.removeClass('is-invalid');
-        })
+        });
 
         priceForm.unbind().on('input', () => {
             priceForm.removeClass('is-invalid');
-        })
+        });
 
         quantityForm.unbind().on('input', () => {
             quantityForm.removeClass('is-invalid');
-        })
+        });
 
         var valid = true;
         if (!itemTransaction.item.idItem) {
@@ -298,7 +298,7 @@ class Procurement {
         var totalPrice = 0;
         var index = 0;
         if (this.itemTransactions.length > 0) {
-            var content = ""
+            var content = "";
             var content_wrapper = `<table class="table table-bordered table-responsive-sm" id="table-new-procurement">
                 <thead>
                     <tr class="text-light">
@@ -327,14 +327,14 @@ class Procurement {
 
             this.itemTransactions.forEach(element => {
                 content += '<tr><td>' + element.item.idItem + '</td>'
-                + '<td>' + element.item.itemName + '</td>'
-                + '<td>' + element.boughtQty + '</td>'
-                + '<td>Rp ' + element.boughtQty * element.price + '</td>'
-                + '<td class="text-center"><i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td>';
+                    + '<td>' + element.item.itemName + '</td>'
+                    + '<td>' + element.boughtQty.toLocaleString('en') + '</td>'
+                    + '<td>Rp ' + (element.boughtQty * element.price).toLocaleString('en') + '</td>'
+                    + '<td class="text-center"><i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td>';
                 index++;
                 totalPrice += element.boughtQty * element.price;
             });
-            content += '<tr><td colspan="3" class="text-right">Total</td><td>Rp ' + totalPrice + '</td></tr>'
+            content += '<tr><td colspan="3" class="text-right">Total</td><td>Rp ' + totalPrice.toLocaleString('en') + '</td></tr>';
             $("#table-new-procurement tbody").html(content);
             this.buyBtnHandler();
         }
@@ -373,19 +373,19 @@ class Procurement {
                 $.ajax({
                     type: "GET",
                     url: "/api/items",
-                    data: {page: 0, limit: this.dropdownLimit, sort: "itemName", keyword: event.target.value},
+                    data: { page: 0, limit: this.dropdownLimit, sort: "itemName", keyword: event.target.value },
                     dataType: "json",
                     success: (response) => {
                         var dropdown_content = "";
                         response.content.forEach((element) => {
                             dropdown_content += '<button class="dropdown-item candidate-item-trx" data-iditem="' + element.idItem + '" data-name="' + element.itemName + '">'
-                            + '<div class="row"><div class="col-2">'
-                            + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
-                            + '<div class="col-10">'
-                            + '<p><strong>' + element.itemName + '</strong></p>'
-                            + '<p>ID : ' + element.idItem + '</p>'
-                            + '<p>Available Qty : ' + element.availableQty + '</p>'
-                            + '</div></div></button>';
+                                + '<div class="row"><div class="col-2">'
+                                + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
+                                + '<div class="col-10">'
+                                + '<p><strong>' + element.itemName + '</strong></p>'
+                                + '<p>ID : ' + element.idItem + '</p>'
+                                + '<p>Available Qty : ' + element.availableQty.toLocaleString('en') + '</p>'
+                                + '</div></div></button>';
                         });
                         if (response.content.length > 0) {
                             $('#procurement .dropdown-menu').html(dropdown_content);
@@ -398,7 +398,7 @@ class Procurement {
                             event.preventDefault();
                             $("#form-add-item-transaction").val($(event.currentTarget).data('name'));
                             $("#id-item-form").text($(event.currentTarget).data('iditem'));
-                        })
+                        });
                     },
                     statusCode: {
                         401: () => {
@@ -410,6 +410,6 @@ class Procurement {
             else {
                 $('#dropdown-add-item-transaction').html('<p class="dropdown-item"><strong>Insert Item</strong></p>');
             }
-        })
+        });
     }
 }

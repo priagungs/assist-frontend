@@ -1,0 +1,127 @@
+.card-container {
+    /* justify-content: center;
+    align-items: center; */
+    max-width: 100%;
+    margin: 0;
+}
+
+
+.circle {
+    margin-top: auto;
+    height: 12rem;
+    width: 12rem;
+    overflow: hidden;
+    border-radius: 50%;
+    border: solid 0.2em #1A237E;
+
+}
+
+@media (max-width: 768px) {
+    .card {
+        margin-top: 1.4rem;
+    }
+}
+
+.card {
+    color: #1A237E;
+    padding: 0.5em;
+}
+
+.card > h4 {
+    font-weight: bold;
+}
+
+.page-number {
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+}
+
+.navbar-dark .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.item-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-title-container i {
+    cursor: pointer;
+    font-size: 30px;
+    color: #013b55;
+}
+
+.filter-container {
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.filter {
+    cursor: pointer;
+}
+
+
+#home .dropdown-menu .row {
+    max-height: 50px;
+    margin: 0;
+}
+
+#home .dropdown-menu img {
+    min-width: 48.75px;
+    max-width: 48.75px;
+    max-height: 48.75px;
+    object-fit: contain;
+}
+
+#home .dropdown-menu div {
+    padding: 0;
+}
+
+#home .dropdown-menu .col-10 {
+    padding-left: 10px;
+}
+
+#home .dropdown-menu .col-2 {
+    min-width: 48.75px;
+}
+
+#home .dropdown-menu {
+    min-width: 350px;
+}
+
+#home .dropdown-menu p {
+    margin: 0;
+    font-size: 0.7rem;
+    overflow: hidden;
+}
+
+#home .remove-item-transaction {
+    cursor: pointer;
+}
+
+img {
+    object-fit: contain;
+}
+
+#home .dropdown-menu .row {
+    max-height: 50px;
+    margin: 0;
+}
+
+#home .dropdown-menu img {
+    max-height: 100%;
+    min-width: 48.75px;
+}
+
+#home .dropdown-menu div {
+    padding: 0;
+}
+
+#home .dropdown-menu .col-10 {
+    padding-left: 10px;
+}
+
+#home .dropdown-menu {
+    min-width: 350px;
+}

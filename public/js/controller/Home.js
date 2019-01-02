@@ -8,7 +8,6 @@ class Home {
         this.reqLimit = 10;
         this.isReqLastPage = false;
         this.dropdownLimit = 5;
-
     }
 
     init() {
@@ -20,11 +19,16 @@ class Home {
                 this.loggedInUser = data;
                 this.fillUserCard(data);
                 this.emptyTable();
-                this.fillRequestItemTable(data.idUser);
+                this.fillItemTable(data.idUser);
                 this.detailModalHandler();
                 this.tableHandler(data.idUser);
                 this.paginationHandler(data.idUser);
                 this.createRequestHandler();
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
             }
         });
     }
@@ -44,7 +48,7 @@ class Home {
             $("#superior-id").text(data.superior.idUser);
         } else {
             $("#superior-name").text();
-            $("#superior-id").text("NULL");
+            $("#superior-id").text("No superior");
         }
     }
 
@@ -54,26 +58,26 @@ class Home {
         $.ajax({
             method: "GET",
             url: "/api/user-items",
-            data: {page: this.itemPage, limit: this.itemLimit, idUser: idUser, sort: "idUserHasItem"},
+            data: { page: this.itemPage, limit: this.itemLimit, idUser: idUser, sort: "idUserHasItem" },
             dataType: "json",
             success: (response) => {
                 var content = "";
+                var count = 0;
                 if (response.content.length > 0) {
-                    var count = 0;
                     response.content.forEach(element => {
                         content += '<tr class="' + element.requestStatus +
-                        '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
-                        + '" data-itemname="' + element.item.itemName
-                        + '" data-status="' + 'SENT'
-                        + '" data-idhasitem="' + element.idUserHasItem + '">'
-                        + '<td>' + element.item.itemName +'</td>'
-                        + '<td class="text-center">' + element.hasQty + '</td>'
-                        + '<td class="text-center">' + 'SENT' + '</td>'
-                        + '</tr>';
+                            '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                            + '" data-itemname="' + element.item.itemName
+                            + '" data-status="' + 'ITEM'
+                            + '" data-idhasitem="' + element.idUserHasItem + '">'
+                            + '<td>' + element.item.itemName + '</td>'
+                            + '<td class="text-center">' + element.hasQty.toLocaleString('en') + '</td>'
+                            + '<td class="text-center">' + "SENT" + '</td>'
+                            + '</tr>';
                         count++;
                     });
                     for (var i = count; i < this.itemLimit; i++) {
-                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>';
                     }
                     this.isLastPage = response.last;
                     if (response.last) {
@@ -98,10 +102,10 @@ class Home {
             },
             statusCode: {
                 401: () => {
-                    window.location = 'login.html'
+                    window.location = 'login.html';
                 }
             }
-        })
+        });
     }
 
     fillCustomItemTable(idUser, status) {
@@ -110,27 +114,30 @@ class Home {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.reqPage, limit: this.reqLimit, idUser: idUser, status:status.toUpperCase(), sort: "requestDate"},
+            data: { page: this.reqPage, limit: this.reqLimit, idUser: idUser, status: status.toUpperCase(), sort: "requestDate" },
             dataType: "json",
             success: (response) => {
                 if (response.content.length > 0) {
-                    var content = "";
                     var count = 0;
+                    var content = "";
                     response.content.forEach(element => {
+                        var reqQty = element.reqQty.toLocaleString('en');
                         content += '<tr class="' + element.requestStatus +
-                        '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
-                        + '" data-itemname="' + element.item.itemName
-                        + '" data-status="' + element.requestStatus
-                        + '" data-idrequest="' + element.idRequest + '">'
-                        + '<td>' + element.item.itemName +'</td>'
-                        + '<td class="text-center">' + element.reqQty + '</td>'
-                        + '<td class="text-center">' + element.requestStatus + '</td>'
-                        + '</tr>';
+                            '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
+                            + '" data-itemname="' + element.item.itemName
+                            + '" data-status="' + element.requestStatus
+                            + '" data-idrequest="' + element.idRequest + '">'
+                            + '<td>' + element.item.itemName + '</td>'
+                            + '<td class="text-center">' + reqQty + '</td>'
+                            + '<td class="text-center">' + element.requestStatus + '</td>'
+                            + '</tr>';
                         count++;
                     });
+
                     for (var i = count; i < this.reqLimit; i++) {
-                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>';
                     }
+
                     this.isReqLastPage = response.last;
                     if (response.last) {
                         $("#page-item-home-next").addClass("disabled");
@@ -151,6 +158,11 @@ class Home {
                 $("#content-items").html(content);
                 spinner.removeClass("d-block");
                 table.removeClass("d-none");
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
             }
         })
     }
@@ -161,28 +173,27 @@ class Home {
         $.ajax({
             method: "GET",
             url: "/api/requests",
-            data: {page: this.reqPage, limit: this.reqLimit, idUser: idUser, sort: "requestDate"},
+            data: { page: this.reqPage, limit: this.reqLimit, idUser: idUser, sort: "requestDate" },
             dataType: "json",
             success: (response) => {
+                var count = 0;
                 if (response.content.length > 0) {
-                    var count = 0;
                     var content = "";
                     response.content.forEach(element => {
-                        if (element.requestStatus != 'SENT') {
-                            content += '<tr class="' + element.requestStatus +
+                        var reqQty = element.reqQty.toLocaleString('en');
+                        content += '<tr class="' + element.requestStatus +
                             '"  data-toggle="modal" data-target="#home-item-detail" data-iditem="' + element.item.idItem
                             + '" data-itemname="' + element.item.itemName
                             + '" data-status="' + element.requestStatus
                             + '" data-idrequest="' + element.idRequest + '">'
-                            + '<td>' + element.item.itemName +'</td>'
-                            + '<td class="text-center">' + element.reqQty + '</td>'
+                            + '<td>' + element.item.itemName + '</td>'
+                            + '<td class="text-center">' + reqQty + '</td>'
                             + '<td class="text-center">' + element.requestStatus + '</td>'
                             + '</tr>';
-                            count++;
-                        }
+                        count++;
                     });
                     for (var i = count; i < this.reqLimit; i++) {
-                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>'
+                        content += '<tr style="height: 3rem"><td></td><td></td><td></td><td style="display: none">temp</td></tr>';
                     }
                     this.isReqLastPage = response.last;
                     if (response.last) {
@@ -204,16 +215,20 @@ class Home {
                 $("#content-items").html(content);
                 spinner.removeClass("d-block");
                 table.removeClass("d-none");
+            },
+            statusCode: {
+                401: () => {
+                    window.location = "login.html";
+                }
             }
-        })
-
+        });
     }
 
     tableHandler(idUser) {
         $(".filter").change(() => {
             var status = $(".filter").val();
             this.emptyTable();
-            if (status == "sent") {
+            if (status == "item") {
                 this.fillItemTable(idUser);
             } else if (status == "allreq") {
                 this.fillRequestItemTable(idUser);
@@ -224,8 +239,6 @@ class Home {
     }
 
     fillHomeItemDetail(idItem) {
-        console.log("OINK");
-        console.log("oin",idItem);
         var spinner = $("#home-item-detail-spinner").addClass("d-block");
         var header = $("#home-item-detail .modal-header").addClass("d-none");
         var body = $("#home-item-detail .modal-body").addClass("d-none");
@@ -234,25 +247,26 @@ class Home {
             url: "/api/items/" + idItem,
             dataType: "json",
             success: (response) => {
-                console.log("hoiii");
+                var price = response.price.toLocaleString('en');
+                var totalQty = response.totalQty.toLocaleString('en');
+                var availableQty = response.availableQty.toLocaleString('en');
                 $("#item-detail-name").text(response.itemName);
-                console.log($("#detail-item img"));
                 if (response.pictureURL) {
                     $("#img-detail-item-home").attr("src", response.pictureURL);
                 }
                 else {
                     $("#img-detail-item-home").attr("src", "/public/images/no-image.jpg");
                 }
-                $("#detail-item #item-price").text(response.price);
-                $("#detail-item #item-total-qty").text(response.totalQty);
-                $("#detail-item #item-available-qty").text(response.availableQty);
+                $("#detail-item #item-price").text(price);
+                $("#detail-item #item-total-qty").text(totalQty);
+                $("#detail-item #item-available-qty").text(availableQty);
                 $("#detail-item #item-description").text(response.description);
                 spinner.removeClass("d-block");
                 header.removeClass("d-none");
                 body.removeClass("d-none");
             },
-            responseStatus : {
-                401 : () => {
+            responseStatus: {
+                401: () => {
                     window.location = "login.html";
                 }
             }
@@ -265,15 +279,14 @@ class Home {
     }
 
     detailModalHandler() {
-        $("#home-item-detail").unbind().on('show.bs.modal', (event)=> {
-            // this.emptyHomeItemDetail();
+        $("#home-item-detail").unbind().on('show.bs.modal', (event) => {
             var idItem = $(event.relatedTarget).data('iditem');
             var status = $(event.relatedTarget).data('status');
             this.fillHomeItemDetail(idItem);
 
-            if (status != "SENT" && status != "sent") {
+            if (status != "ITEM" && status != "item") {
                 var buttonreturn = $('#return-btn');
-                buttonreturn.addClass("d-none")
+                buttonreturn.addClass("d-none");
             }
             else {
                 var buttonreturn = $('#return-btn');
@@ -282,9 +295,8 @@ class Home {
 
             $("#return-btn").unbind().click(() => {
                 if (confirm("Are you sure you want to return " + $(event.relatedTarget).data('itemname') + '?')) {
-                    console.log($(event.relatedTarget).data('idhasitem'));
                     var deleteditem = {
-                        idUserHasItem : $(event.relatedTarget).data('idhasitem')
+                        idUserHasItem: $(event.relatedTarget).data('idhasitem')
                     };
                     $.ajax({
                         method: "DELETE",
@@ -295,9 +307,14 @@ class Home {
                             $("#home-item-detail").modal('hide');
                             this.emptyTable();
                             $(".filter").val("allreq");
-                            this.fillRequestItemTable(this.loggedInUser.idUser);
+                            this.fillItemTable(this.loggedInUser.idUser);
+                        },
+                        statusCode: {
+                            401: () => {
+                                window.location = "login.html";
+                            }
                         }
-                    })
+                    });
                 }
             });
         });
@@ -305,19 +322,16 @@ class Home {
 
     paginationHandler(idUser) {
         $("#page-item-home-prev:not(.disabled)").unbind().click(() => {
-            console.log($(".filter").val());
-            if ($(".filter").val()=="sent") {
+            if ($(".filter").val() == "sent") {
                 if (this.itemPage > 0) {
-                    console.log("kurangsent");
                     this.itemPage--;
                     this.fillItemTable(idUser);
                     if (this.itemPage == 0) {
                         $("#page-item-home-prev").addClass("disabled");
                     }
                 }
-            } else if ($(".filter").val()=="allreq") {
+            } else if ($(".filter").val() == "allreq") {
                 if (this.reqPage > 0) {
-                    console.log("kurangall");
                     this.reqPage--;
                     this.fillRequestItemTable(idUser);
                     if (this.reqPage == 0) {
@@ -327,7 +341,6 @@ class Home {
             } else {
                 var status = $(".filter").val();
                 if (this.reqPage > 0) {
-                    console.log("kurangreq");
                     this.reqPage--;
                     this.fillCustomItemTable(idUser, status);
                     if (this.reqPage == 0) {
@@ -340,19 +353,16 @@ class Home {
 
 
         $("#page-item-home-next:not(.disabled").unbind().click(() => {
-            console.log($(".filter").val())
-            if ($(".filter").val()=="sent") {
+            if ($(".filter").val() == "sent") {
                 if (!this.isLastPage) {
-                    console.log("nambahsent");
                     this.itemPage++;
                     this.fillItemTable(idUser);
                     if (this.isLastPage) {
                         $("#page-item-home-next").addClass("disabled");
                     }
                 }
-            } else if ($(".filter").val()=="allreq") {
+            } else if ($(".filter").val() == "allreq") {
                 if (!this.isReqLastPage) {
-                    console.log("nambahall");
                     this.reqPage++;
                     this.fillRequestItemTable(idUser);
                     if (this.isReqLastPage) {
@@ -362,7 +372,6 @@ class Home {
             } else {
                 var status = $(".filter").val();
                 if (!this.isReqLastPage) {
-                    console.log("nambahreq");
                     this.reqPage++;
                     this.fillCustomItemTable(idUser, status);
                     if (this.isReqLastPage) {
@@ -400,7 +409,7 @@ class Home {
                 data: JSON.stringify(requestBody),
                 contentType: "application/json",
                 success: () => {
-                    this.fillRequestItemTable(this.loggedInUser.idUser);
+                    this.fillItemTable(this.loggedInUser.idUser);
                     $("#add-request").modal('hide');
                 },
                 statusCode: {
@@ -412,7 +421,7 @@ class Home {
                     }
                 }
             });
-        })
+        });
     }
 
 
@@ -440,10 +449,12 @@ class Home {
         var content = '';
         var index = 0;
         this.requestItems.forEach((element) => {
+            var requestQty = element.requestQty.toLocaleString('en');
+            var availableQty = element.item.availableQty.toLocaleString('en');
             content += '<tr><td class="text-center">' + element.item.idItem + '</td>'
                 + '<td>' + element.item.itemName + '</td>'
-                + '<td class="target-item-request text-center"><input type="number" data-index="' + index + '" id="item-request-' + element.item.idItem + '" max="' + element.item.availableQty
-                + '" style="width: 3rem" min="1" value="' + element.requestQty + '"></td>'
+                + '<td class="target-item-request text-center"><input type="number" data-index="' + index + '" id="item-request-' + element.item.idItem + '" max="' + availableQty
+                + '" style="width: 3rem" min="1" value="' + requestQty + '"></td>'
                 + '<td class="text-center" style="width: 3rem"><i class="fa fa-times remove-item-transaction" data-index="' + index + '" aria-hidden="true"></i></td></tr>';
             index++;
         });
@@ -455,7 +466,7 @@ class Home {
         });
         $(".target-item-request input").unbind().on('mouseup keyup change', (event) => {
             var idx = $(event.currentTarget).data('index');
-            this.requestItems[idx].requestQty = parseInt(event.currentTarget.value)
+            this.requestItems[idx].requestQty = parseInt(event.currentTarget.value);
         });
     }
 
@@ -470,19 +481,20 @@ class Home {
                 $.ajax({
                     type: "GET",
                     url: "/api/items",
-                    data: {page: 0, limit: this.dropdownLimit, sort: "itemName", keyword: event.target.value, minqty: 0},
+                    data: { page: 0, limit: this.dropdownLimit, sort: "itemName", keyword: event.target.value, minqty: 0 },
                     dataType: "json",
                     success: (response) => {
                         var dropdown_content = "";
                         response.content.forEach((element) => {
+                            var availableQty = element.availableQty.toLocaleString('en');
                             dropdown_content += '<button class="dropdown-item candidate-item-trx" data-iditem="' + element.idItem + '" data-name="' + element.itemName + '">'
-                            + '<div class="row"><div class="col-2">'
-                            + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
-                            + '<div class="col-10">'
-                            + '<p><strong>' + element.itemName + '</strong></p>'
-                            + '<p>ID : ' + element.idItem + '</p>'
-                            + '<p>Available Qty : ' + element.availableQty + '</p>'
-                            + '</div></div></button>';
+                                + '<div class="row"><div class="col-2">'
+                                + '<img src="' + (element.pictureURL ? element.pictureURL : "/public/images/no-image.jpg") + '" class="img-thumbnail rounded-circle" alt=""></div>'
+                                + '<div class="col-10">'
+                                + '<p><strong>' + element.itemName + '</strong></p>'
+                                + '<p>ID : ' + element.idItem + '</p>'
+                                + '<p>Available Qty : ' + availableQty + '</p>'
+                                + '</div></div></button>';
                         });
                         if (response.content.length > 0) {
                             $('#home .dropdown-menu').html(dropdown_content);

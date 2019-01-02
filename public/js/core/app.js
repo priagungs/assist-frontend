@@ -20,7 +20,6 @@ $(document).ready(() => {
             type: "get",
             url: "/api/logout",
             success: function (data, status) {
-                // console.log("logout :"+status);
                 window.location = 'login.html';
             }
         });
@@ -30,7 +29,7 @@ $(document).ready(() => {
 (function () {
     function init() {
         var router = new Router([
-            new Route('home', 'home.html', true), //default
+            new Route('home', 'home.html', true),
             new Route('subordinates', "subordinates.html"),
             new Route('profile', "user_card.html"),
             new Route('admin', "admin_dashboard.html"),
